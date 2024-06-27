@@ -1,7 +1,11 @@
+import { ModeToggle } from "@/components/theme-mode-toggle"
 
 const LandingPage = () => {
     return (
-        <div>LandingPage</div>
+        <div>
+            LandingPage
+            <ModeToggle />
+        </div>
     )
 }
 
