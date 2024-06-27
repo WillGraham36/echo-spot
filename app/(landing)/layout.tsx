@@ -1,3 +1,4 @@
+import Navbar from "./_components/Navbar";
 
 const LandingLayout = ({
     children
@@ -6,7 +7,8 @@ const LandingLayout = ({
 }) => {
     return (
         <div className="h-full dark:bg-[#1F1F1F]">
-            <main className="h-full">
+            <Navbar />
+            <main className="h-full pt-40">
                 {children}
             </main>
         </div>

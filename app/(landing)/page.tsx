@@ -1,10 +1,13 @@
-import { ModeToggle } from "@/components/theme-mode-toggle"
+import Header from "./_components/Header"
+import Footer from "./_components/Footer"
 
 const LandingPage = () => {
     return (
-        <div>
-            LandingPage
-            <ModeToggle />
+        <div className="min-h-full flex flex-col">
+            <div className="flex flex-col items-center justify-center md:justify-start text-center gap-y-8 flex-1">
+                <Header />
+            </div>
+            <Footer />
         </div>
     )
 }
