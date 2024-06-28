@@ -19,7 +19,7 @@ const Navbar = () => {
     const [miles, setMiles] = useState(20);
 
     return (
-        <div className="z-50 bg-black fixed top-0 flex items-center justify-between w-full px-4 py-2">
+        <div className="z-50 fixed top-0 flex items-center justify-between w-full px-4 py-2">
             <Logo />
             <span className="hidden sm:block">
                 <LocationRange miles={miles} setMiles={setMiles}/>
@@ -43,7 +43,9 @@ const Navbar = () => {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem>
                                 <p className="pr-[14px]">Appearance theme: </p>
-                                <ModeToggle />
+                                <div onClick={(e) => e.stopPropagation()}>
+                                    <ModeToggle />
+                                </div>
                             </DropdownMenuItem>
 
                             <DropdownMenuItem>
