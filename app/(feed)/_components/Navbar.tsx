@@ -11,7 +11,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Ellipsis } from "lucide-react";
+import { Ellipsis, User } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import {
@@ -42,6 +42,9 @@ const Navbar = () => {
                     </SignInButton>
                 </SignedOut>
                 <SignedIn>
+                    <Button className="underline underline-offset-2 font-medium">
+                        Your Account
+                    </Button>
                     <UserButton />
                 </SignedIn>
 

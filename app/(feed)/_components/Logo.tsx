@@ -10,7 +10,7 @@ const font = Poppins({
 
 const Logo = () => {
     return (
-        <div className="flex items-center gap-x-2 dark:bg-primary rounded-full py-2 md:pl-3 md:pr-7 px-2">
+        <div className="flex items-center gap-x-2 bg-neutral-100 dark:bg-primary rounded-full py-2 md:pl-3 md:pr-7 px-2">
             <Image 
                 src="/logo.png"
                 alt="EchoSpot logo"
