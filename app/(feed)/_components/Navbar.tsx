@@ -20,10 +20,13 @@ import {
     SignedOut,
     UserButton
 } from '@clerk/nextjs'
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
 
     const [miles, setMiles] = useState(20);
+
+    const router = useRouter();
 
     return (
         <div className="z-50 fixed top-0 flex items-center justify-between w-full px-4 py-2">
@@ -42,7 +45,10 @@ const Navbar = () => {
                     </SignInButton>
                 </SignedOut>
                 <SignedIn>
-                    <Button className="underline underline-offset-2 font-medium">
+                    <Button 
+                        className="underline underline-offset-2 font-medium"
+                        onClick={() => {router.push('/account')}}
+                    >
                         Your Account
                     </Button>
                     <UserButton />
