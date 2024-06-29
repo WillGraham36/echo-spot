@@ -12,11 +12,15 @@ import LikesButtons from "./Likes"
 import { Button } from "@/components/ui/button"
 
 interface Comment {
-    userNumber: number,
+    id: string,
+    parentId?: number | undefined,
+    level?: number | undefined,
     userId: number,
-    comment: string,
-    upvotes: number,
+    location: Location,
     date: Date
+    userNumber: number,
+    commentContent: string,
+    upvotes: number,
 }
 
 interface PostProps {
@@ -30,17 +34,11 @@ interface PostProps {
     comments?: Array<Comment>,
 }
 
-// {
-//     tag,
-//         title,
-//         upvotes,
-//         comments,
-//         date
-// }: PostProps
+
 
 const Post = () => {
     return (    
-        <div className="w-full md:w-[70%] md:bg-neutral-100 md:dark:bg-neutral-800 md:rounded-xl p-4 border-y md:border-y-0 border-y-muted-foreground">
+        <div className="w-full md:w-[70%] md:bg-neutral-100 md:dark:bg-neutral-800 md:rounded-xl md:p-4 px-4 pt-1 pb-3 border-b md:border-y-0 border-y-muted-foreground">
             <div className="flex justify-between items-center">
                 <span className=" inline-flex items-center gap-x-2">
                     <Image
@@ -64,9 +62,6 @@ const Post = () => {
                     <DropdownMenuContent>
                         <DropdownMenuLabel>Options</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                            Save Post
-                        </DropdownMenuItem>
 
                         <DropdownMenuItem>
                             Block User

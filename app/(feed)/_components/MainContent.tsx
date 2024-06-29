@@ -5,6 +5,8 @@ const MainContent = () => {
         <div className="w-full flex flex-col items-center gap-y-4">
             
             <Post />
+            <Post />
+            <Post />
         </div>
     )
 }
