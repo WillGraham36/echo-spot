@@ -2,8 +2,8 @@ import Post from "./Post"
 
 const MainContent = () => {
     return (
-        <div className="border-2 w-full">
-            main content
+        <div className="w-full flex flex-col items-center gap-y-4">
+            
             <Post />
         </div>
     )
