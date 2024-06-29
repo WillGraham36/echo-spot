@@ -26,7 +26,7 @@ const LocationRange = ({ miles, setMiles }: LocationRangeProps) => {
                 Viewing posts within:
             </h3>
             <Select onValueChange={handleMilesChange}>
-                <SelectTrigger className="w-[6.5rem]">
+                <SelectTrigger className="w-[6.5rem] bg-neutral-100 dark:bg-neutral-800">
                     <SelectValue placeholder={milesPlaceholder} />
                 </SelectTrigger>
                 <SelectContent>
