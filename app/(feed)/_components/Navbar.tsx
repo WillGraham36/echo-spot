@@ -14,6 +14,12 @@ import {
 import { Ellipsis } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
+import {
+    SignInButton,
+    SignedIn,
+    SignedOut,
+    UserButton
+} from '@clerk/nextjs'
 
 const Navbar = () => {
 
@@ -28,9 +34,17 @@ const Navbar = () => {
                 <LocationRange miles={miles} setMiles={setMiles}/>
             </span>
             <div className="flex items-center gap-x-2">
-                <Button>
-                    Log in
-                </Button>
+                <SignedOut>
+                    <SignInButton mode={"modal"} >
+                        <Button>
+                            Sign In
+                        </Button>
+                    </SignInButton>
+                </SignedOut>
+                <SignedIn>
+                    <UserButton />
+                </SignedIn>
+
 
                 <span className="hidden sm:block">
                     <ModeToggle />
