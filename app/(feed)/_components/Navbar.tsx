@@ -11,22 +11,20 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Ellipsis, User } from "lucide-react";
+import { Ellipsis, LogOut, User } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import {
     SignInButton,
+    SignOutButton,
     SignedIn,
     SignedOut,
     UserButton
 } from '@clerk/nextjs'
-import { useRouter } from "next/navigation";
 
 const Navbar = () => {
 
     const [miles, setMiles] = useState(20);
-
-    const router = useRouter();
 
     return (
         <div className="z-50 fixed top-0 flex items-center justify-between w-full px-4 py-2">
@@ -45,12 +43,27 @@ const Navbar = () => {
                     </SignInButton>
                 </SignedOut>
                 <SignedIn>
-                    <Button 
-                        className="underline underline-offset-2 font-medium"
-                        onClick={() => {router.push('/account')}}
-                    >
-                        Your Account
-                    </Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Button className="font-medium">
+                                Your Account
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuLabel>
+                                <p className="pr-20">
+                                    Account Settings
+                                </p>
+                            </DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>
+                                <div role="button" className="flex items-center gap-x-2">
+                                    <LogOut size={20} />
+                                    <SignOutButton />
+                                </div>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                     <UserButton />
                 </SignedIn>
 
