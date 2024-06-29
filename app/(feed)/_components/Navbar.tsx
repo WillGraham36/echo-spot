@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Ellipsis } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
 
 const Navbar = () => {
 
@@ -20,7 +21,9 @@ const Navbar = () => {
 
     return (
         <div className="z-50 fixed top-0 flex items-center justify-between w-full px-4 py-2">
-            <Logo />
+            <Link href="/">
+                <Logo />
+            </Link>
             <span className="hidden sm:block">
                 <LocationRange miles={miles} setMiles={setMiles}/>
             </span>
