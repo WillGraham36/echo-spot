@@ -24,11 +24,11 @@ interface Comment {
 }
 
 interface PostProps {
-    id: string,
+    postId: string,
     userId: number,
     location: Location,
     date: Date
-    category: string,
+    category?: string,
     title: string,
     upvotes: number,
     comments?: Array<Comment>,
