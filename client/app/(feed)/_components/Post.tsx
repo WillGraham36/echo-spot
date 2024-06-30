@@ -12,7 +12,7 @@ import LikesButtons from "./Likes"
 import { Button } from "@/components/ui/button"
 
 interface Comment {
-    id: string,
+    commentId: string,
     parentId?: number | undefined,
     level?: number | undefined,
     userId: number,
