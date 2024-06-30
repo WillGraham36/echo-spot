@@ -2,16 +2,14 @@ GET http://localhost:8080/posts
 
 ###
 
-POST http://localhost:8080/post
+POST http://localhost:8080/posts
 Content-Type: application/json
 
 {
-        "postId":   "1",
-        "userId":   "123",
+        "userId":   "asdfadsfdsfadsf",
         "location": "1234",
-        "date":     "asdf",
         "category": "adf",
         "title":    "adsf",
-        "upvotes":  "asdf",
+        "upvotes":  12,
         "comments": "asdf"
 }

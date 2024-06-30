@@ -7,7 +7,7 @@ const connectToDB = async () => {
     try {
         await mongoose.connect(connectionString, {
             autoIndex: true,
-            dbName: "PersonalPortfolio",
+            dbName: "yikyak-clone",
         })
         console.log('Database connected');
     } catch (error) {

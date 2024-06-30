@@ -1,11 +1,6 @@
 import mongoose from "mongoose";
-import { title } from "process";
 
 const PostSchema = new mongoose.Schema({
-    postId: {
-        type: String,
-        required: true
-    },
     userId: {
         type: String,
         required: true
@@ -16,7 +11,8 @@ const PostSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now
     },
     category: {
         type: String,
@@ -33,4 +29,4 @@ const PostSchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('Post', PostSchema);
+export default mongoose.model('Post', PostSchema, 'posts');

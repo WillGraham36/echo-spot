@@ -29,7 +29,6 @@ router.get('/', async (req, res) => {
  */
 router.post('/', async (req, res) => {
     const post = new PostSchema({
-        postId:   req.body.postId,
         userId:   req.body.userId,
         location: req.body.location,
         date:     req.body.date,
