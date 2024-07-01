@@ -15,7 +15,7 @@ const FeedLayout = ({
 
     if(!isSignedIn) {
         router.push("/");
-        return null;
+        throw new Error("Not authenticated");
     }
 
     return (
