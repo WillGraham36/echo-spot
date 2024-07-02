@@ -21,6 +21,13 @@ const MainContent = async () => {
             <Post />
             <Post />
             <Post />
+            <Post />
+            <Post />
+            <Post />
+            <Post />
+            <Post />
+            <Post />
+            <Post />
 
             {
                 posts.map((post: any) => {

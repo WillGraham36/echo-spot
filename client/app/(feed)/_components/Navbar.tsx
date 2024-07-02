@@ -35,7 +35,7 @@ const Navbar = () => {
     const router = useRouter();
 
     return (
-        <div className="z-50 fixed top-0 flex items-center justify-between w-full px-4 py-2 border-b-2 border-neutral-100 dark:border-neutral-800">
+        <div className="z-50 fixed top-0 flex items-center justify-between w-full px-4 py-2 border-b-2 bg-white dark:bg-[#1f1f1f] border-neutral-100 dark:border-neutral-800">
             <Link href="/">
                 <Logo />
             </Link>
