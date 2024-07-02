@@ -40,7 +40,7 @@ const Navbar = () => {
                 <Logo />
             </Link>
             <span className="hidden sm:block">
-                <LocationRange miles={miles} setMiles={setMiles}/>
+                <LocationRange miles={miles} setMiles={setMiles} />
             </span>
             <div className="flex items-center gap-x-2">
                 <SignedOut>
