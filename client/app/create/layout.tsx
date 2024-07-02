@@ -10,20 +10,26 @@ const FeedLayout = ({
     children: React.ReactNode;
 }) => {
 
-    const { isSignedIn } = useUser();
+    const { isSignedIn, isLoaded } = useUser();
     const router = useRouter();
 
-    if(!isSignedIn) {
+    if(!isSignedIn && isLoaded) {
         router.push("/");
         return null;
     }
 
     return (
-        <div className="h-full dark:bg-[#1F1F1F]">
+        <div className="h-screen dark:bg-[#1F1F1F]">
             <Navbar />
-            <main className="h-full pt-40">
-                {children}
-            </main>
+            {!isLoaded ? 
+                <div>
+
+                </div> 
+            : 
+                <main className="h-full pt-40">
+                    {children}
+                </main>
+            }
         </div>
     );
 }
