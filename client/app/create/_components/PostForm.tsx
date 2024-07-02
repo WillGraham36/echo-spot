@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AutosizeTextarea } from "@/components/ui/autosize-textarea";
 
 
 const FormSchema = z.object({
@@ -54,8 +55,8 @@ const PostForm = () => {
                     control={form.control}
                     name="category"
                     render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Category</FormLabel>
+                        <FormItem className="">
+                            <FormLabel className="font-medium text-xl">Category</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger className="w-full md:w-64">
@@ -77,12 +78,13 @@ const PostForm = () => {
                     control={form.control}
                     name="postContent"
                     render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Post Content</FormLabel>
+                        <FormItem className="py-4">
+                            <FormLabel className="font-medium text-xl">Post Content</FormLabel>
                             <FormControl>
-                                <Textarea
-                                    placeholder="Tell us a little bit about yourself"
-                                    className="resize-none"
+                                <AutosizeTextarea
+                                    placeholder="Write your echo"
+                                    maxHeight={500}
+                                    minHeight={100}
                                     {...field}
                                 />
                             </FormControl>

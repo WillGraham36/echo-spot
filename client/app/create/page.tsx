@@ -7,7 +7,7 @@ const CreatePostPage = () => {
             <div className="w-[100%] md:w-[60%] md:bg-neutral-100 md:dark:bg-neutral-800 md:rounded-xl">
                 
                 <div className="w-full border-b-2 border-neutral-200 dark:border-neutral-700 px-6 pt-6 pb-3">
-                    <h1 className="text-2xl font-bold">
+                    <h1 className="text-3xl font-bold">
                         Create Post
                     </h1>
                 </div>
