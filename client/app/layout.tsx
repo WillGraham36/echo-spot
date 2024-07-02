@@ -6,6 +6,7 @@ import {
     ClerkProvider } from '@clerk/nextjs'
 
 const inter = Inter({ subsets: ["latin"] });
+import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
     title: "EchoSpot",
@@ -19,7 +20,7 @@ export default function RootLayout({
 }>) {
     return (
 	<html lang="en" suppressHydrationWarning>
-	    <body className={inter.className}>
+            <body className={cn("h-full bg-[#1f1f1f]", inter.className)}>
             <ClerkProvider>
                 <ThemeProvider
                     attribute="class"
