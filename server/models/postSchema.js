@@ -17,6 +17,7 @@ const PostSchema = new mongoose.Schema({
     },
     category: {
         type: String,
+        required: true
     },
     title: {
         type: String,
@@ -30,4 +31,4 @@ const PostSchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('Post', PostSchema, 'posts');
+export default mongoose.model('PostModel', PostSchema, 'posts');

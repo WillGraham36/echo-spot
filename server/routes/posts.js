@@ -1,7 +1,8 @@
 import express from 'express';
 const router = express.Router();
 
-import PostSchema from '../models/postSchema.js';
+import PostModel from '../models/postSchema.js';
+
 
 /**
  * @route GET /posts
@@ -9,7 +10,7 @@ import PostSchema from '../models/postSchema.js';
  */
 router.get('/', async (req, res) => {
     try {
-        const posts = await PostSchema.find();
+        const posts = await PostModel.find();
         res.json(posts);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -28,7 +29,7 @@ router.get('/', async (req, res) => {
  * @desc Create a new post
  */
 router.post('/', async (req, res) => {
-    const post = new PostSchema({
+    const post = new PostModel({
         userId:   req.body.userId,
         location: req.body.location,
         date:     req.body.date,
