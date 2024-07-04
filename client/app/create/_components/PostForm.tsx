@@ -22,6 +22,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AutosizeTextarea } from "@/components/ui/autosize-textarea";
+import { useUser } from "@clerk/nextjs";
+import useLocation from "@/hooks/useLocation";
 
 
 const FormSchema = z.object({
@@ -40,12 +42,42 @@ const FormSchema = z.object({
 
 const PostForm = () => {
 
+    const { user } = useUser();
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     })
 
-    const onSubmit = (data: z.infer<typeof FormSchema>) => {
-        //send to backend
+    const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+        
+        const userId = user?.id;
+
+        try {
+            const location = await useLocation();
+            console.log(location);
+        } catch (error) {
+            console.log(error);
+        }
+        
+
+        // try {
+        //     const response = await fetch('http://localhost:8080/posts', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(data)
+        //     });
+
+        //     if(!response.ok) {
+        //         throw new Error('Failed to submit post');
+        //     }
+        //     const responseData = await response.json();
+        //     console.log(responseData);
+
+        // } catch (error) {
+        //     console.log(error);
+        // }
     }
 
     return (
@@ -60,7 +92,7 @@ const PostForm = () => {
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger className="w-full md:w-64">
-                                        <SelectValue placeholder="Select a category ..." />
+                                        <SelectValue placeholder="Select a category..." />
                                     </SelectTrigger>
                                 </FormControl>
                                     <SelectContent>
@@ -82,7 +114,7 @@ const PostForm = () => {
                             <FormLabel className="font-medium text-xl">Post Content</FormLabel>
                             <FormControl>
                                 <AutosizeTextarea
-                                    placeholder="Write your echo"
+                                    placeholder="Write your echo..."
                                     maxHeight={500}
                                     minHeight={100}
                                     {...field}
