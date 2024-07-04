@@ -24,6 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AutosizeTextarea } from "@/components/ui/autosize-textarea";
 import { useUser } from "@clerk/nextjs";
 import useLocation from "@/hooks/useLocation";
+import { useState } from "react";
 
 
 const FormSchema = z.object({
@@ -43,6 +44,7 @@ const FormSchema = z.object({
 const PostForm = () => {
 
     const { user } = useUser();
+    const [error, setError] = useState<string>("");
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -52,10 +54,7 @@ const PostForm = () => {
     
         const location = await useLocation();
         if(location.lat === -1 && location.long === -1) {
-            /**
-             * TODO: Handle error where location fails to be retrieved
-             */
-            console.log('Could not get location');
+            setError('Could not get location');
             return;
         }
 
@@ -84,7 +83,7 @@ const PostForm = () => {
             console.log(responseData);
 
         } catch (error) {
-            console.log(error);
+            setError('Failed to submit post');
         }
     }
 
@@ -133,6 +132,7 @@ const PostForm = () => {
                     )}
                 />
                 <Button type="submit">Submit</Button>
+                {error && <FormMessage className="text-primary">{error}</FormMessage>}
             </form>
         </Form>
     )
