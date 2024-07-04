@@ -1,6 +1,12 @@
 import { GeoLocation } from '@/types'
 
 
+/**
+ * 
+ * @returns {Promise<GeoLocation>} - Returns a promise that resolves to the user's location
+ * 
+ * @returns GeoLocation: {-1, -1} --- Returns {-1, -1} if the user's location could not be found
+ */
 const useLocation = async (): Promise<GeoLocation> => {
 
     const locationPromise = () => new Promise<{ location: GeoLocation }>((resolve, reject) => {
@@ -14,13 +20,14 @@ const useLocation = async (): Promise<GeoLocation> => {
         }, () => {
             reject({
                 location: {
-                    lat: 0,
-                    long: 0
+                    lat: -1,
+                    long: -1
                 }
             });
         });
     });
 
+    
     return (await locationPromise()).location;
 }
 
