@@ -14,7 +14,8 @@ const CommentSchema = new mongoose.Schema({
         required: true
     },
     location: {
-        type: String, // TODO: change to location object
+        type: [Number],
+        index: '2d',
         required: true
     },
     date: {

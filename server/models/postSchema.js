@@ -6,7 +6,8 @@ const PostSchema = new mongoose.Schema({
         required: true
     },
     location: {
-        type: String, // TODO: change to location object
+        type: [Number],
+        index: '2d',   //can also be 2dsphere, change later if needed
         required: true
     },
     date: {
