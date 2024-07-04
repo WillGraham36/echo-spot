@@ -1,3 +1,5 @@
+# Custom REST API testing script, using the REST Client extension for VS Code
+
 GET http://localhost:8080/posts
 
 ###
@@ -7,7 +9,7 @@ Content-Type: application/json
 
 {
         "userId":   "asdfadsfdsfadsf",
-        "location": "1234",
+        "location": [100, 23],
         "category": "adf",
         "title":    "adsf",
         "upvotes":  12,
