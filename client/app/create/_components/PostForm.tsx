@@ -31,8 +31,8 @@ const FormSchema = z.object({
 
     postContent: z
         .string()
-        .min(2, {
-            message: "Body must be at least 2 characters long"
+        .min(1, {
+            message: "Body must be at least 1 character long"
         })
         .max(500, {
             message: "Body must be less than 500 characters long"
@@ -49,35 +49,43 @@ const PostForm = () => {
     })
 
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    
+        const location = await useLocation();
+        if(location.lat === -1 && location.long === -1) {
+            /**
+             * TODO: Handle error where location fails to be retrieved
+             */
+            console.log('Could not get location');
+            return;
+        }
+
+        const postData = {
+            userId : user?.id,
+            location: [location.lat, location.long],
+            category: data.category,
+            title: data.postContent,
+        }
         
-        const userId = user?.id;
+        
 
         try {
-            const location = await useLocation();
-            console.log(location);
+            const response = await fetch('http://localhost:8080/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData)
+            });
+
+            if(!response.ok) {
+                throw new Error('Failed to submit post');
+            }
+            const responseData = await response.json();
+            console.log(responseData);
+
         } catch (error) {
             console.log(error);
         }
-        
-
-        // try {
-        //     const response = await fetch('http://localhost:8080/posts', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(data)
-        //     });
-
-        //     if(!response.ok) {
-        //         throw new Error('Failed to submit post');
-        //     }
-        //     const responseData = await response.json();
-        //     console.log(responseData);
-
-        // } catch (error) {
-        //     console.log(error);
-        // }
     }
 
     return (
@@ -87,8 +95,8 @@ const PostForm = () => {
                     control={form.control}
                     name="category"
                     render={({ field }) => (
-                        <FormItem className="">
-                            <FormLabel className="font-medium text-xl">Category</FormLabel>
+                        <FormItem>
+                            <FormLabel className="text-white font-medium text-xl">Category</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger className="w-full md:w-64">
@@ -101,7 +109,7 @@ const PostForm = () => {
                                         <SelectItem value="b">yappin</SelectItem>
                                     </SelectContent>
                             </Select>
-                            <FormMessage />
+                            <FormMessage className="text-primary"/>
                         </FormItem>
                     )}
                 />
@@ -111,7 +119,7 @@ const PostForm = () => {
                     name="postContent"
                     render={({ field }) => (
                         <FormItem className="py-4">
-                            <FormLabel className="font-medium text-xl">Post Content</FormLabel>
+                            <FormLabel className="text-white font-medium text-xl">Post Content</FormLabel>
                             <FormControl>
                                 <AutosizeTextarea
                                     placeholder="Write your echo..."
@@ -120,7 +128,7 @@ const PostForm = () => {
                                     {...field}
                                 />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="text-primary" />
                         </FormItem>
                     )}
                 />
