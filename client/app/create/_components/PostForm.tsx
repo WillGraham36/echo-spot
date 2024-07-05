@@ -1,5 +1,5 @@
 "use client";
-import { z } from "zod"
+import { set, z } from "zod"
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -25,6 +25,8 @@ import { AutosizeTextarea } from "@/components/ui/autosize-textarea";
 import { useUser } from "@clerk/nextjs";
 import useLocation from "@/hooks/useLocation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Spinner } from "@/components/ui/spinner";
 
 
 const FormSchema = z.object({
@@ -45,6 +47,8 @@ const PostForm = () => {
 
     const { user } = useUser();
     const [error, setError] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -54,7 +58,8 @@ const PostForm = () => {
     
         const location = await useLocation();
         if(location.lat === -1 && location.long === -1) {
-            setError('Could not get location');
+            setError('Could not get location, your location must be enabled to post');
+            setLoading(false);
             return;
         }
 
@@ -66,8 +71,8 @@ const PostForm = () => {
         }
         
         
-
         try {
+            setLoading(true);
             const response = await fetch('http://localhost:8080/posts', {
                 method: 'POST',
                 headers: {
@@ -77,13 +82,18 @@ const PostForm = () => {
             });
 
             if(!response.ok) {
+                setError('Failed to submit post');
+                setLoading(false);
                 throw new Error('Failed to submit post');
             }
-            const responseData = await response.json();
-            console.log(responseData);
+
+            setError(''); // Clear any previous errors
+            setLoading(false);
+            router.push('/'); // Redirect to home page
 
         } catch (error) {
             setError('Failed to submit post');
+            setLoading(false);
         }
     }
 
@@ -131,8 +141,19 @@ const PostForm = () => {
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Submit</Button>
-                {error && <FormMessage className="text-primary">{error}</FormMessage>}
+                
+                <Button type="submit">
+                    {loading ? 
+                        <Spinner className="text-white p-1"/>
+                    :
+                        'Submit Post'
+                    }    
+                </Button>
+
+                {error && 
+                    <FormMessage className="text-primary font-medium pt-6">
+                        {error}
+                    </FormMessage>}
             </form>
         </Form>
     )
