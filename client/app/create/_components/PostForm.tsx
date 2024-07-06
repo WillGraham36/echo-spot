@@ -45,6 +45,8 @@ const FormSchema = z.object({
 
 const PostForm = () => {
 
+    const APIURL = "http://localhost:8080/"
+
     const { user } = useUser();
     const [error, setError] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
@@ -73,7 +75,7 @@ const PostForm = () => {
         
         try {
             setLoading(true);
-            const response = await fetch('http://localhost:8080/posts', {
+            const response = await fetch(`${APIURL}/posts}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
