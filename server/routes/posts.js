@@ -19,8 +19,11 @@ router.get('/', async (req, res) => {
 
 /**
  * @route GET /posts/:id
- * @desc Get post by id
+ * @desc Get 1 post by its id
  */
+router.get('/:id', getPost, (req, res) => {
+    res.json(res.post);
+});
 
 
 
@@ -48,6 +51,24 @@ router.post('/', async (req, res) => {
 });
 
 
+/**
+ * Middleware to get post by id
+ */
+async function getPost(req, res, next) {
+
+    let post;
+    try {
+        post = await PostModel.findById(req.params.id);
+        if (post == null) {
+            return res.status(404).json({ message: 'Cannot find post' });
+        }    
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+    res.post = post;
+    next();
+}
 
 
 

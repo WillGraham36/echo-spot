@@ -4,6 +4,10 @@ GET http://localhost:8080/posts
 
 ###
 
+GET http://localhost:8080/posts/6681a522cb7094a76666a5be
+
+###
+
 POST http://localhost:8080/posts
 Content-Type: application/json
 
