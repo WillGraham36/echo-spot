@@ -59,7 +59,7 @@ const PostForm = () => {
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     
         const location = await useLocation();
-        if(location.lat === -1 && location.long === -1) {
+        if(location.lat === 1000 && location.long === 1000) {
             setError('Could not get location, your location must be enabled to post');
             setLoading(false);
             return;
