@@ -10,7 +10,7 @@ import PostModel from '../models/postSchema.js';
  */
 router.get('/', async (req, res) => {
     try {
-        const posts = await PostModel.find();
+        const posts = await PostModel.find().limit(30);
         res.json(posts);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -52,6 +52,48 @@ router.post('/', async (req, res) => {
 
 
 /**
+ * @route GET /posts/feed
+ * @param {Number} lat
+ * @param {Number} long
+ * @param {Number} maxDistance (in meters)
+ * @param {Number} limit
+ * @param {Number} offset
+ */
+router.get('/feed', async (req, res) => {
+    const {lat, long, maxDistance, limit, offset} = req.query;
+    if(isValidCoordinates || !maxDistance || !limit) {
+        return res.status(400).json({ message: 'Missing parameters' });
+    }
+
+    try {
+        const posts = await PostModel.find({
+            location: {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [long, lat]
+                    },
+                    $maxDistance: maxDistance
+                }
+            }
+        })
+        .limit(limit)
+        .skip(offset);
+
+        res.json(posts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+});
+
+
+
+
+
+
+
+/**
  * Middleware to get post by id
  */
 async function getPost(req, res, next) {
@@ -68,6 +110,13 @@ async function getPost(req, res, next) {
 
     res.post = post;
     next();
+}
+
+/**
+ * Helper functions to check for validaty of parameters
+ */
+function isValidCoordinates(lat, long) {
+    return !lat || !long || lat > 90 || lat < -90 || long > 180 || long < -180;
 }
 
 
