@@ -18,10 +18,10 @@ router.get('/', async (req, res) => {
 });
 
 /**
- * @route GET /posts/:id
+ * @route GET /posts/byId/:id
  * @desc Get 1 post by its id
  */
-router.get('/:id', getPost, (req, res) => {
+router.get('/byId/:id', getPost, (req, res) => {
     res.json(res.post);
 });
 
@@ -61,7 +61,7 @@ router.post('/', async (req, res) => {
  */
 router.get('/feed', async (req, res) => {
     const {lat, long, maxDistance, limit, offset} = req.query;
-    if(isValidCoordinates || !maxDistance || !limit) {
+    if(isValidCoordinates(lat, long) || !maxDistance || !limit || offset < 0) {
         return res.status(400).json({ message: 'Missing parameters' });
     }
 

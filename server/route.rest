@@ -4,7 +4,11 @@ GET http://localhost:8080/posts
 
 ###
 
-GET http://localhost:8080/posts/6681a522cb7094a76666a5be
+GET http://localhost:8080/posts/byId/6681a522cb7094a76666a5be
+
+###
+
+GET http://localhost:8080/posts/feed?lat=40.5798912&long=-80.0653312&maxDistance=1000&limit=10&offset=0
 
 ###
 
