@@ -24,9 +24,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AutosizeTextarea } from "@/components/ui/autosize-textarea";
 import { useUser } from "@clerk/nextjs";
 import useLocation from "@/hooks/useLocation";
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
+import { FormReducer, INITAL_STATE } from "./FormReducer";
 
 
 const FormSchema = z.object({
@@ -48,20 +49,18 @@ const PostForm = () => {
     const API_URL = "http://localhost:8080";
 
     const { user } = useUser();
-    const [error, setError] = useState<string>("");
-    const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
-
+    const [state, dispatch] = useReducer(FormReducer, INITAL_STATE);
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
-    })
+    });
 
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     
         const location = await useLocation();
+
         if(location.lat === 1000 && location.long === 1000) {
-            setError('Could not get location, your location must be enabled to post');
-            setLoading(false);
+            dispatch({ type: "CREATE_ERROR", payload: 'Could not get location, your location must be enabled to post' });
             return;
         }
 
@@ -77,7 +76,7 @@ const PostForm = () => {
         
 
         try {
-            setLoading(true);
+            dispatch({ type: "CREATE_START" });
             const response = await fetch(`${API_URL}/posts`, {
                 method: 'POST',
                 headers: {
@@ -87,18 +86,15 @@ const PostForm = () => {
             });
 
             if(!response.ok) {
-                setError('Failed to submit post');
-                setLoading(false);
+                dispatch({ type: "CREATE_ERROR", payload: 'Failed to submit post' });
                 throw new Error('Failed to submit post');
             }
 
-            setError(''); // Clear any previous errors
-            setLoading(false);
+            dispatch({ type: "CREATE_SUCCESS" });
             router.push('/'); // Redirect to home page
 
         } catch (error) {
-            setError('Failed to submit post');
-            setLoading(false);
+            dispatch({ type: "CREATE_ERROR", payload: 'Failed to submit post' });
         }
     }
 
@@ -148,16 +144,16 @@ const PostForm = () => {
                 />
                 
                 <Button type="submit">
-                    {loading ? 
+                    {state.loading ? 
                         <Spinner className="text-white p-1"/>
                     :
                         'Submit Post'
                     }    
                 </Button>
 
-                {error && 
+                {state.error && 
                     <FormMessage className="text-primary font-medium pt-6">
-                        {error}
+                        {state.error}
                     </FormMessage>}
             </form>
         </Form>
