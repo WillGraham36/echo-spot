@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
         userId:   req.body.userId,
         location: {
             type: "Point",
-            coordinates: [req.body.long, req.body.lat]
+            coordinates: [req.body.location.long, req.body.location.lat]
         },
         date:     req.body.date,
         category: req.body.category,
