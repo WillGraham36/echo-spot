@@ -8,7 +8,7 @@ GET http://localhost:8080/posts/byId/6681a522cb7094a76666a5be
 
 ###
 
-GET http://localhost:8080/posts/feed?lat=40.5798912&long=-80.0653312&maxDistance=1000&limit=10&offset=0
+GET http://localhost:8080/posts/feed?lat=40.5798912&long=-80.0653312&maxDistance=10000000000&limit=10&offset=0
 
 ###
 
@@ -17,9 +17,12 @@ Content-Type: application/json
 
 {
         "userId":   "asdfadsfdsfadsf",
-        "location": [100, 23],
+        "location" : {
+            "type": "Point",
+            "coordinates": [40, 10]
+        },
         "category": "adf",
         "title":    "adsf",
         "upvotes":  12,
-        "comments": "asdf"
+        "comments": ["asdf"]
 }

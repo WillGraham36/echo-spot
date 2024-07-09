@@ -6,12 +6,18 @@ const PostSchema = new mongoose.Schema({
         required: true
     },
     location: {
-        type: [Number],
-        index: '2d',   //can also be 2dsphere, change later if needed
-        required: true
+        type: { 
+            type: String, 
+            enum: ['Point'], 
+            required: true 
+        },
+        coordinates: { 
+            type: [Number],
+            required: true 
+        }
     },
     date: {
-        type: Date,
+        type: Date, 
         required: true,
         default: Date.now
     },
@@ -29,6 +35,8 @@ const PostSchema = new mongoose.Schema({
     comments: {
         type: [String],
     }
-})
+});
+
+PostSchema.index({ location: "2dsphere" });
 
 export default mongoose.model('PostModel', PostSchema, 'posts');
