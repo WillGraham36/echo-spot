@@ -34,7 +34,10 @@ router.get('/byId/:id', getPost, (req, res) => {
 router.post('/', async (req, res) => {
     const post = new PostModel({
         userId:   req.body.userId,
-        location: req.body.location,
+        location: {
+            type: "Point",
+            coordinates: [req.body.long, req.body.lat]
+        },
         date:     req.body.date,
         category: req.body.category,
         title:    req.body.title,
