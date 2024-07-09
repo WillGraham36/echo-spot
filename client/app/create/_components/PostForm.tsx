@@ -45,7 +45,7 @@ const FormSchema = z.object({
 
 const PostForm = () => {
 
-    const APIURL = "http://localhost:8080/"
+    const API_URL = "http://localhost:8080";
 
     const { user } = useUser();
     const [error, setError] = useState<string>("");
@@ -67,15 +67,18 @@ const PostForm = () => {
 
         const postData = {
             userId : user?.id,
-            location: [location.lat, location.long],
+            location: {
+                lat: location.lat,
+                long: location.long,
+            },
             category: data.category,
             title: data.postContent,
         }
         
-        
+
         try {
             setLoading(true);
-            const response = await fetch(`${APIURL}/posts}`, {
+            const response = await fetch(`${API_URL}/posts`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
