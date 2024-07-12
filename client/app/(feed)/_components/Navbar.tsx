@@ -43,8 +43,8 @@ const Navbar = () => {
             </span>
             <div className="flex items-center gap-x-2">
                 <SignedOut>
-                    <SignInButton mode={"modal"} >
-                        <Button asChild>
+                    <SignInButton mode={"modal"}>
+                        <Button>
                             Sign In
                         </Button>
                     </SignInButton>
@@ -52,11 +52,10 @@ const Navbar = () => {
                 <SignedIn>
                     <TooltipProvider>
                         <Tooltip>
-                            <TooltipTrigger>
+                            <TooltipTrigger asChild>
                                 <Button
                                     variant={"ghost"}
                                     onClick={() => router.push("/create")}
-                                    asChild
                                 >
                                     <PlusCircle size={24} />
                                 </Button>
@@ -68,8 +67,8 @@ const Navbar = () => {
                     </TooltipProvider>
 
                     <DropdownMenu>
-                        <DropdownMenuTrigger>
-                            <Button className="font-medium" asChild>
+                        <DropdownMenuTrigger asChild>
+                            <Button className="font-medium">
                                 Your Account
                             </Button>
                         </DropdownMenuTrigger>
