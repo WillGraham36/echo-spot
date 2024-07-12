@@ -114,6 +114,7 @@ const PostForm = () => {
                                     </SelectTrigger>
                                 </FormControl>
                                     <SelectContent>
+                                        {/* TODO: Change categories and values */}
                                         <SelectItem value="general">General</SelectItem>
                                         <SelectItem value="a">blah blah blah</SelectItem>
                                         <SelectItem value="b">yappin</SelectItem>
