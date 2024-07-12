@@ -25,7 +25,6 @@ import {
     SignOutButton,
     SignedIn,
     SignedOut,
-    UserButton
 } from '@clerk/nextjs'
 import { useRouter } from "next/navigation";
 
@@ -45,7 +44,7 @@ const Navbar = () => {
             <div className="flex items-center gap-x-2">
                 <SignedOut>
                     <SignInButton mode={"modal"} >
-                        <Button>
+                        <Button asChild>
                             Sign In
                         </Button>
                     </SignInButton>
@@ -57,6 +56,7 @@ const Navbar = () => {
                                 <Button
                                     variant={"ghost"}
                                     onClick={() => router.push("/create")}
+                                    asChild
                                 >
                                     <PlusCircle size={24} />
                                 </Button>
@@ -69,7 +69,7 @@ const Navbar = () => {
 
                     <DropdownMenu>
                         <DropdownMenuTrigger>
-                            <Button className="font-medium">
+                            <Button className="font-medium" asChild>
                                 Your Account
                             </Button>
                         </DropdownMenuTrigger>
