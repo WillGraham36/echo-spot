@@ -46,8 +46,6 @@ const FormSchema = z.object({
 
 const PostForm = () => {
 
-    const API_URL = "http://localhost:8080";
-
     const { user } = useUser();
     const router = useRouter();
     const [state, dispatch] = useReducer(FormReducer, INITAL_STATE);
@@ -77,7 +75,7 @@ const PostForm = () => {
 
         try {
             dispatch({ type: "CREATE_START" });
-            const response = await fetch(`${API_URL}/posts`, {
+            const response = await fetch('http://localhost:8080/posts', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

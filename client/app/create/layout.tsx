@@ -1,6 +1,6 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
-import Navbar from "../(feed)/_components/Navbar";
+import Navbar from "../_components/Navbar";
 import { useRouter } from "next/navigation";
 
 
