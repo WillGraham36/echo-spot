@@ -18,21 +18,18 @@ const MainContent = async () => {
     return (
         <div className="w-full flex flex-col items-center gap-y-4">
             
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
 
             {
                 posts.map((post: any) => {
                     return (
-                        <h1>{post.title}</h1>
+                        <Post 
+                            postId={post.postId}
+                            userId={post.userId}
+                            date={post.date}
+                            category={post.category}
+                            title={post.title}
+                            upvotes={post.upvotes}
+                        />
                     )
                 })
             }
