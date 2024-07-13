@@ -1,7 +1,6 @@
 "use client";
 import { ModeToggle } from "@/components/theme-mode-toggle"
 import Logo from "./Logo"
-import { Button } from "@/components/ui/button"
 import LocationRange from "./LocationRange";
 import {
     DropdownMenu,
@@ -11,27 +10,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { Ellipsis, LogOut, PlusCircle, User } from "lucide-react";
+import { Ellipsis } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
-import {
-    SignInButton,
-    SignOutButton,
-    SignedIn,
-    SignedOut,
-} from '@clerk/nextjs'
-import { useRouter } from "next/navigation";
+import AccountButton from "./AccountButton";
 
 const Navbar = () => {
 
     const [miles, setMiles] = useState(20);
-    const router = useRouter();
 
     return (
         <div className="z-50 fixed top-0 flex items-center justify-between w-full px-4 py-2 border-b-2 bg-white dark:bg-[#1f1f1f] border-neutral-100 dark:border-neutral-800">
@@ -42,53 +28,8 @@ const Navbar = () => {
                 <LocationRange miles={miles} setMiles={setMiles} />
             </span>
             <div className="flex items-center gap-x-2">
-                <SignedOut>
-                    <SignInButton mode={"modal"}>
-                        <Button>
-                            Sign In
-                        </Button>
-                    </SignInButton>
-                </SignedOut>
-                <SignedIn>
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant={"ghost"}
-                                    onClick={() => router.push("/create")}
-                                >
-                                    <PlusCircle size={24} />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>Create Post</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
 
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button className="font-medium">
-                                Your Account
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuLabel>
-                                <p className="pr-20">
-                                    Account Settings
-                                </p>
-                            </DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>
-                                <div role="button" className="flex items-center gap-x-2">
-                                    <LogOut size={20} />
-                                    <SignOutButton />
-                                </div>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </SignedIn>
-
+                <AccountButton />
 
                 <span className="hidden sm:block">
                     <ModeToggle />
