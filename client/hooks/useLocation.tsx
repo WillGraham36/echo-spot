@@ -9,6 +9,14 @@ import { GeoLocation } from '@/types'
  */
 const useLocation = async (): Promise<GeoLocation> => {
 
+    //ensures that the code runs on the client and never server
+    if (typeof window === 'undefined') {
+        return {
+            lat: 1000,
+            long: 1000
+        }
+    }
+
     const locationPromise = () => new Promise<{ location: GeoLocation }>((resolve, reject) => {
         navigator.geolocation.getCurrentPosition((position) => {
             resolve({
