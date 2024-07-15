@@ -4,11 +4,20 @@ GET http://localhost:8080/posts
 
 ###
 
-GET http://localhost:8080/posts/byId/668cd9362fe55d0301877751
+GET http://localhost:8080/posts/byId/668cdcc34c2ce1370c5f61bc
 
 ###
 
 GET http://localhost:8080/posts/feed?lat=40.5798912&long=-80.0653312&maxDistance=10000000000&limit=10&offset=0
+
+###
+
+PATCH http://localhost:8080/posts/byId/668cdcc34c2ce1370c5f61bc
+Content-Type: application/json
+
+{
+    "upvotes": 12
+}
 
 ###
 

@@ -77,6 +77,28 @@ router.delete('/byId/:id', getPost, async (req, res) => {
     }
 });
 
+// ################################### PATCH METHODS ################################### //
+
+/**
+ * @route PATCH /posts/byId/:id
+ * @desc Update a post by its id, only upvotes and comments can be updated
+ */
+router.patch('/byId/:id', getPost, async (req, res) => {
+    if(req.body.upvotes != null) {
+        res.post.upvotes = req.body.upvotes;
+    }
+    if(req.body.comments != null) {
+        res.post.comments = req.body.comments;
+    }
+
+    try {
+        const updatedPost = await res.post.save();
+        res.json(updatedPost);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
 // ################################### POST METHODS ################################### //
 
 /**
