@@ -8,16 +8,16 @@ import {
 } from "@/components/ui/select"
 
 interface LocationRangeProps {
-    miles: number,
-    setMiles: (miles: number) => void
+    viewRadius: number,
+    setViewRadius: (miles: number) => void
 }
 
-const LocationRange = ({ miles, setMiles }: LocationRangeProps) => {
+const LocationRange = ({ viewRadius, setViewRadius }: LocationRangeProps) => {
 
-    const milesPlaceholder = `${miles} miles`;
+    const milesPlaceholder = `${viewRadius} miles`;
 
-    const handleMilesChange = (miles: string) => {
-        setMiles(parseInt(miles));
+    const handleRadiusChange = (miles: string) => {
+        setViewRadius(parseInt(miles));
     }
 
     return (
@@ -25,7 +25,7 @@ const LocationRange = ({ miles, setMiles }: LocationRangeProps) => {
             <h3>
                 Viewing posts within:
             </h3>
-            <Select onValueChange={handleMilesChange}>
+            <Select onValueChange={handleRadiusChange}>
                 <SelectTrigger className="w-[6.5rem] bg-neutral-100 dark:bg-neutral-800">
                     <SelectValue placeholder={milesPlaceholder} />
                 </SelectTrigger>

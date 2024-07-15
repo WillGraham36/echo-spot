@@ -7,7 +7,6 @@ import {
 
 const inter = Inter({ subsets: ["latin"] });
 import { cn } from '@/lib/utils';
-import Navbar from "./_components/Navbar";
 
 export const metadata: Metadata = {
     title: "EchoSpot",
@@ -30,7 +29,6 @@ export default function RootLayout({
                     disableTransitionOnChange
                     storageKey="echo-spot-theme"
                 >
-                    <Navbar />
                     {children}
                 </ThemeProvider>
             </ClerkProvider>

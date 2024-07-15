@@ -26,6 +26,7 @@ const FeedLayout = ({
                 </div> 
             : 
                 <>
+                    <Navbar />
                     <main className="pt-40">
                         {children}
                     </main>
