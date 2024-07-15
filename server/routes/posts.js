@@ -3,6 +3,7 @@ const router = express.Router();
 
 import PostModel from '../models/postSchema.js';
 
+// ################################### GET METHODS ################################### //
 
 /**
  * @route GET /posts
@@ -26,6 +27,44 @@ router.get('/byId/:id', getPost, (req, res) => {
 });
 
 /**
+ * @route GET /posts/feed
+ * @param {Number} lat
+ * @param {Number} long
+ * @param {Number} maxDistance (in meters)
+ * @param {Number} limit
+ * @param {Number} offset
+ */
+router.get('/feed', async (req, res) => {
+    const { lat, long, maxDistance, limit, offset } = req.query;
+    if (isValidCoordinates(lat, long) || !maxDistance || !limit || offset < 0) {
+        return res.status(400).json({ message: 'Missing parameters' });
+    }
+
+    try {
+        const posts = await PostModel.find({
+            location: {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [long, lat]
+                    },
+                    $maxDistance: maxDistance
+                }
+            }
+        })
+            .limit(limit)
+            .skip(offset);
+
+        res.json(posts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+});
+
+// ################################### DELETE METHODS ################################### //
+
+/**
  * @route DELETE /posts/:id
  * @desc Delete a post by its id
  */
@@ -36,9 +75,9 @@ router.delete('/byId/:id', getPost, async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-})
+});
 
-
+// ################################### POST METHODS ################################### //
 
 /**
  * @route POST /posts
@@ -67,47 +106,8 @@ router.post('/', async (req, res) => {
 });
 
 
-/**
- * @route GET /posts/feed
- * @param {Number} lat
- * @param {Number} long
- * @param {Number} maxDistance (in meters)
- * @param {Number} limit
- * @param {Number} offset
- */
-router.get('/feed', async (req, res) => {
-    const {lat, long, maxDistance, limit, offset} = req.query;
-    if(isValidCoordinates(lat, long) || !maxDistance || !limit || offset < 0) {
-        return res.status(400).json({ message: 'Missing parameters' });
-    }
 
-    try {
-        const posts = await PostModel.find({
-            location: {
-                $near: {
-                    $geometry: {
-                        type: "Point",
-                        coordinates: [long, lat]
-                    },
-                    $maxDistance: maxDistance
-                }
-            }
-        })
-        .limit(limit)
-        .skip(offset);
-
-        res.json(posts);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-
-});
-
-
-
-
-
-
+// ################################### MIDDLEWARE ################################### //
 
 /**
  * Middleware to get post by id
