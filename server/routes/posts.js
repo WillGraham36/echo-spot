@@ -25,6 +25,19 @@ router.get('/byId/:id', getPost, (req, res) => {
     res.json(res.post);
 });
 
+/**
+ * @route DELETE /posts/:id
+ * @desc Delete a post by its id
+ */
+router.delete('/byId/:id', getPost, async (req, res) => {
+    try {
+        await res.post.deleteOne();
+        res.json({ message: 'Deleted subscriber successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+})
+
 
 
 /**
