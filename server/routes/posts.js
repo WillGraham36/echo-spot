@@ -128,6 +128,9 @@ async function getPost(req, res, next) {
     next();
 }
 
+
+// ################################### HELPER FUNCTIONS ################################### //
+
 /**
  * Helper functions to check for validaty of parameters
  */
