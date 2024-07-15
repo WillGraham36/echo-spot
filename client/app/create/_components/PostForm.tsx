@@ -55,8 +55,8 @@ const PostForm = () => {
 
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     
+        dispatch({ type: "CREATE_START" });
         const location = await useLocation();
-
         if(location.lat === 1000 && location.long === 1000) {
             dispatch({ type: "CREATE_ERROR", payload: 'Could not get location, your location must be enabled to post' });
             return;
@@ -72,9 +72,7 @@ const PostForm = () => {
             title: data.postContent,
         }
         
-
         try {
-            dispatch({ type: "CREATE_START" });
             const response = await fetch('http://localhost:8080/posts', {
                 method: 'POST',
                 headers: {
