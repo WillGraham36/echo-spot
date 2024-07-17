@@ -8,9 +8,10 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import LikesButtons from "./Likes"
 import { Button } from "@/components/ui/button"
 import CalculteTimeDiff from "@/utils/CalculteTimeDiff"
+import { useState } from "react"
+import UpvotesButtons from "./Upvotes"
 
 interface Comment {
     commentId: string,
@@ -44,6 +45,10 @@ const Post = ({
     upvotes,
     comments
 }: PostProps) => {
+
+    upvotes = upvotes ? upvotes : 0;
+    const [numUpvotes, setNumUpvotes] = useState(upvotes);
+
     return (    
         <div className="w-full md:w-[70%] md:bg-neutral-100 md:dark:bg-neutral-800 md:rounded-xl md:p-4 px-4 pt-1 pb-3 border-b md:border-y-0 border-y-muted-foreground">
             <div className="flex justify-between items-center">
@@ -104,7 +109,7 @@ const Post = ({
                     
                     
                 </div>
-                    <LikesButtons likes={upvotes ? upvotes : 0}/>  
+                    <UpvotesButtons upvotes={numUpvotes} setUpvotes={setNumUpvotes}/>  
             </div>
         </div>
     )
