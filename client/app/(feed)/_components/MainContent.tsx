@@ -68,7 +68,7 @@ const MainContent =  () => {
                         return (
                             <Post
                                 key={post._id}
-                                postId={post.postId}
+                                postId={post._id}
                                 userId={post.userId}
                                 date={post.date}
                                 category={post.category}

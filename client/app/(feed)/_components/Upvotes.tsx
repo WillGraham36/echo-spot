@@ -7,35 +7,70 @@ type likedStatus = "UPVOTED" | "DOWNVOTED" | "NONE";
 interface UpvotesButtonsProps {
     upvotes: number,
     setUpvotes: Dispatch<SetStateAction<number>>
+    postId: string
 }
 
-const UpvotesButtons = ({upvotes, setUpvotes}: UpvotesButtonsProps) => {
+const UpvotesButtons = ({upvotes, setUpvotes, postId}: UpvotesButtonsProps) => {
 
     const [isUpvoted, setIsUpvoted] = useState<likedStatus>("NONE");
 
-    function handleUpvote() {
+    async function updateVotes() {
+        try {
+            const response = await fetch(`http://localhost:8080/posts/byId/${postId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ upvotes: upvotes })
+            });
+            if (!response.ok) {
+                throw new Error('Failed to update votes');
+            }
+        } catch (error) {
+            throw new Error('Failed to update votes');
+        }
+    }
+
+    async function handleUpvote() {
+        const initialUpvotes = upvotes;
         if(isUpvoted === "UPVOTED") {
             setIsUpvoted("NONE");
             setUpvotes((prevUpvotes) => {return prevUpvotes - 1});
-            return;
-        } 
-        if(isUpvoted === "DOWNVOTED") {
+        } else {
+            if (isUpvoted === "DOWNVOTED") {
+                setUpvotes((prevUpvotes) => { return prevUpvotes + 1 });
+            }
+            setIsUpvoted("UPVOTED");
             setUpvotes((prevUpvotes) => { return prevUpvotes + 1 });
         }
-        setIsUpvoted("UPVOTED");
-        setUpvotes((prevUpvotes) => { return prevUpvotes + 1 });
+
+        try {
+            await updateVotes();
+        } catch (error) {
+            setUpvotes(initialUpvotes);
+            setIsUpvoted(isUpvoted === "UPVOTED" ? "UPVOTED" : "NONE");
+        }
     }
-    function handleDownvote() {
+
+    async function handleDownvote() {
+        const initialUpvotes = upvotes;
         if(isUpvoted === "DOWNVOTED") {
             setIsUpvoted("NONE");
             setUpvotes((prevUpvotes) => { return prevUpvotes + 1 });
-            return;
-        }
-        if(isUpvoted === "UPVOTED") {
+        } else {
+            if (isUpvoted === "UPVOTED") {
+                setUpvotes((prevUpvotes) => { return prevUpvotes - 1 });
+            }
+            setIsUpvoted("DOWNVOTED");
             setUpvotes((prevUpvotes) => { return prevUpvotes - 1 });
         }
-        setIsUpvoted("DOWNVOTED");
-        setUpvotes((prevUpvotes) => { return prevUpvotes - 1 });
+
+        try {
+            await updateVotes();
+        } catch (error) {
+            setUpvotes(initialUpvotes);
+            setIsUpvoted(isUpvoted === "DOWNVOTED" ? "DOWNVOTED" : "NONE");
+        }
     }
 
     return (

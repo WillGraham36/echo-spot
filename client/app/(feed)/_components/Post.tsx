@@ -109,7 +109,11 @@ const Post = ({
                     
                     
                 </div>
-                    <UpvotesButtons upvotes={numUpvotes} setUpvotes={setNumUpvotes}/>  
+                    <UpvotesButtons 
+                        upvotes={numUpvotes} 
+                        setUpvotes={setNumUpvotes}
+                        postId={postId}
+                    />  
             </div>
         </div>
     )
