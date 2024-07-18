@@ -18,52 +18,52 @@ const UpvotesButtons = ({upvotes, setUpvotes}: UpvotesButtonsProps) => {
         if(isUpvoted === "UPVOTED") {
             setIsUpvoted("NONE");
             setUpvotes((prevUpvotes) => {return prevUpvotes - 1});
-        } else {
-            setIsUpvoted("UPVOTED");
+            return;
+        } 
+        if(isUpvoted === "DOWNVOTED") {
             setUpvotes((prevUpvotes) => { return prevUpvotes + 1 });
         }
+        setIsUpvoted("UPVOTED");
+        setUpvotes((prevUpvotes) => { return prevUpvotes + 1 });
     }
     function handleDownvote() {
         if(isUpvoted === "DOWNVOTED") {
             setIsUpvoted("NONE");
             setUpvotes((prevUpvotes) => { return prevUpvotes + 1 });
-        } else {
-            setIsUpvoted("DOWNVOTED");
+            return;
+        }
+        if(isUpvoted === "UPVOTED") {
             setUpvotes((prevUpvotes) => { return prevUpvotes - 1 });
         }
+        setIsUpvoted("DOWNVOTED");
+        setUpvotes((prevUpvotes) => { return prevUpvotes - 1 });
     }
 
     return (
         <span className='inline-flex items-center gap-x-2'>
-            <Button 
-                size={"postBtn"} 
-                variant={"ghostHover"} 
-                className={cn('rounded-full',
-                    isUpvoted === "UPVOTED" && 'bg-primary' 
-                )}
+            <div 
+                className='hover:text-primary rounded-full transition-colors p-1 cursor-pointer'
+                role='button'
                 onClick={handleUpvote}
             >
                 <ArrowBigUp
                     size={30}
                     strokeWidth='1px'
-                    className={cn(isUpvoted === "UPVOTED" && 'fill-white')}
+                    className={cn(isUpvoted === "UPVOTED" && 'fill-primary text-primary')}
                 />
-            </Button>
-            <p className='font-bold'>{upvotes}</p>
-            <Button 
-                size={"postBtn"} 
-                variant={"ghostHover"} 
-                className={cn('rounded-full',
-                    isUpvoted === "DOWNVOTED" && 'bg-primary'
-                )}
+            </div>
+            <p className='font-bold w-5 text-center'>{upvotes}</p>
+            <div
+                className='hover:text-primary rounded-full transition-colors p-1 cursor-pointer'
+                role='button'
                 onClick={handleDownvote}
             >
                 <ArrowBigDown
                     size={30}
                     strokeWidth='1px'
-                    className={cn(isUpvoted === "DOWNVOTED" && 'fill-white')}
+                    className={cn(isUpvoted === "DOWNVOTED" && 'fill-primary text-primary')}
                 />
-            </Button>
+            </div>
         </span>
     )
 }
