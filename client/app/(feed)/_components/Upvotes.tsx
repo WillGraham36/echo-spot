@@ -14,38 +14,42 @@ const UpvotesButtons = ({upvotes, setUpvotes, postId}: UpvotesButtonsProps) => {
 
     const [isUpvoted, setIsUpvoted] = useState<likedStatus>("NONE");
 
-    async function updateVotes() {
+    async function updateVotes(numUpvotes: number) {
         try {
-            const response = await fetch(`http://localhost:8080/posts/byId/${postId}`, {
+            const response = await fetch(`http://localhost:8081/posts/byId/${postId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ upvotes: upvotes })
+                body: JSON.stringify({ upvotes: numUpvotes })
             });
-            if (!response.ok) {
-                throw new Error('Failed to update votes');
+            if(!response.ok) {
+                throw new Error("Failed to update votes");
             }
         } catch (error) {
-            throw new Error('Failed to update votes');
+            throw new Error("Failed to update votes");
         }
     }
 
     async function handleUpvote() {
         const initialUpvotes = upvotes;
+        let newUpvotes = upvotes;
+
         if(isUpvoted === "UPVOTED") {
             setIsUpvoted("NONE");
-            setUpvotes((prevUpvotes) => {return prevUpvotes - 1});
+            newUpvotes--;
         } else {
             if (isUpvoted === "DOWNVOTED") {
-                setUpvotes((prevUpvotes) => { return prevUpvotes + 1 });
+                newUpvotes++;
             }
             setIsUpvoted("UPVOTED");
-            setUpvotes((prevUpvotes) => { return prevUpvotes + 1 });
+            newUpvotes++;
         }
 
+        setUpvotes(newUpvotes);
+
         try {
-            await updateVotes();
+            await updateVotes(newUpvotes);
         } catch (error) {
             setUpvotes(initialUpvotes);
             setIsUpvoted(isUpvoted === "UPVOTED" ? "UPVOTED" : "NONE");
@@ -54,19 +58,24 @@ const UpvotesButtons = ({upvotes, setUpvotes, postId}: UpvotesButtonsProps) => {
 
     async function handleDownvote() {
         const initialUpvotes = upvotes;
+        let newUpvotes = upvotes;
+
         if(isUpvoted === "DOWNVOTED") {
             setIsUpvoted("NONE");
-            setUpvotes((prevUpvotes) => { return prevUpvotes + 1 });
+
+            newUpvotes++;
         } else {
             if (isUpvoted === "UPVOTED") {
-                setUpvotes((prevUpvotes) => { return prevUpvotes - 1 });
+                newUpvotes--;
             }
             setIsUpvoted("DOWNVOTED");
-            setUpvotes((prevUpvotes) => { return prevUpvotes - 1 });
+            newUpvotes--;
         }
 
+        setUpvotes(newUpvotes);
+
         try {
-            await updateVotes();
+            await updateVotes(newUpvotes);
         } catch (error) {
             setUpvotes(initialUpvotes);
             setIsUpvoted(isUpvoted === "DOWNVOTED" ? "DOWNVOTED" : "NONE");
