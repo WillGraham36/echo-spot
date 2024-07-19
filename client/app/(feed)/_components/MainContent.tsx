@@ -40,7 +40,7 @@ const MainContent =  () => {
 
     if(postsStatus.error) {
         return (
-            <div className="text-2xl text-white w-full md:w-[70%] bg-neutral-100 dark:bg-neutral-800 rounded-xl border-y-muted-foreground p-5">
+            <div className="text-2xl dark:text-white w-full md:w-[70%] bg-neutral-100 dark:bg-neutral-800 rounded-xl border-y-muted-foreground p-5">
                 <h1>
                     An error has occured, please refresh the page
                 </h1>
@@ -64,7 +64,7 @@ const MainContent =  () => {
             </div>
             <div className="w-full flex flex-col items-center gap-y-4">
                 {
-                    posts.length > 0 ? posts.map((post: any) => {
+                    posts.length > 1110 ? posts.map((post: any) => {
                         return (
                             <Post
                                 key={post._id}
@@ -77,7 +77,7 @@ const MainContent =  () => {
                             />
                         )
                     }) :
-                        <div className="text-2xl text-white w-full md:w-[70%] bg-neutral-100 dark:bg-neutral-800 rounded-xl border-y-muted-foreground p-5">
+                        <div className="text-2xl dark:text-white w-full md:w-[70%] bg-neutral-100 dark:bg-neutral-800 rounded-xl border-y-muted-foreground p-5">
                             <h1>
                                 Looks like there's no echos near you...
                             </h1>
