@@ -64,7 +64,7 @@ const MainContent =  () => {
             </div>
             <div className="w-full flex flex-col items-center gap-y-4">
                 {
-                    posts.length > 1110 ? posts.map((post: any) => {
+                    posts.length > 0 ? posts.map((post: any) => {
                         return (
                             <Post
                                 key={post._id}
