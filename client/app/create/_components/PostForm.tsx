@@ -104,7 +104,7 @@ const PostForm = () => {
                     name="category"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="text-white font-medium text-xl">Category</FormLabel>
+                            <FormLabel className="dark:text-white font-medium text-xl">Category</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger className="w-full md:w-64">
@@ -128,7 +128,7 @@ const PostForm = () => {
                     name="postContent"
                     render={({ field }) => (
                         <FormItem className="py-4">
-                            <FormLabel className="text-white font-medium text-xl">Post Content</FormLabel>
+                            <FormLabel className="dark:text-white font-medium text-xl">Post Content</FormLabel>
                             <FormControl>
                                 <AutosizeTextarea
                                     placeholder="Write your echo..."
