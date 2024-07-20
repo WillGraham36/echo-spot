@@ -116,6 +116,7 @@ router.post('/', async (req, res) => {
         category: req.body.category,
         title:    req.body.title,
         upvotes:  req.body.upvotes,
+        usersWhoUpvoted: req.body.usersWhoUpvoted,
         comments: req.body.comments
     });
 

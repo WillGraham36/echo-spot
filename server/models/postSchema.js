@@ -32,6 +32,9 @@ const PostSchema = new mongoose.Schema({
     upvotes: {
         type: Number,
     },
+    usersWhoUpvoted: {
+        type: [String],
+    },
     comments: {
         type: [String],
     }

@@ -70,6 +70,8 @@ const PostForm = () => {
             },
             category: data.category,
             title: data.postContent,
+            upvotes: 1,
+            usersWhoUpvoted: [user?.id],
         }
         
         try {
