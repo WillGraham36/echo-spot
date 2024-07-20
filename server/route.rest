@@ -4,7 +4,7 @@ GET http://localhost:8080/posts
 
 ###
 
-GET http://localhost:8080/posts/byId/668cdcc34c2ce1370c5f61bc
+GET http://localhost:8080/posts/byId/669b421d7ff48522323cfa96
 
 ###
 
@@ -12,11 +12,12 @@ GET http://localhost:8080/posts/feed?lat=40.5798912&long=-80.0653312&maxDistance
 
 ###
 
-PATCH http://localhost:8080/posts/byId/668cdcc34c2ce1370c5f61bc
+PATCH http://localhost:8080/posts/byId/669b421d7ff48522323cfa96?addOrRemoveUpvote=REMOVE
 Content-Type: application/json
 
 {
-    "upvotes": 12
+    "upvotes": 12,
+    "usersWhoUpvoted": "asdf"
 }
 
 ###

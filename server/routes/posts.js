@@ -82,13 +82,26 @@ router.delete('/byId/:id', getPost, async (req, res) => {
 /**
  * @route PATCH /posts/byId/:id
  * @desc Update a post by its id, only upvotes and comments can be updated
+ * @param addOrRemoveUpvote = "ADD" or "REMOVE" to specify if the user is adding or removing an upvote
  */
 router.patch('/byId/:id', getPost, async (req, res) => {
+    const { addOrRemoveUpvote } = req.query;
+    if(addOrRemoveUpvote !== "ADD" && addOrRemoveUpvote !== "REMOVE") {
+        return res.status(400).json({ message: 'Invalid query parameter' });
+    }
+
     if(req.body.upvotes != null) {
         res.post.upvotes = req.body.upvotes;
     }
     if(req.body.comments != null) {
         res.post.comments = req.body.comments;
+    }
+    if(req.body.usersWhoUpvoted != null) {
+        if(addOrRemoveUpvote === "ADD") {
+            res.post.usersWhoUpvoted.push(req.body.usersWhoUpvoted);
+        } else if(addOrRemoveUpvote === "REMOVE") {
+            res.post.usersWhoUpvoted.pop(req.body.usersWhoUpvoted);
+        }
     }
 
     try {
