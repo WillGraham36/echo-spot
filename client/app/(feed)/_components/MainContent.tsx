@@ -40,7 +40,7 @@ const MainContent =  () => {
 
     if(postsStatus.error) {
         return (
-            <div className="text-2xl dark:text-white w-full md:w-[70%] bg-neutral-100 dark:bg-neutral-800 rounded-xl border-y-muted-foreground p-5">
+            <div className="text-2xl dark:text-white w-full md:w-[70%] bg-neutral-100 dark:bg-neutral-800 rounded-xl border-y-muted-foreground p-5 pt-20">
                 <h1>
                     An error has occured, please refresh the page
                 </h1>
@@ -53,7 +53,7 @@ const MainContent =  () => {
                 <div className="absolute top-24">
                     <LocationRange viewRadius={viewRadius} setViewRadius={setViewRadius} />
                 </div>
-                <Spinner size={"large"} className="mt-5" />
+                <Spinner size={"large"} className="mt-28" />
             </>
         )
     }
@@ -62,7 +62,7 @@ const MainContent =  () => {
             <div className="absolute top-24"> 
                 <LocationRange viewRadius={viewRadius} setViewRadius={setViewRadius} />
             </div>
-            <div className="w-full flex flex-col items-center gap-y-4">
+            <div className="w-full flex flex-col items-center gap-y-4 pt-20">
                 {
                     posts.length > 0 ? posts.map((post: any) => {
                         return (

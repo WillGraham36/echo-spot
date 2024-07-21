@@ -9,7 +9,7 @@ const FeedLayout = ({
     return (
         <div className="dark:bg-[#1F1F1F]">
             <Navbar />
-            <main className="pt-40">
+            <main className="pt-20">
                 {children}
             </main>
         </div>

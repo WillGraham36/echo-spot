@@ -56,7 +56,8 @@ const UpvotesButtons = ({
         }
     }
 
-    async function handleUpvote() {
+    async function handleUpvote(e: React.MouseEvent) {
+        e.preventDefault();
         const initialUpvotes = upvotes;
         let newUpvotes = upvotes;
         let change: changeUpvote = "ADD";
@@ -83,7 +84,8 @@ const UpvotesButtons = ({
         }
     }
 
-    async function handleDownvote() {
+    async function handleDownvote(e: React.MouseEvent) {
+        e.preventDefault();
         const initialUpvotes = upvotes;
         let newUpvotes = upvotes;
         let change: changeUpvote = "ADD";
