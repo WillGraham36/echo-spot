@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils';
 import { useUser } from '@clerk/nextjs';
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react'
+import { useRouter } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 type likedStatus = "UPVOTED" | "DOWNVOTED" | "NONE";
@@ -23,8 +24,9 @@ const UpvotesButtons = ({
 }: UpvotesButtonsProps) => {
 
     const { user, isLoaded, isSignedIn } = useUser();
+    const router = useRouter();
     const [isUpvoted, setIsUpvoted] = useState<likedStatus>("NONE");
-    
+
     useEffect(() => {
         if(isLoaded && isSignedIn) {
             const isLiked = usersWhoUpvoted.includes(user?.id as string) ? "UPVOTED" : usersWhoDownvoted.includes(user?.id as string) ? "DOWNVOTED" : "NONE";
@@ -113,7 +115,7 @@ const UpvotesButtons = ({
             <div 
                 className='hover:text-primary rounded-full transition-colors p-1 cursor-pointer'
                 role='button'
-                onClick={handleUpvote}
+                onClick={isSignedIn ? handleUpvote : () => router.push('/sign-in')}
             >
                 <ArrowBigUp
                     size={30}
@@ -125,7 +127,7 @@ const UpvotesButtons = ({
             <div
                 className='hover:text-primary rounded-full transition-colors p-1 cursor-pointer'
                 role='button'
-                onClick={handleDownvote}
+                onClick={isSignedIn ? handleDownvote : () => router.push('/sign-in')}
             >
                 <ArrowBigDown
                     size={30}
