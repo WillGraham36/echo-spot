@@ -68,14 +68,7 @@ const MainContent =  () => {
                         return (
                             <Post
                                 key={post._id}
-                                postId={post._id}
-                                userId={post.userId}
-                                date={post.date}
-                                category={post.category}
-                                title={post.title}
-                                upvotes={post.upvotes}
-                                usersWhoUpvoted={post.usersWhoUpvoted}
-                                usersWhoDownvoted={post.usersWhoDownvoted}
+                                post={post}
                             />
                         )
                     }) :

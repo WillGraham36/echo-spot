@@ -24,8 +24,9 @@ interface Comment {
     upvotes: number,
 }
 
-interface PostProps {
-    postId: string,
+
+type PostType = {
+    _id: string,
     userId: string,
     date: Date
     category: string,
@@ -35,19 +36,21 @@ interface PostProps {
     usersWhoDownvoted: Array<string>,
     comments?: Array<Comment>,
 }
-
-
+interface PostProps {
+    post: PostType
+}
 
 const Post = ({
-    postId,
-    userId,
-    date,
-    category,
-    title,
-    upvotes,
-    usersWhoUpvoted,
-    usersWhoDownvoted,
-    comments
+    post: {
+        _id,
+        category,
+        title,
+        upvotes,
+        usersWhoUpvoted,
+        usersWhoDownvoted,
+        comments,
+        date
+    }
 }: PostProps) => {
 
     upvotes = upvotes ? upvotes : 0;
@@ -98,14 +101,9 @@ const Post = ({
                 <div className="flex items-center gap-x-2">
                     <Button size={"postBtn"} variant={"ghostHover"}>
                         <MessageCircle size={26} />
-                        {comments && 
-                            <p className="font-medium px-2">
-                                {comments.length}
-                            </p>
-                        }
-                    </Button>
-                    <Button size={"postBtn"} variant={"ghostHover"}>
-                        <Bookmark size={26} />
+                        <p className="font-medium px-2">
+                            {comments ? comments.length : 0}
+                        </p>
                     </Button>
                     <Button size={"postBtn"} variant={"ghostHover"}>
                         <Forward size={26} />
@@ -116,7 +114,7 @@ const Post = ({
                     <UpvotesButtons 
                         upvotes={numUpvotes} 
                         setUpvotes={setNumUpvotes}
-                        postId={postId}
+                        postId={_id}
                         usersWhoUpvoted={usersWhoUpvoted}
                         usersWhoDownvoted={usersWhoDownvoted}
                     />  
