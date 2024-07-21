@@ -100,7 +100,14 @@ router.patch('/byId/:id', getPost, async (req, res) => {
         if(addOrRemoveUpvote === "ADD") {
             res.post.usersWhoUpvoted.push(req.body.usersWhoUpvoted);
         } else if(addOrRemoveUpvote === "REMOVE") {
-            res.post.usersWhoUpvoted.pop(req.body.usersWhoUpvoted);
+            res.post.usersWhoUpvoted = res.post.usersWhoUpvoted.filter(userId => userId !== req.body.usersWhoUpvoted);
+        }
+    }
+    if(req.body.usersWhoDownvoted != null) {
+        if(addOrRemoveUpvote === "ADD") {
+            res.post.usersWhoDownvoted.push(req.body.usersWhoDownvoted);
+        } else if(addOrRemoveUpvote === "REMOVE") {
+            res.post.usersWhoDownvoted = res.post.usersWhoDownvoted.filter(userId => userId !== req.body.usersWhoDownvoted);
         }
     }
 
