@@ -63,7 +63,7 @@ const PostForm = () => {
         }
 
         const postData = {
-            userId : user?.id,
+            userId: user?.id,
             location: {
                 lat: location.lat,
                 long: location.long,
@@ -73,7 +73,6 @@ const PostForm = () => {
             upvotes: 1,
             usersWhoUpvoted: [user?.id],
         }
-        
         try {
             const response = await fetch('http://localhost:8080/posts', {
                 method: 'POST',
