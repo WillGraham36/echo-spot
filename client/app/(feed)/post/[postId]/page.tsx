@@ -1,7 +1,9 @@
 
-const PostPage = () => {
+const PostPage = ({ params }: { params: { postId: string } }) => {
     return (
-        <div>PostPage</div>
+        <div>
+            {params.postId}
+        </div>
     )
 }
 
