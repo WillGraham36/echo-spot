@@ -26,11 +26,13 @@ interface Comment {
 
 interface PostProps {
     postId: string,
-    userId: number,
+    userId: string,
     date: Date
     category: string,
     title: string,
     upvotes: number,
+    usersWhoUpvoted: Array<string>,
+    usersWhoDownvoted: Array<string>,
     comments?: Array<Comment>,
 }
 
@@ -43,6 +45,8 @@ const Post = ({
     category,
     title,
     upvotes,
+    usersWhoUpvoted,
+    usersWhoDownvoted,
     comments
 }: PostProps) => {
 
@@ -113,6 +117,8 @@ const Post = ({
                         upvotes={numUpvotes} 
                         setUpvotes={setNumUpvotes}
                         postId={postId}
+                        usersWhoUpvoted={usersWhoUpvoted}
+                        usersWhoDownvoted={usersWhoDownvoted}
                     />  
             </div>
         </div>

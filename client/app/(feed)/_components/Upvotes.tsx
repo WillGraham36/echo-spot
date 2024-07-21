@@ -1,27 +1,44 @@
 import { cn } from '@/lib/utils';
+import { useUser } from '@clerk/nextjs';
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react'
 import { Dispatch, SetStateAction, useState } from 'react';
 
 type likedStatus = "UPVOTED" | "DOWNVOTED" | "NONE";
+type changeUpvote = "ADD" | "REMOVE";
 
 interface UpvotesButtonsProps {
     upvotes: number,
-    setUpvotes: Dispatch<SetStateAction<number>>
-    postId: string
+    setUpvotes: Dispatch<SetStateAction<number>>,
+    postId: string,
+    usersWhoUpvoted: Array<string>,
+    usersWhoDownvoted: Array<string>,
 }
 
-const UpvotesButtons = ({upvotes, setUpvotes, postId}: UpvotesButtonsProps) => {
+const UpvotesButtons = ({ 
+    upvotes, 
+    setUpvotes, 
+    postId, 
+    usersWhoUpvoted,
+    usersWhoDownvoted
+}: UpvotesButtonsProps) => {
 
+    const { user } = useUser();
     const [isUpvoted, setIsUpvoted] = useState<likedStatus>("NONE");
 
-    async function updateVotes(numUpvotes: number) {
+
+    async function updateVotes(numUpvotes: number, change: changeUpvote, upOrDownvote: "UPVOTE" | "DOWNVOTE") {
+
         try {
-            const response = await fetch(`http://localhost:8081/posts/byId/${postId}`, {
+            const response = await fetch(`http://localhost:8080/posts/byId/${postId}?addOrRemoveUpvote=${change}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ upvotes: numUpvotes })
+                body: JSON.stringify({ 
+                    upvotes: numUpvotes,
+                    usersWhoUpvoted: upOrDownvote === "UPVOTE" ? user?.id : null,
+                    usersWhoDownvoted: upOrDownvote === "DOWNVOTE" ? user?.id : null
+                })
             });
             if(!response.ok) {
                 throw new Error("Failed to update votes");
@@ -34,10 +51,12 @@ const UpvotesButtons = ({upvotes, setUpvotes, postId}: UpvotesButtonsProps) => {
     async function handleUpvote() {
         const initialUpvotes = upvotes;
         let newUpvotes = upvotes;
+        let change: changeUpvote = "ADD";
 
         if(isUpvoted === "UPVOTED") {
             setIsUpvoted("NONE");
             newUpvotes--;
+            change = "REMOVE";
         } else {
             if (isUpvoted === "DOWNVOTED") {
                 newUpvotes++;
@@ -49,7 +68,7 @@ const UpvotesButtons = ({upvotes, setUpvotes, postId}: UpvotesButtonsProps) => {
         setUpvotes(newUpvotes);
 
         try {
-            await updateVotes(newUpvotes);
+            await updateVotes(newUpvotes, change, "UPVOTE");
         } catch (error) {
             setUpvotes(initialUpvotes);
             setIsUpvoted(isUpvoted === "UPVOTED" ? "UPVOTED" : "NONE");
@@ -59,11 +78,12 @@ const UpvotesButtons = ({upvotes, setUpvotes, postId}: UpvotesButtonsProps) => {
     async function handleDownvote() {
         const initialUpvotes = upvotes;
         let newUpvotes = upvotes;
+        let change: changeUpvote = "ADD";
 
         if(isUpvoted === "DOWNVOTED") {
             setIsUpvoted("NONE");
-
             newUpvotes++;
+            change = "REMOVE";
         } else {
             if (isUpvoted === "UPVOTED") {
                 newUpvotes--;
@@ -75,7 +95,7 @@ const UpvotesButtons = ({upvotes, setUpvotes, postId}: UpvotesButtonsProps) => {
         setUpvotes(newUpvotes);
 
         try {
-            await updateVotes(newUpvotes);
+            await updateVotes(newUpvotes, change, "DOWNVOTE");
         } catch (error) {
             setUpvotes(initialUpvotes);
             setIsUpvoted(isUpvoted === "DOWNVOTED" ? "DOWNVOTED" : "NONE");

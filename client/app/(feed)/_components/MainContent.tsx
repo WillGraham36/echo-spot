@@ -74,6 +74,8 @@ const MainContent =  () => {
                                 category={post.category}
                                 title={post.title}
                                 upvotes={post.upvotes}
+                                usersWhoUpvoted={post.usersWhoUpvoted}
+                                usersWhoDownvoted={post.usersWhoDownvoted}
                             />
                         )
                     }) :
