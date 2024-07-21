@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import { useUser } from '@clerk/nextjs';
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react'
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 type likedStatus = "UPVOTED" | "DOWNVOTED" | "NONE";
 type changeUpvote = "ADD" | "REMOVE";
@@ -22,9 +22,15 @@ const UpvotesButtons = ({
     usersWhoDownvoted
 }: UpvotesButtonsProps) => {
 
-    const { user } = useUser();
+    const { user, isLoaded, isSignedIn } = useUser();
     const [isUpvoted, setIsUpvoted] = useState<likedStatus>("NONE");
-
+    
+    useEffect(() => {
+        if(isLoaded && isSignedIn) {
+            const isLiked = usersWhoUpvoted.includes(user?.id as string) ? "UPVOTED" : usersWhoDownvoted.includes(user?.id as string) ? "DOWNVOTED" : "NONE";
+            setIsUpvoted(isLiked);
+        }
+    },[isLoaded]);
 
     async function updateVotes(numUpvotes: number, change: changeUpvote, upOrDownvote: "UPVOTE" | "DOWNVOTE") {
 
