@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const PostSchema = new mongoose.Schema({
     userId: {
@@ -33,6 +34,9 @@ const PostSchema = new mongoose.Schema({
         type: Number,
     },
     usersWhoUpvoted: {
+        type: [String],
+    },
+    usersWhoDownvoted: {
         type: [String],
     },
     comments: {

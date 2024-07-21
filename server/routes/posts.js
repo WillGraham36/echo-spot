@@ -82,7 +82,7 @@ router.delete('/byId/:id', getPost, async (req, res) => {
 /**
  * @route PATCH /posts/byId/:id
  * @desc Update a post by its id, only upvotes and comments can be updated
- * @param addOrRemoveUpvote = "ADD" or "REMOVE" to specify if the user is adding or removing an upvote
+ * @param addOrRemoveUpvote = "ADD" or "REMOVE" to specify if the user is adding or removing a vote
  */
 router.patch('/byId/:id', getPost, async (req, res) => {
     const { addOrRemoveUpvote } = req.query;
@@ -130,6 +130,7 @@ router.post('/', async (req, res) => {
         title:    req.body.title,
         upvotes:  req.body.upvotes,
         usersWhoUpvoted: req.body.usersWhoUpvoted,
+        usersWhoDownvoted: req.body.usersWhoDownvoted,
         comments: req.body.comments
     });
 
