@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Bookmark, Ellipsis, Forward, MessageCircle } from "lucide-react"
+import { Ellipsis, Forward, MessageCircle } from "lucide-react"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -32,7 +32,7 @@ interface PostProps {
     post: PostType
 }
 
-const Post = ({
+const PostCard = ({
     post: {
         _id,
         category,
@@ -119,4 +119,4 @@ const Post = ({
     )
 }
 
-export default Post
+export default PostCard
