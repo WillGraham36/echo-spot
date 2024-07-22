@@ -4,6 +4,7 @@ import Post from "./Post"
 import useLocation from "@/hooks/useLocation"
 import LocationRange from "./LocationRange";
 import { Spinner } from "@/components/ui/spinner";
+import { PostType } from "@/types/PostType";
 
 const limit = 100;
 const offset = 0;
@@ -11,7 +12,7 @@ const offset = 0;
 
 const MainContent =  () => {
 
-    const [posts, setPosts] = useState<any[]>([]);
+    const [posts, setPosts] = useState<PostType[]>([]);
     const [viewRadius, setViewRadius] = useState<number>(20);
 
     const [postsStatus, setPostsStatus] = useState({

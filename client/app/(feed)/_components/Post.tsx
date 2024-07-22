@@ -13,6 +13,7 @@ import CalculteTimeDiff from "@/utils/CalculteTimeDiff"
 import { useState } from "react"
 import UpvotesButtons from "./Upvotes"
 import Link from "next/link"
+import { PostType } from "@/types/PostType"
 
 interface Comment {
     commentId: string,
@@ -26,17 +27,7 @@ interface Comment {
 }
 
 
-type PostType = {
-    _id: string,
-    userId: string,
-    date: Date
-    category: string,
-    title: string,
-    upvotes: number,
-    usersWhoUpvoted: Array<string>,
-    usersWhoDownvoted: Array<string>,
-    comments?: Array<Comment>,
-}
+
 interface PostProps {
     post: PostType
 }
