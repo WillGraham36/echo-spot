@@ -28,6 +28,7 @@ import { useReducer, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
 import { FormReducer, INITAL_STATE } from "./FormReducer";
+import { API_URL } from "@/utils/constants";
 
 
 const FormSchema = z.object({
@@ -74,7 +75,7 @@ const PostForm = () => {
             usersWhoUpvoted: [user?.id],
         }
         try {
-            const response = await fetch('http://localhost:8080/posts', {
+            const response = await fetch(`${API_URL}/posts`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

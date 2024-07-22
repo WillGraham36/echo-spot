@@ -6,6 +6,7 @@ import LocationRange from "./LocationRange";
 import { Spinner } from "@/components/ui/spinner";
 import { PostType } from "@/types/PostType";
 import { Button } from "@/components/ui/button";
+import { API_URL } from "@/utils/constants";
 
 const limit = 8;
 
@@ -27,7 +28,7 @@ const MainContent =  () => {
             const location = await useLocation();
             if (location) {
                 try {
-                    const res = await fetch(`http://localhost:8080/posts/feed?lat=${location.lat}&long=${location.long}&maxDistance=${viewRadius * 1609}&limit=${limit}&offset=${offset}`);
+                    const res = await fetch(`${API_URL}/posts/feed?lat=${location.lat}&long=${location.long}&maxDistance=${viewRadius * 1609}&limit=${limit}&offset=${offset}`);
                     const data = await res.json();
                     setPosts([...posts, ...data]);
                     setPostsStatus({ loading: false, error: false });

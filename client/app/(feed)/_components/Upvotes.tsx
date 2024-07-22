@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { API_URL } from '@/utils/constants';
 import { useUser } from '@clerk/nextjs';
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react'
 import { useRouter } from 'next/navigation';
@@ -37,7 +38,7 @@ const UpvotesButtons = ({
     async function updateVotes(numUpvotes: number, change: changeUpvote, upOrDownvote: "UPVOTE" | "DOWNVOTE") {
 
         try {
-            const response = await fetch(`http://localhost:8080/posts/byId/${postId}?addOrRemoveUpvote=${change}`, {
+            const response = await fetch(`${API_URL}/posts/byId/${postId}?addOrRemoveUpvote=${change}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
