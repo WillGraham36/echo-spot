@@ -12,7 +12,7 @@ import { getPosts } from "@/actions/getPosts";
 const limit = 8;
 
 
-const MainContent =  () => {
+const PageList =  () => {
 
     const [posts, setPosts] = useState<PostType[]>([]);
     const [viewRadius, setViewRadius] = useState<number>(20);
@@ -42,6 +42,10 @@ const MainContent =  () => {
         fetchPosts();
     }, [viewRadius, offset]);
 
+    const loadMorePosts = () => {
+        setOffset((prevOffset) => prevOffset + limit);
+    }
+
     if(postsStatus.error) {
         return (
             <div className="text-2xl dark:text-white w-full md:w-[70%] bg-neutral-100 dark:bg-neutral-800 rounded-xl border-y-muted-foreground p-10 mt-20">
@@ -64,7 +68,6 @@ const MainContent =  () => {
         <>
             <div className="absolute top-24"> 
                 <LocationRange viewRadius={viewRadius} setViewRadius={setViewRadius} />
-                <Button className="mt-4" onClick={() => setOffset(offset + limit)}>Load More</Button>
             </div>
             <div className="w-full flex flex-col items-center gap-y-4 pt-20">
                 
@@ -85,9 +88,10 @@ const MainContent =  () => {
                         <Spinner size={"large"} className="mt-28" />
                     </>
                 )}
+                <Button onClick={loadMorePosts} className="mt-10">Load More</Button>
             </div>
         </>
     )
 }
 
-export default MainContent
+export default PageList
