@@ -95,7 +95,7 @@ const PostCard = ({
 
                 <div className="flex md:pl-12 pt-3 justify-between">
                     <div className="flex items-center gap-x-2">
-                        <Button size={"postBtn"} variant={"ghostHover"} onClick={handleButtonClick}>
+                        <Button size={"postBtn"} variant={"ghostHover"}>
                             <MessageCircle size={26} />
                             <p className="font-medium px-2">
                                 {comments ? comments.length : 0}
