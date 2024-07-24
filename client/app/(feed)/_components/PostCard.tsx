@@ -54,7 +54,7 @@ const PostCard = ({
     }
 
     return (
-        <Link href={`post/${_id}`} className="w-full md:w-[70%] md:bg-neutral-100 md:dark:bg-neutral-800 md:rounded-xl md:p-4 px-4 pb-3 border-b md:border-y-0 border-y-muted-foreground pt-1">
+        <Link href={`/post/${_id}`} className="w-full md:w-[70%] md:bg-neutral-100 md:dark:bg-neutral-800 md:rounded-xl md:p-4 px-4 pb-3 border-b md:border-y-0 border-y-muted-foreground pt-1">
                 <div className="flex justify-between items-center">
                     <span className=" inline-flex items-center gap-x-2">
                         <Image
