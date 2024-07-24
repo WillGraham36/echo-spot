@@ -31,3 +31,18 @@ export const getPosts = async ({
         throw new Error("Failed to fetch posts");
     }
 }
+
+
+export const getPost = async (postId: string): Promise<PostType> => {
+    const url = `${API_URL}/posts/byId/${postId}`;
+    try {
+        const response = await fetch(url);
+        const data = (await response.json()) as PostType;
+        if (!response.ok) {
+            throw new Error("Failed to fetch posts");
+        }
+        return data;
+    } catch (error) {
+        throw new Error("Failed to fetch posts");
+    }
+}
