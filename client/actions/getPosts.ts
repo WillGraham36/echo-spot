@@ -36,7 +36,7 @@ export const getPosts = async ({
 export const getPost = async (postId: string): Promise<PostType> => {
     const url = `${API_URL}/posts/byId/${postId}`;
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {cache: "no-store"});
         const data = (await response.json()) as PostType;
         if (!response.ok) {
             throw new Error("Failed to fetch posts");
