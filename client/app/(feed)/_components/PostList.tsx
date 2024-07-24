@@ -12,7 +12,7 @@ import { useInView } from "react-intersection-observer";
 const limit = 8;
 
 
-const PageList =  () => {
+const PostList =  () => {
 
     const [posts, setPosts] = useState<PostType[]>([]);
     const [viewRadius, setViewRadius] = useState<number>(20);
@@ -130,4 +130,4 @@ const PageList =  () => {
     )
 }
 
-export default PageList
+export default PostList
