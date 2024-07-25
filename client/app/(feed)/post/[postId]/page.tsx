@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import SubmitCommentForm from "../../_components/SubmitCommentForm";
+import { Separator } from "@/components/ui/separator";
 
 const PostPage = async ({ params }: { params: { postId: string } }) => {
 
@@ -26,7 +27,9 @@ const PostPage = async ({ params }: { params: { postId: string } }) => {
                 </Link>
                 <div className="w-full">
                     <PostCard post={post} isFeedPost={false}/>
+                    <Separator className="dark:bg-muted-foreground"/>
                     <SubmitCommentForm postId={postId} />
+                    <Separator className="dark:bg-muted-foreground"/>
                 </div>
             </div>
         </div>

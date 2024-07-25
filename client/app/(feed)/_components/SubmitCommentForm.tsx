@@ -59,18 +59,18 @@ const SubmitCommentForm = ({postId}: {postId: string}) => {
                                         className='w-full dark:bg-[#1f1f1f]'
                                         {...field}
                                     />
+                                    <FormMessage className="text-primary absolute pt-4" />
                                     <span className='flex justify-end'>
-                                        <Button type="submit" variant={"ghostHover"} className='px-2 mt-1'>
+                                        <Button type="submit" variant={"ghostHover"} className='px-2 mt-2'>
                                             {state.loading ?
                                                 <Spinner className="text-white p-1" />
                                                 :
-                                                'Add comment'
+                                                <h1>Add Comment</h1>
                                             }
                                         </Button>
                                     </span>
                                 </div>
                             </FormControl>
-                            <FormMessage className="text-primary" />
                         </FormItem>
                     )}
                 />
