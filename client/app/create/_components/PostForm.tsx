@@ -27,7 +27,7 @@ import useLocation from "@/hooks/useLocation";
 import { useReducer, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
-import { FormReducer, INITAL_STATE } from "./FormReducer";
+import { FormReducer, INITAL_STATE } from "../../../reducers/FormReducer";
 import { API_URL } from "@/utils/constants";
 
 
