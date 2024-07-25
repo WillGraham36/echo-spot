@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { type } from "os";
+import CommentSchema from "./commentSchema.js";
 
 const PostSchema = new mongoose.Schema({
     userId: {
@@ -35,12 +35,14 @@ const PostSchema = new mongoose.Schema({
     },
     usersWhoUpvoted: {
         type: [String],
+        unique: true
     },
     usersWhoDownvoted: {
         type: [String],
+        unique: true
     },
     comments: {
-        type: [String],
+        type: [CommentSchema],
     }
 });
 

@@ -13,11 +13,6 @@ const CommentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    location: {
-        type: [Number],
-        index: '2d',
-        required: true
-    },
     date: {
         type: Date,
         required: true,
@@ -35,4 +30,4 @@ const CommentSchema = new mongoose.Schema({
     },
 })
 
-export default mongoose.model('Comment', CommentSchema, 'comments');
+export default CommentSchema;
