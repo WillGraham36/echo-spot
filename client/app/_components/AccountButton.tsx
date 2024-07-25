@@ -52,7 +52,7 @@ const AccountButton = () => {
                 </Tooltip>
             </TooltipProvider>
 
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
                     <Button className="font-medium">
                         Your Account

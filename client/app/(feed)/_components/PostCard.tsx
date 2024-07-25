@@ -74,7 +74,7 @@ const PostCard = ({
                         {CalculteTimeDiff({ compToDate: new Date(date) })}
                     </h2>
                 </span>
-                <DropdownMenu>
+                <DropdownMenu modal={false}>
                     <DropdownMenuTrigger onClick={handleButtonClick}>
                         <Ellipsis size={24} />
                     </DropdownMenuTrigger>

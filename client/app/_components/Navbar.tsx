@@ -29,7 +29,7 @@ const Navbar = () => {
                 </span>
 
                 <span className="flex sm:hidden items-center">
-                    <DropdownMenu>
+                    <DropdownMenu modal={false}>
                         <DropdownMenuTrigger>
                             <Ellipsis size={32} />
                         </DropdownMenuTrigger>
