@@ -26,8 +26,7 @@ const PostPage = async ({ params }: { params: { postId: string } }) => {
                     </Button>
                 </Link>
                 <div className="w-full">
-                    <PostCard post={post} isFeedPost={false}/>
-                    <Separator className="dark:bg-muted-foreground"/>
+                    <PostCard post={post} isDedicatedPage={true}/>
                     <SubmitCommentForm postId={postId} />
                     <Separator className="dark:bg-muted-foreground"/>
                 </div>

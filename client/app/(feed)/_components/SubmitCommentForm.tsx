@@ -55,7 +55,7 @@ const SubmitCommentForm = ({postId}: {postId: string}) => {
                                     <AutosizeTextarea
                                         placeholder="Add a comment..."
                                         maxHeight={200}
-                                        minHeight={75}
+                                        minHeight={50}
                                         className='w-full dark:bg-[#1f1f1f]'
                                         {...field}
                                     />

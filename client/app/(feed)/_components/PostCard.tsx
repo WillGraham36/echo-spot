@@ -32,7 +32,7 @@ interface Comment {
 
 interface PostProps {
     post: PostType,
-    isFeedPost: boolean
+    isDedicatedPage?: boolean
 }
 
 const PostCard = ({
@@ -46,7 +46,7 @@ const PostCard = ({
         comments,
         date
     },
-    isFeedPost
+    isDedicatedPage
 }: PostProps) => {
 
     upvotes = upvotes ? upvotes : 0;
@@ -57,14 +57,14 @@ const PostCard = ({
     }
 
     return (
-        <div className="p-2">
-            <div className="flex justify-between items-center">
-                <span className=" inline-flex items-center gap-x-2">
+        <div className="">
+            <div className="flex justify-between items-center py-3">
+                <span className="inline-flex items-center gap-x-2">
                     <Image
                         src="/logo.png"
                         alt="EchoSpot Logo"
-                        width={40}
-                        height={40}
+                        width={35}
+                        height={35}
                         className="hidden md:block dark:bg-primary rounded-xl"
                     />
                     <h3 className="font-bold">
@@ -75,7 +75,7 @@ const PostCard = ({
                     </h2>
                 </span>
                 <DropdownMenu modal={false}>
-                    <DropdownMenuTrigger onClick={handleButtonClick}>
+                    <DropdownMenuTrigger onClick={handleButtonClick} className="dark:hover:bg-muted-foreground dark:hover:text-muted hover:bg-card rounded-full p-1">
                         <Ellipsis size={24} />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
@@ -91,13 +91,13 @@ const PostCard = ({
             </div>
 
 
-            <div className={cn("text-start pt-2", isFeedPost ? "md:pl-12": "pt-3")}>
+            <div className={cn("text-start pt-2", isDedicatedPage ? "md:pl-[3px]" : "md:pl-12")}>
                 <h1>
                     {title}
                 </h1>
             </div>
 
-            <div className={cn("flex justify-between pt-3", isFeedPost && "md:pl-12")}>
+            <div className={cn("flex justify-between pt-3",isDedicatedPage ? "md:pl-1" : "md:pl-12")}>
                 <div className="flex items-center gap-x-2">
                     <Button size={"postBtn"} variant={"ghostHover"}>
                         <MessageCircle size={26} />

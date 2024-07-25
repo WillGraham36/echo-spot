@@ -9,6 +9,7 @@ import PostCard from "./PostCard";
 import { getPosts } from "@/actions/getPosts";
 import { useInView } from "react-intersection-observer";
 import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
 
 const limit = 8;
 
@@ -109,19 +110,20 @@ const PostList =  () => {
             <div className="absolute top-24"> 
                 <LocationRange viewRadius={viewRadius} setViewRadius={setViewRadius} />
             </div>
-            <div className="w-full flex flex-col items-center gap-y-4 pt-20">
+            <div className="w-full flex flex-col items-center gap-y-2 pt-20">
                 {posts.map((post: any) => {
                         return (
-                            <Link href={`/post/${post._id}`} key={post._id} className="w-full md:w-[70%] md:bg-neutral-100 md:dark:bg-neutral-800 md:rounded-xl md:p-4 px-4 pb-3 border-b md:border-y-0 border-y-muted-foreground pt-1">
+                            <>
+                                <Link href={`/post/${post._id}`} key={post._id} className="w-full md:w-[70%] hover:bg-neutral-100 dark:bg-[#1F1F1F] dark:hover:bg-neutral-800 md:rounded-xl px-2 pb-1">
                                 <PostCard
                                     key={post._id}
                                     post={post}
-                                    isFeedPost={true}
                                 />
                             </Link>
+                                <Separator className="w-full md:w-[70%] my-0"/>
+                            </>
                         )
                     })}
-                {/* <Button onClick={loadMorePosts} className="mt-10">Load More</Button> */}
                 <div>
                     {!postsStatus.noMorePosts && 
                         <div ref={scrollTrigger}>
