@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const CommentSchema = new mongoose.Schema({
-    parendPostId: {
+    parentPostId: {
         type: String,
         required: true
     },

@@ -38,8 +38,9 @@ const PostSchema = new mongoose.Schema({
     usersWhoDownvoted: {
         type: [String],
     },
-    comments: {
-        type: [String] // Array of comment IDs
+    numComments: {
+        type: Number,
+        default: 0
     }
 });
 

@@ -63,6 +63,7 @@ POST http://localhost:8080/comments
 Content-Type: application/json
 
 {
+    "parentPostId": "669c6aaa7d4f8a805cc6c6a2",
     "userId": "testing",
     "commentContent": "NEW COMMENTFRFR",
     "upvotes": 1,

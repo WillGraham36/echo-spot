@@ -19,22 +19,38 @@ router.get('/', async (req, res) => {
 
 
 /**
- * @route GET /comments/forPost
- * @description Gets all comments for a specific post
- * @param {String[]} commentIds array of comment ids
+ * @route GET /comments/byId/:id
+ * @description Gets all the comments for a specific post given a post id
  */
-router.get('/forPost', async (req, res) => {
+router.get('/byId/:id', async (req, res) => {
     try {
-        const commentIds = req.body.commentIds;
-        console.log(commentIds);
+        const postId = req.params.id;
         const comments = await CommentModel.find({
-            '_id': { $in: commentIds } 
+            'parendPostId': { $eq: postId }
         });
         res.json(comments);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
+
+// /**
+//  * @route GET /comments/forPost
+//  * @description Gets all comments for a specific post
+//  * @param {String[]} commentIds array of comment ids
+//  */
+// router.get('/forPost', async (req, res) => {
+//     try {
+//         const commentIds = req.body.commentIds;
+//         console.log(commentIds);
+//         const comments = await CommentModel.find({
+//             '_id': { $in: commentIds } 
+//         });
+//         res.json(comments);
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// });
 
 
 // ################################### POST METHODS ################################### //
@@ -45,7 +61,7 @@ router.get('/forPost', async (req, res) => {
  */
 router.post('/', async (req, res) => {
     const comment = new CommentModel({
-        parendPostId: req.body.parendPostId,
+        parentPostId: req.body.parentPostId,
         childIds: req.body.childIds,
         level: req.body.level,
         userNumber: req.body.userNumber,
