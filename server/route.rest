@@ -30,18 +30,18 @@ POST http://localhost:8080/posts
 Content-Type: application/json
 
 {
-        "userId":   "asdfadsfdsfadsf",
-        "location": {
-            "type": "Point",
-            "lat": 40, 
-            "long": 10
-        },
-        "category": "adf",
-        "title":    "adsf",
-        "upvotes":  6,
-        "comments": ["asdf"],
-        "usersWhoUpvoted": ["asdf"],
-        "usersWhoDownvoted": ["1234"]
+    "userId":   "asdfadsfdsfadsf",
+    "location": {
+        "type": "Point",
+        "lat": 40, 
+        "long": 10
+    },
+    "category": "adf",
+    "title":    "adsf",
+    "upvotes":  6,
+    "comments": ["asdf"],
+    "usersWhoUpvoted": ["asdf"],
+    "usersWhoDownvoted": ["1234"]
 }
 
 ###
@@ -55,4 +55,17 @@ Content-Type: application/json
 
 {
     "commentIds": ["66a31a75dbbb8dd2a05a5116", "66a3210edf5290d5eecd0e6d"]
+}
+
+###
+
+POST http://localhost:8080/comments
+Content-Type: application/json
+
+{
+    "userId": "testing",
+    "commentContent": "NEW COMMENTFRFR",
+    "upvotes": 1,
+    "usersWhoUpvoted": "testing",
+    "usersWhoDownvoted": 0
 }

@@ -35,4 +35,32 @@ router.get('/forPost', async (req, res) => {
     }
 });
 
+
+// ################################### POST METHODS ################################### //
+
+/**
+ * @route POST /comments/
+ * @description Adds a new comment
+ */
+router.post('/', async (req, res) => {
+    const comment = new CommentModel({
+        parentId: req.body.parentId,
+        level: req.body.level,
+        userNumber: req.body.userNumber,
+        userId: req.body.userId,
+        commentContent: req.body.commentContent,
+        upvotes: req.body.upvotes,
+        usersWhoUpvoted: req.body.usersWhoUpvoted,
+        usersWhoDownvoted: req.body.usersWhoDownvoted
+    });
+
+    try {
+        const newComment = await comment.save();
+        res.status(201).json(newComment);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    };
+});
+
+
 export default router;

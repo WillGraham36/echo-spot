@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const CommentSchema = new mongoose.Schema({
     parentId: {
         type: String,
-        default: 0
+        default: ""
     },
     level: {
         type: Number,
