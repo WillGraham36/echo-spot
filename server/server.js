@@ -3,6 +3,7 @@ import connectToDB from './database.js';
 import cors from 'cors';
 
 import postsRouter from './routes/posts.js';
+import commentsRouter from './routes/comments.js';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -15,4 +16,5 @@ app.listen(PORT, () => {
 
 app.use(express.json());
 
-app.use('/posts', postsRouter)
+app.use('/posts', postsRouter);
+app.use('/comments', commentsRouter);

@@ -3,9 +3,13 @@ import mongoose from "mongoose";
 const CommentSchema = new mongoose.Schema({
     parentId: {
         type: String,
-        default: undefined
+        default: 0
     },
     level: {
+        type: Number,
+        default: 0
+    },
+    userNumber: {
         type: Number,
         default: 0
     },
@@ -18,9 +22,6 @@ const CommentSchema = new mongoose.Schema({
         required: true,
         default: Date.now
     },
-    userNumber: {
-        type: Number,
-    },
     commentContent: {
         type: String,
         required: true
@@ -28,6 +29,12 @@ const CommentSchema = new mongoose.Schema({
     upvotes: {
         type: Number,
     },
+    usersWhoUpvoted: {
+        type: [String],
+    },
+    usersWhoDownvoted: {
+        type: [String],
+    },
 })
 
-export default CommentSchema;
+export default mongoose.model('CommentModel', CommentSchema, 'comments');
