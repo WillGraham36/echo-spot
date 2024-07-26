@@ -50,12 +50,7 @@ GET http://localhost:8080/comments
 
 ###
 
-GET http://localhost:8080/comments/forPost
-Content-Type: application/json
-
-{
-    "commentIds": ["66a31a75dbbb8dd2a05a5116", "66a3210edf5290d5eecd0e6d"]
-}
+GET http://localhost:8080/comments/byId/669c6aaa7d4f8a805cc6c6a2
 
 ###
 
@@ -65,7 +60,7 @@ Content-Type: application/json
 {
     "parentPostId": "669c6aaa7d4f8a805cc6c6a2",
     "userId": "testing",
-    "commentContent": "NEW COMMENTFRFR",
+    "commentContent": "test comment 2",
     "upvotes": 1,
     "usersWhoUpvoted": "testing",
     "usersWhoDownvoted": 0
