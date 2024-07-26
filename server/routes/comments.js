@@ -17,6 +17,7 @@ router.get('/', async (req, res) => {
     }
 });
 
+
 /**
  * @route GET /comments/forPost
  * @description Gets all comments for a specific post
@@ -44,7 +45,8 @@ router.get('/forPost', async (req, res) => {
  */
 router.post('/', async (req, res) => {
     const comment = new CommentModel({
-        parentId: req.body.parentId,
+        parendPostId: req.body.parendPostId,
+        childIds: req.body.childIds,
         level: req.body.level,
         userNumber: req.body.userNumber,
         userId: req.body.userId,

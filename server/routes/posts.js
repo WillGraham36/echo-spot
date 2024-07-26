@@ -93,8 +93,9 @@ router.patch('/byId/:id', getPost, async (req, res) => {
     if(req.body.upvotes != null) {
         res.post.upvotes = req.body.upvotes;
     }
-    if(req.body.comments != null) {
+    if (req.body.comments != null) {
         res.post.comments = req.body.comments;
+
     }
     if(req.body.usersWhoUpvoted != null) {
         if(addOrRemoveUpvote === "ADD") {
@@ -140,7 +141,6 @@ router.post('/', async (req, res) => {
         upvotes:  req.body.upvotes,
         usersWhoUpvoted: req.body.usersWhoUpvoted,
         usersWhoDownvoted: req.body.usersWhoDownvoted,
-        comments: req.body.comments
     });
 
     try {

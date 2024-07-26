@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 
 const CommentSchema = new mongoose.Schema({
-    parentId: {
+    parendPostId: {
         type: String,
-        default: ""
+        required: true
+    },
+    childIds: {
+        type: [String],
+        default: []
     },
     level: {
         type: Number,
