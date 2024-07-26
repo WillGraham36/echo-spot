@@ -6,11 +6,19 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import SubmitCommentForm from "../../_components/SubmitCommentForm";
 import { Separator } from "@/components/ui/separator";
+import { getComments } from "@/actions/getComments";
+import CommentCard from "../../_components/CommentCard";
+import { CommentType } from "@/types/CommentType";
 
 const PostPage = async ({ params }: { params: { postId: string } }) => {
 
     const postId = params.postId
     const post = await getPost(postId);
+    let comments = null;
+    if(post.numComments > 0) {
+        comments = await getComments(postId);
+    }
+
 
     return (
         <div className="w-full flex flex-col items-center gap-y-4 pt-8">
@@ -28,7 +36,14 @@ const PostPage = async ({ params }: { params: { postId: string } }) => {
                 <div className="w-full">
                     <PostCard post={post} isDedicatedPage={true}/>
                     <SubmitCommentForm postId={postId} />
-                    <Separator className="dark:bg-muted-foreground"/>
+                    {comments && comments.map((comment: CommentType) => {
+                        return (
+                            <>
+                                <CommentCard comment={comment} key={comment._id} />
+                                <Separator className="dark:bg-muted-foreground" />
+                            </>
+                        );
+                    })}
                 </div>
             </div>
         </div>

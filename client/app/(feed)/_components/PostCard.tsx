@@ -17,19 +17,6 @@ import Link from "next/link"
 import { PostType } from "@/types/PostType"
 import { cn } from "@/lib/utils";
 
-interface Comment {
-    commentId: string,
-    parentId?: number | undefined,
-    level?: number | undefined,
-    userId: number,
-    date: Date
-    userNumber: number,
-    commentContent: string,
-    upvotes: number,
-}
-
-
-
 interface PostProps {
     post: PostType,
     isDedicatedPage?: boolean
@@ -43,7 +30,7 @@ const PostCard = ({
         upvotes,
         usersWhoUpvoted,
         usersWhoDownvoted,
-        comments,
+        numComments,
         date
     },
     isDedicatedPage
@@ -102,7 +89,7 @@ const PostCard = ({
                     <Button size={"postBtn"} variant={"ghostHover"}>
                         <MessageCircle size={26} />
                         <p className="font-medium px-2">
-                            {comments ? comments.length : 0}
+                            {numComments}
                         </p>
                     </Button>
                     <Button size={"postBtn"} variant={"ghostHover"} onClick={handleButtonClick}>

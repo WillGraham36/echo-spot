@@ -115,11 +115,11 @@ const PostList =  () => {
                         return (
                             <>
                                 <Link href={`/post/${post._id}`} key={post._id} className="w-full md:w-[70%] hover:bg-neutral-100 dark:bg-[#1F1F1F] dark:hover:bg-neutral-800 md:rounded-xl px-2 pb-1">
-                                <PostCard
-                                    key={post._id}
-                                    post={post}
-                                />
-                            </Link>
+                                    <PostCard
+                                        key={post._id}
+                                        post={post}
+                                    />
+                                </Link>
                                 <Separator className="w-full md:w-[70%] my-0"/>
                             </>
                         )

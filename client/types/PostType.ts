@@ -7,5 +7,5 @@ export type PostType = {
     upvotes: number,
     usersWhoUpvoted: Array<string>,
     usersWhoDownvoted: Array<string>,
-    comments?: Array<Comment>,
+    numComments: number
 }
