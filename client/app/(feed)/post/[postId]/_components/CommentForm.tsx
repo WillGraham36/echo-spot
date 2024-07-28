@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -16,11 +15,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Spinner } from '@/components/ui/spinner';
 import { FormReducer, INITAL_STATE } from "@/reducers/FormReducer";
 import { useReducer } from "react";
+import { useUser } from '@clerk/nextjs';
+import { API_URL } from '@/utils/constants';
+import { revalidatePath } from 'next/cache';
 
 const FormSchema = z.object({
-    category: z.string(),
-
-    postContent: z
+    commentContent: z
         .string()
         .min(1, {
             message: "Body must be at least 1 character long"
@@ -30,24 +30,51 @@ const FormSchema = z.object({
         }),
 });
 
-const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-
-}
-
-const SubmitCommentForm = ({postId}: {postId: string}) => {
-
+const CommentForm = ({postId}: {postId: string}) => {
+    
+    const { user } = useUser();
     const [state, dispatch] = useReducer(FormReducer, INITAL_STATE);
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     });
+    
+    
+    const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+        const commentData = {
+            parentPostId: postId,
+            userId: user?.id,
+            commentContent: data.commentContent,
+            upvotes: 1,
+            usersWhoUpvoted: [user?.id]
+        };
+        try {
+            const response = await fetch(`${API_URL}/comments`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(commentData)
+            });
 
+            if (!response.ok) {
+                dispatch({ type: "CREATE_ERROR", payload: 'Failed to submit post' });
+                throw new Error('Failed to submit post');
+            }
+
+            dispatch({ type: "CREATE_SUCCESS" });
+            console.log('Comment submitted');
+
+        } catch (error) {
+            dispatch({ type: "CREATE_ERROR", payload: 'Failed to submit post' });
+        }
+    }
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='pl-2'>
                 <FormField
                     control={form.control}
-                    name="postContent"
+                    name='commentContent'
                     render={({ field }) => (
                         <FormItem className="py-4">
                             <FormControl>
@@ -84,4 +111,4 @@ const SubmitCommentForm = ({postId}: {postId: string}) => {
     )
 }
 
-export default SubmitCommentForm
+export default CommentForm

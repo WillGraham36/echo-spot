@@ -4,7 +4,6 @@ import useLocation from "@/hooks/useLocation"
 import LocationRange from "./LocationRange";
 import { Spinner } from "@/components/ui/spinner";
 import { PostType } from "@/types/PostType";
-import { Button } from "@/components/ui/button";
 import PostCard from "./PostCard";
 import { getPosts } from "@/actions/getPosts";
 import { useInView } from "react-intersection-observer";
@@ -111,16 +110,16 @@ const PostList =  () => {
                 <LocationRange viewRadius={viewRadius} setViewRadius={setViewRadius} />
             </div>
             <div className="w-full flex flex-col items-center gap-y-2 pt-20">
-                {posts.map((post: any) => {
+                {posts.map((post: PostType) => {
                         return (
                             <>
-                                <Link href={`/post/${post._id}`} key={post._id} className="w-full md:w-[70%] hover:bg-neutral-100 dark:bg-[#1F1F1F] dark:hover:bg-neutral-800 md:rounded-xl px-2 pb-1">
+                                <Link href={`/post/${post._id}`} key={`Link-${post._id}`} className="w-full md:w-[70%] hover:bg-neutral-100 dark:bg-[#1F1F1F] dark:hover:bg-neutral-800 md:rounded-xl px-2 pb-1">
                                     <PostCard
-                                        key={post._id}
                                         post={post}
+                                        key={`separator-${post._id}`}
                                     />
                                 </Link>
-                                <Separator className="w-full md:w-[70%] my-0"/>
+                                <Separator className="w-full md:w-[70%] my-0" key={`Separator-${post._id}`}/>
                             </>
                         )
                     })}
