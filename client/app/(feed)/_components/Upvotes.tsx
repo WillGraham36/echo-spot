@@ -59,6 +59,9 @@ const UpvotesButtons = ({
 
     async function handleUpvote(e: React.MouseEvent) {
         e.preventDefault();
+        if(!isSignedIn) {
+            router.push('/sign-in')
+        }
         const initialUpvotes = upvotes;
         let newUpvotes = upvotes;
         let change: changeUpvote = "ADD";
@@ -87,6 +90,9 @@ const UpvotesButtons = ({
 
     async function handleDownvote(e: React.MouseEvent) {
         e.preventDefault();
+        if (!isSignedIn) {
+            router.push('/sign-in')
+        }
         const initialUpvotes = upvotes;
         let newUpvotes = upvotes;
         let change: changeUpvote = "ADD";
@@ -118,7 +124,7 @@ const UpvotesButtons = ({
             <div 
                 className='hover:text-primary rounded-full transition-colors p-1 cursor-pointer'
                 role='button'
-                onClick={isSignedIn ? handleUpvote : () => router.push('/sign-in')}
+                onClick={handleUpvote}
             >
                 <ArrowBigUp
                     size={30}
@@ -130,7 +136,7 @@ const UpvotesButtons = ({
             <div
                 className='hover:text-primary rounded-full transition-colors p-1 cursor-pointer'
                 role='button'
-                onClick={isSignedIn ? handleDownvote : () => router.push('/sign-in')}
+                onClick={handleDownvote}
             >
                 <ArrowBigDown
                     size={30}
