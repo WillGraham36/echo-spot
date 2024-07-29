@@ -4,20 +4,21 @@ import { API_URL } from "@/utils/constants";
 import { revalidatePath } from "next/cache";
 
 interface addCommentParams {
-    formData: FormData;
+    content: string;
     postId: string;
     userId?: string;
 }
-const addComment = async ({formData, postId, userId}: addCommentParams) => {
+const addComment = async ({ content, postId, userId}: addCommentParams) => {
 
     const commentData = {
         parentPostId: postId,
         userId: userId,
-        commentContent: formData.get('commentContent'),
+        commentContent: content,
         upvotes: 1,
         usersWhoUpvoted: [userId]
     };
     try {
+        // dispatch({ type: "CREATE_START" });
         const response = await fetch(`${API_URL}/comments`, {
             method: 'POST',
             headers: {
