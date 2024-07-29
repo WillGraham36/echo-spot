@@ -13,13 +13,13 @@ import { Button } from "@/components/ui/button"
 import CalculteTimeDiff from "@/utils/CalculteTimeDiff"
 import { useState } from "react"
 import UpvotesButtons from "./Upvotes"
-import Link from "next/link"
 import { PostType } from "@/types/PostType"
 import { cn } from "@/lib/utils";
 
 interface PostProps {
     post: PostType,
     isDedicatedPage?: boolean
+    comments?: number
 }
 
 const PostCard = ({
@@ -33,12 +33,12 @@ const PostCard = ({
         numComments,
         date
     },
-    isDedicatedPage
+    isDedicatedPage,
+    comments
 }: PostProps) => {
 
     upvotes = upvotes ? upvotes : 0;
     const [numUpvotes, setNumUpvotes] = useState(upvotes);
-    const [comments, setComments] = useState(numComments);
 
     const handleButtonClick = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -90,7 +90,7 @@ const PostCard = ({
                     <Button size={"postBtn"} variant={"ghostHover"}>
                         <MessageCircle size={26} />
                         <p className="font-medium px-2">
-                            {comments}
+                            {comments ? comments : numComments}
                         </p>
                     </Button>
                     <Button size={"postBtn"} variant={"ghostHover"} onClick={handleButtonClick}>

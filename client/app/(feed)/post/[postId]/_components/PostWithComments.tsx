@@ -5,7 +5,7 @@ import { Separator } from "@radix-ui/react-dropdown-menu";
 import CommentForm from "./CommentForm";
 import { PostType } from "@/types/PostType";
 import PostCard from "@/app/(feed)/_components/PostCard";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 
 interface PostWithCommentsProps {
     postId: string,
@@ -15,10 +15,12 @@ interface PostWithCommentsProps {
 
 const PostWithComments = ({ postId, post, initialComments }: PostWithCommentsProps) => {
 
+    const [numComments, setComments] = useState(post.numComments);
+
     return (
         <>
-            <PostCard post={post} isDedicatedPage={true} />
-            <CommentForm postId={postId} />
+            <PostCard post={post} isDedicatedPage={true} comments={numComments}/>
+            <CommentForm postId={postId} setNumComments={setComments}/>
             {initialComments && initialComments.map((comment: CommentType) => {
                 return (
                     <Fragment key={`fragment-${comment._id}`}>

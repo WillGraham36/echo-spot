@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Spinner } from '@/components/ui/spinner';
 import { FormReducer, INITAL_STATE } from "@/reducers/FormReducer";
-import { useReducer, useRef } from "react";
+import { Dispatch, SetStateAction, useReducer, useRef } from "react";
 import { useUser } from '@clerk/nextjs';
 import addComment from '@/actions/addComment';
 import { useFormStatus } from 'react-dom';
@@ -31,8 +31,9 @@ const FormSchema = z.object({
 
 interface CommentFormProps {
     postId: string,
+    setNumComments: Dispatch<SetStateAction<number>>
 }
-const CommentForm = ({ postId }: CommentFormProps) => {
+const CommentForm = ({ postId, setNumComments }: CommentFormProps) => {
     
     const { user } = useUser();
     const [state, dispatch] = useReducer(FormReducer, INITAL_STATE);
@@ -51,6 +52,7 @@ const CommentForm = ({ postId }: CommentFormProps) => {
         await addComment({ content, postId, userId });
         form.reset();
         ref.current?.reset();
+        setNumComments((prev) => prev + 1);
     }
     
     return (
