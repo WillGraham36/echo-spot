@@ -38,6 +38,7 @@ const PostCard = ({
 
     upvotes = upvotes ? upvotes : 0;
     const [numUpvotes, setNumUpvotes] = useState(upvotes);
+    const [comments, setComments] = useState(numComments);
 
     const handleButtonClick = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -89,7 +90,7 @@ const PostCard = ({
                     <Button size={"postBtn"} variant={"ghostHover"}>
                         <MessageCircle size={26} />
                         <p className="font-medium px-2">
-                            {numComments}
+                            {comments}
                         </p>
                     </Button>
                     <Button size={"postBtn"} variant={"ghostHover"} onClick={handleButtonClick}>

@@ -17,7 +17,6 @@ import { useReducer, useRef } from "react";
 import { useUser } from '@clerk/nextjs';
 import addComment from '@/actions/addComment';
 import { useFormStatus } from 'react-dom';
-import { API_URL } from '@/utils/constants';
 
 const FormSchema = z.object({
     commentContent: z

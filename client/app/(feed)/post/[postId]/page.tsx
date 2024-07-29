@@ -4,11 +4,12 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getComments } from "@/actions/getComments";
-import CommentList from "./_components/CommentList";
+import PostWithComments from "./_components/PostWithComments";
 
 const PostPage = async ({ params }: { params: { postId: string } }) => {
     const postId = params.postId
     const post = await getPost(postId);
+    const comments = await getComments(postId);
 
     return (
         <div className="w-full flex flex-col items-center gap-y-4 pt-8">
@@ -24,8 +25,7 @@ const PostPage = async ({ params }: { params: { postId: string } }) => {
                         </Button>
                     </Link>
                 <div className="w-full">
-                    <PostCard post={post} isDedicatedPage={true}/>
-                    <CommentList postId={postId} />
+                    <PostWithComments postId={postId} post={post} initialComments={comments} />
                 </div>
             </div>
         </div>
