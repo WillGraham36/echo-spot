@@ -9,10 +9,6 @@ import CommentList from "./_components/CommentList";
 const PostPage = async ({ params }: { params: { postId: string } }) => {
     const postId = params.postId
     const post = await getPost(postId);
-    let comments = null;
-    if(post.numComments > 0) {
-        comments = await getComments(postId);
-    }
 
     return (
         <div className="w-full flex flex-col items-center gap-y-4 pt-8">
@@ -29,7 +25,7 @@ const PostPage = async ({ params }: { params: { postId: string } }) => {
                     </Link>
                 <div className="w-full">
                     <PostCard post={post} isDedicatedPage={true}/>
-                    <CommentList postId={postId} initialComments={comments} />
+                    <CommentList postId={postId} />
                 </div>
             </div>
         </div>
