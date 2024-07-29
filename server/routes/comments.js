@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import CommentModel from '../models/commentSchema.js';
+import PostModel from '../models/postSchema.js';
 
 // ################################### GET METHODS ################################### //
 
@@ -56,10 +57,21 @@ router.post('/', async (req, res) => {
 
     try {
         const newComment = await comment.save();
-        res.status(201).json(newComment);
+        res.status(201).json(newComment); 
     } catch (error) {
         res.status(400).json({ message: error.message });
     };
+    
+    try {
+        const post = await PostModel.findById(req.body.parentPostId);
+        if (post == null) {
+            return res.status(404).json({ message: 'Cannot find post' });
+        }
+        post.numComments += 1;
+        await post.save();
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
 
 
