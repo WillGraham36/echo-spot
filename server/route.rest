@@ -22,6 +22,16 @@ Content-Type: application/json
 
 ###
 
+PATCH http://localhost:8080/comments/byId/66a4146dae2074e96daeca5f?addOrRemoveUpvote=ADD
+Content-Type: application/json
+
+{
+    "upvotes": 12,
+    "usersWhoUpvoted": "b"
+}
+
+###
+
 DELETE http://localhost:8080/posts/byId/668cd9362fe55d0301877751
 
 ###

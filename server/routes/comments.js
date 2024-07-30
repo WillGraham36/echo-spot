@@ -74,5 +74,68 @@ router.post('/', async (req, res) => {
     }
 });
 
+// ################################### PATCH METHODS ################################### //
+
+/**
+ * @route PATCH /comments/byId/:id
+ * @desc Update a comment by its id, only upvotes can be updated
+ * @param addOrRemoveUpvote = "ADD" or "REMOVE" to specify if the user is adding or removing a vote
+ */
+router.patch('/byId/:id', getComment, async (req, res) => {
+    const { addOrRemoveUpvote } = req.query;
+    if (addOrRemoveUpvote !== "ADD" && addOrRemoveUpvote !== "REMOVE") {
+        return res.status(400).json({ message: 'Invalid query parameter' });
+    }
+
+    if (req.body.upvotes != null) {
+        res.comment.upvotes = req.body.upvotes;
+    }
+    if (req.body.usersWhoUpvoted != null) {
+        if (addOrRemoveUpvote === "ADD") {
+            res.comment.usersWhoUpvoted.push(req.body.usersWhoUpvoted);
+            res.comment.usersWhoDownvoted = res.comment.usersWhoDownvoted.filter(userId => userId !== req.body.usersWhoUpvoted);
+        } else if (addOrRemoveUpvote === "REMOVE") {
+            res.comment.usersWhoUpvoted = res.comment.usersWhoUpvoted.filter(userId => userId !== req.body.usersWhoUpvoted);
+        }
+    }
+    if (req.body.usersWhoDownvoted != null) {
+        if (addOrRemoveUpvote === "ADD") {
+            res.comment.usersWhoDownvoted.push(req.body.usersWhoDownvoted);
+            res.comment.usersWhoUpvoted = res.comment.usersWhoUpvoted.filter(userId => userId !== req.body.usersWhoDownvoted);
+        } else if (addOrRemoveUpvote === "REMOVE") {
+            res.comment.usersWhoDownvoted = res.comment.usersWhoDownvoted.filter(userId => userId !== req.body.usersWhoDownvoted);
+        }
+    }
+
+    try {
+        const updatedComment = await res.comment.save();
+        res.json(updatedComment);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+
+
+// ################################### MIDDLEWARE ################################### //
+
+/**
+ * Middleware to get comment by id
+ */
+async function getComment(req, res, next) {
+
+    let comment;
+    try {
+        comment = await CommentModel.findById(req.params.id);
+        if (comment == null) {
+            return res.status(404).json({ message: 'Cannot find comment' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+    res.comment = comment;
+    next();
+}
 
 export default router;
