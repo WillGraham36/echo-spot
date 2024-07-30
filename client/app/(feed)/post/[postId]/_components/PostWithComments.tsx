@@ -21,11 +21,12 @@ const PostWithComments = ({ postId, post, initialComments }: PostWithCommentsPro
         <>
             <PostCard post={post} isDedicatedPage={true} comments={numComments}/>
             <CommentForm postId={postId} setNumComments={setComments}/>
+            <Separator className="dark:bg-neutral-700 h-[1px] my-2" />
             {initialComments && initialComments.map((comment: CommentType) => {
                 return (
                     <Fragment key={`fragment-${comment._id}`}>
                         <CommentCard comment={comment} key={comment._id} />
-                        <Separator className="dark:bg-muted-foreground h-[1px]" key={`separator-${comment._id}`} />
+                        <Separator className="dark:bg-neutral-700 h-[1px]" key={`separator-${comment._id}`} />
                     </Fragment>
                 );
             })}
