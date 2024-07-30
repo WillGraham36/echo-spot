@@ -105,6 +105,7 @@ const PostCard = ({
                     postId={_id}
                     usersWhoUpvoted={usersWhoUpvoted}
                     usersWhoDownvoted={usersWhoDownvoted}
+                    postType="posts"
                 />
             </div>
         </div>

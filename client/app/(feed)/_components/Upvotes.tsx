@@ -12,6 +12,7 @@ interface UpvotesButtonsProps {
     upvotes: number,
     setUpvotes: Dispatch<SetStateAction<number>>,
     postId: string,
+    postType: "posts" | "comments",
     usersWhoUpvoted: Array<string>,
     usersWhoDownvoted: Array<string>,
 }
@@ -20,6 +21,7 @@ const UpvotesButtons = ({
     upvotes, 
     setUpvotes, 
     postId, 
+    postType,
     usersWhoUpvoted,
     usersWhoDownvoted
 }: UpvotesButtonsProps) => {
@@ -38,7 +40,7 @@ const UpvotesButtons = ({
     async function updateVotes(numUpvotes: number, change: changeUpvote, upOrDownvote: "UPVOTE" | "DOWNVOTE") {
 
         try {
-            const response = await fetch(`${API_URL}/posts/byId/${postId}?addOrRemoveUpvote=${change}`, {
+            const response = await fetch(`${API_URL}/${postType}/byId/${postId}?addOrRemoveUpvote=${change}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
