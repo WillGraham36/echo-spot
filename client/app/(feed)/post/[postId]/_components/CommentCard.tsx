@@ -26,7 +26,7 @@ const CommentCard = ({
     return (
         <div className="w-full py-1 my-2 flex gap-x-4">
             <div>
-                <User size={24} className="bg-red-600 rounded-full size-6 mt-[3px]"/>
+                <User size={24} className="bg-primary rounded-full size-6 mt-[3px]"/>
             </div>
             <div className="w-full flex-col pr-2">
                 <div className="flex justify-between">
