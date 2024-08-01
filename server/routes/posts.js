@@ -141,6 +141,10 @@ router.post('/', async (req, res) => {
         upvotes:  req.body.upvotes,
         usersWhoUpvoted: req.body.usersWhoUpvoted,
         usersWhoDownvoted: req.body.usersWhoDownvoted,
+        usersWhoCommented: {
+            userId: req.body.userId,
+            userNumber: 0
+        }
     });
 
     try {

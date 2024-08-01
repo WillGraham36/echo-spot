@@ -41,6 +41,18 @@ const PostSchema = new mongoose.Schema({
     numComments: {
         type: Number,
         default: 0
+    },
+    usersWhoCommented: {
+        userId: {
+            type: String
+        },
+        userNumber: {
+            type: Number
+        }
+    },
+    highestUserNumber: {
+        type: Number,
+        default: 1
     }
 });
 

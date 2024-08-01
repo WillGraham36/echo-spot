@@ -68,6 +68,17 @@ router.post('/', async (req, res) => {
             return res.status(404).json({ message: 'Cannot find post' });
         }
         post.numComments += 1;
+        let newUserWhoCommented = {
+            userId: req.body.userId,
+            userNumber: post.highestUserNumber
+        };
+        post.usersWhoCommented.push(newUserWhoCommented);
+        const userIdExists = post.usersWhoCommented.find(user => user.userId === req.body.userId);
+        // if (!userIdExists) {
+        //     newUserWhoCommented.userNumber = 
+        // } else {
+
+        // }
         await post.save();
     } catch (error) {
         res.status(500).json({ message: error.message });
