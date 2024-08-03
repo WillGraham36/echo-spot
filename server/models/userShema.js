@@ -1,5 +1,16 @@
 import mongoose from "mongoose";
-import { stringify } from "querystring";
+
+const VotedSchema = new mongoose.Schema({
+    Id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    vote: {
+        type: String,
+        enum: ["UPVOTE", "DOWNVOTE"],
+        required: true
+    }
+});
 
 const UserSchema = new mongoose.Schema({
     clerkId: {
@@ -16,10 +27,6 @@ const UserSchema = new mongoose.Schema({
         type: [{ type: mongoose.Schema.Types.ObjectId, ref: "savedPosts" }],
         default: []
     },
-    savedPosts: {
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "savedPosts" }],
-        default: []
-    },
 
     blockedUsers: {
         type: [{ type: mongoose.Schema.Types.ObjectId, ref: "blockedUsers" }],
@@ -30,8 +37,13 @@ const UserSchema = new mongoose.Schema({
         type: [{ type: mongoose.Schema.Types.ObjectId, ref: "comments" }],
         default: []
     },
+
     votedComments: {
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "votedComments" }],
+        type: [VotedSchema],
+        default: []
+    },
+    votedPosts: {
+        type: [VotedSchema],
         default: []
     },
 
