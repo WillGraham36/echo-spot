@@ -25,6 +25,23 @@ router.get('/byId/:id', getUser, (req, res) => {
 });
 
 
+// ################################### PUT METHODS ################################### //
+
+/**
+ * @route PUT /users/byId/:id
+ */
+router.put('/byId/:id', getUser, async (req, res) => {
+
+    if(req.body.posts) {
+        res.user.posts.push(req.body.posts);
+    }
+        try {
+        const updatedUser = await res.user.save();
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
 
 
 // ################################### MIDDLEWARE ################################### //

@@ -79,3 +79,19 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8080/users/byId/user_2k2eA6vjD3pQGd0foD2HkqoPVLo
+
+###
+
+PUT http://localhost:8080/users/byId/user_2k2eA6vjD3pQGd0foD2HkqoPVLo
+Content-Type: application/json
+
+{
+    "posts": "669c6aaa7d4f8a805cc6c6a2"
+
+}
+
+    # "savedPosts":
+    # "votedPosts": 
+    # "blockedUsers": 
+    # "comments": 
+    # "votedComments": 

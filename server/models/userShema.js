@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { stringify } from "querystring";
 
 const UserSchema = new mongoose.Schema({
     clerkId: {
@@ -7,32 +8,32 @@ const UserSchema = new mongoose.Schema({
         unique: true
     },
 
-    posts: [{
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+    posts: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "posts"}],
         default: []
-    }],
-    savedPosts: [{
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+    },
+    savedPosts: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "savedPosts" }],
         default: []
-    }],
-    votedPosts: [{
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+    },
+    savedPosts: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "savedPosts" }],
         default: []
-    }],
+    },
 
-    blockedUsers: [{
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    blockedUsers: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "blockedUsers" }],
         default: []
-    }],
+    },
 
-    comments: [{
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    comments: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "comments" }],
         default: []
-    }],
-    votedComments: [{
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    },
+    votedComments: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "votedComments" }],
         default: []
-    }],
+    },
 
     createdAt: {
         type: Date,
