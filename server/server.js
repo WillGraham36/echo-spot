@@ -4,6 +4,7 @@ import cors from 'cors';
 
 import postsRouter from './routes/posts.js';
 import commentsRouter from './routes/comments.js';
+import usersRouter from './routes/users.js';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -18,3 +19,4 @@ app.use(express.json());
 
 app.use('/posts', postsRouter);
 app.use('/comments', commentsRouter);
+app.use('/users', usersRouter);

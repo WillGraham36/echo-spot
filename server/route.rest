@@ -75,3 +75,7 @@ Content-Type: application/json
     "usersWhoUpvoted": "testing",
     "usersWhoDownvoted": 0
 }
+
+###
+
+GET http://localhost:8080/users/byId/user_2k2eA6vjD3pQGd0foD2HkqoPVLo
