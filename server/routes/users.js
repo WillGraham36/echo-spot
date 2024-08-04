@@ -28,16 +28,13 @@ router.get('/byId/:id', getUser, (req, res) => {
 // ################################### PUT METHODS ################################### //
 
 /**
- * @route PUT /users/byId/:id/
- * @description Associates a post or comment with a user, block a user, or saves a post
+ * @route PUT /users/byId/:id/posts
+ * @description Associates a post with a user, block a user, or saves a post
  */
-router.put('/byId/:id/', getUser, async (req, res) => {
+router.put('/byId/:id/posts', getUser, async (req, res) => {
 
     if(req.body.posts) {
         res.user.posts.push(req.body.posts);
-    }
-    if(req.body.comments) {
-        res.user.comments.push(req.body.comments);
     }
     if(req.body.savedPosts) {
         res.user.savedPosts.push(req.body.savedPosts);
@@ -46,6 +43,24 @@ router.put('/byId/:id/', getUser, async (req, res) => {
         res.user.blockedUsers.push(req.body.blockedUsers);
     }
 
+
+    try {
+        const updatedUser = await res.user.save();
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+/**
+ * @route PUT /users/byId/:id/comments
+ * @description Associates a comment with a user
+ */
+router.put('/byId/:id/comments', getUser, async (req, res) => {
+
+    if (req.body.comments) {
+        res.user.comments.push(req.body.comments);
+    }
 
     try {
         const updatedUser = await res.user.save();
@@ -98,6 +113,74 @@ router.put('/byId/:id/votes', getUser, async (req, res) => {
         }
     }
 
+
+    try {
+        const updatedUser = await res.user.save();
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// ################################### DELETE METHODS ################################### //
+
+/**
+ * @route DELETE /users/byId/:id/posts
+ * @description Deletes a post from a user, unblocks a user, or unsaves a post
+ */
+router.delete('/byId/:id/posts', getUser, async (req, res) => {
+
+    if (req.body.posts) {
+        res.user.posts.pull(req.body.posts);
+    }
+    if (req.body.savedPosts) {
+        res.user.posts.pull(req.body.savedPosts);
+    }
+    if (req.body.blockedUsers) {
+        res.user.posts.pull(req.body.blockedUsers);
+    }
+
+
+    try {
+        const updatedUser = await res.user.save();
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+/**
+ * @route DELETE /users/byId/:id/comments
+ * @description Deletes a comment from a user
+ */
+router.delete('/byId/:id/comments', getUser, async (req, res) => {
+    console.log(req.body.comments);
+    if (req.body.comments) {
+        res.user.comments.pull(req.body.comments);
+    }
+
+    try {
+        const updatedUser = await res.user.save();
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+/**
+ * @route DELETE /users/byId/:id/votes
+ * @description Deletes a vote on a post or comment
+ */
+router.delete('/byId/:id/votes', getUser, async (req, res) => {
+    if(req.body.votedPosts) {
+        const { Id } = req.body.votedPosts;
+        console.log(Id);
+        res.user.votedPosts = res.user.votedPosts.filter(vote => vote.Id != Id);
+    }
+    if(req.body.votedComments) {
+        const { Id } = req.body.votedComments;
+        res.user.votedComments = res.user.votedComments.filter(vote => vote.Id != Id);
+    }
 
     try {
         const updatedUser = await res.user.save();
