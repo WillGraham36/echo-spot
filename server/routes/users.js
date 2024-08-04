@@ -3,6 +3,21 @@ const router = express.Router();
 
 import UserModel from '../models/userShema.js';
 
+/**
+ * @summary CRUD operations for users
+ * @description This file contains the CRUD operations for users
+ * @route GET /users
+ * @route GET /users/byId/:id
+ * 
+ * @route PUT /users/byId/:id/posts
+ * @route PUT /users/byId/:id/comments
+ * @route PUT /users/byId/:id/votes
+ * 
+ * @route DELETE /users/byId/:id/posts
+ * @route DELETE /users/byId/:id/comments
+ * @route DELETE /users/byId/:id/votes
+ */
+
 // ################################### GET METHODS ################################### //
 
 /**
