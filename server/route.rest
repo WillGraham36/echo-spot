@@ -22,6 +22,15 @@ Content-Type: application/json
 
 ###
 
+PATCH http://localhost:8080/posts/byId/669dbaf079d961fbc99a18e8/vote/user_2k2eA6vjD3pQGd0foD2HkqoPVLo
+Content-Type: application/json
+
+{
+    "voteType": "UPVOTE"
+}
+
+###
+
 PATCH http://localhost:8080/comments/byId/66a4146dae2074e96daeca5f?addOrRemoveUpvote=ADD
 Content-Type: application/json
 

@@ -2,6 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 import PostModel from '../models/postSchema.js';
+import UserModel from '../models/userShema.js';
 
 // ################################### GET METHODS ################################### //
 
@@ -166,7 +167,7 @@ async function getPost(req, res, next) {
 
     let post;
     try {
-        post = await PostModel.findById(req.params.id);
+        post = await PostModel.findById(req.params.postId);
         if (post == null) {
             return res.status(404).json({ message: 'Cannot find post' });
         }    
@@ -175,6 +176,45 @@ async function getPost(req, res, next) {
     }
 
     res.post = post;
+    next();
+};
+
+
+/**
+ * Middleware to get post by id
+ */
+async function getPostREALONE(req, res, next) {
+
+    let post;
+    try {
+        post = await PostModel.findById(req.params.postId);
+        if (post == null) {
+            return res.status(404).json({ message: 'Cannot find post' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+    res.post = post;
+    next();
+};
+
+/**
+ * Middleware to get user by their CLERK ID
+ */
+async function getUser(req, res, next) {
+
+    let user;
+    try {
+        user = await UserModel.findOne({ clerkId: req.params.userId });
+        if (user == null) {
+            return res.status(404).json({ message: 'Cannot find user' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+    res.user = user;
     next();
 }
 
@@ -188,6 +228,55 @@ function isValidCoordinates(lat, long) {
     return !lat || !long || lat > 90 || lat < -90 || long > 180 || long < -180;
 }
 
+
+// ################################### REAL ROUTES NOW ################################### //
+
+router.patch('/byId/:postId/vote/:userId', getPostREALONE, getUser, async (req, res) => {
+    const { postId } = req.params;
+    const { voteType } = req.body;
+
+    if (voteType !== 'UPVOTE' && voteType !== 'DOWNVOTE') {
+        return res.status(400).json({ message: 'Invalid vote type' });
+    };
+
+
+    const existingVote = res.user.votedPosts.find(vote => vote.Id == postId);
+    if (existingVote) {
+        if (existingVote.vote === voteType) {
+            // Remove vote if it's the same type and update upvotes
+            res.user.votedPosts = res.user.votedPosts.filter(vote => vote.Id != postId);
+            res.post.upvotes = voteType === 'UPVOTE' ? res.post.upvotes - 1 : res.post.upvotes + 1;
+        } else {
+            // Change vote type if it's different
+            res.user.votedPosts = res.user.votedPosts.map(vote => {
+                if (vote.Id == postId) {
+                    vote.vote = voteType;
+                }
+                return vote;
+            });
+            res.post.upvotes = voteType === 'UPVOTE' ? res.post.upvotes + 2 : res.post.upvotes - 2;
+        }
+    } else {
+        // Add vote if it doesn't exist
+        res.user.votedPosts.push({
+            Id: postId,
+            vote: voteType
+        });
+        res.post.upvotes = voteType === 'UPVOTE' ? res.post.upvotes + 1 : res.post.upvotes - 1;
+    };
+
+    try {
+        const updatedUser = await res.user.save();
+        const updatedPost = await res.post.save();
+        res.json({
+            user: updatedUser,
+            post: updatedPost
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+
+});
 
 
 export default router;
