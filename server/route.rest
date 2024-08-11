@@ -130,16 +130,16 @@ Content-Type: application/json
 
 ###
 
-PATCH http://localhost:8080/test/vote/669dbaf079d961fbc99a18e8/user_2k2eA6vjD3pQGd0foD2HkqoPVLo
+PATCH http://localhost:8080/postsNEW/vote/66b9272931f89fc736ebf1e7/user_2k2eA6vjD3pQGd0foD2HkqoPVLo
 Content-Type: application/json
 
 {
-    "voteType": "UPVOTE"
+    "voteType": "DOWNVOTE"
 }
 
 ###
 
-POST http://localhost:8080/test/createNewPost/user_2k2eA6vjD3pQGd0foD2HkqoPVLo
+POST http://localhost:8080/postsNEW/createNewPost/user_2k2eA6vjD3pQGd0foD2HkqoPVLo
 Content-Type: application/json
 
 {
@@ -151,5 +151,38 @@ Content-Type: application/json
     "category": "test category",
     "title":    "test title",
     "upvotes":  6,
-    "comments": ["66a4146dae2074e96daeca5f"]
+    "comments": []
 }
+
+###
+
+GET http://localhost:8080/postsNEW/getOnePost/66b9272931f89fc736ebf1e7
+
+###
+
+GET http://localhost:8080/commentsNEW/forPost/66b928be331406c3c88150d3
+
+###
+
+POST http://localhost:8080/commentsNEW/createNewComment/66b929be331406c3c88150da/user_2k2eA6vjD3pQGd0foD2HkqoPVLo
+Content-Type: application/json
+
+{
+    "childIds": [],
+    "userNumber": 0,
+    "commentContent": "TEST COMMENT",
+    "upvotes": 0
+}
+
+###
+
+PATCH http://localhost:8080/commentsNEW/vote/66b929de6edacbfcc0822057/user_2k2eA6vjD3pQGd0foD2HkqoPVLo
+Content-Type: application/json
+
+{
+    "voteType": "UPVOTE"
+}
+
+###
+
+DELETE http://localhost:8080/commentsNEW/deleteComment/66b929de6edacbfcc0822057/user_2k2eA6vjD3pQGd0foD2HkqoPVLo

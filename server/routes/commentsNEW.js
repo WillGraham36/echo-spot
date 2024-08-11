@@ -74,7 +74,7 @@ router.patch('/vote/:commentId/:userId', getComment, getUser, async (req, res) =
  * @route POST /comments/createNewComment/:postId/:userId
  * @desc Create a new comment
  */
-router.post('/createNewPost/:postId/:userId', getPost, getUser, async (req, res) => {
+router.post('/createNewComment/:postId/:userId', getPost, getUser, async (req, res) => {
     const comment = new CommentModel({
         childIds: req.body.childIds,
         userNumber: req.body.userNumber,
@@ -118,8 +118,8 @@ router.delete('/deleteComment/:commentId/:userId', getComment, getUser, async (r
             })
         } else {
             // Delete comment
-            const updatedUser = await res.user.posts.pull(req.params.postId);
-            await res.post.deleteOne();
+            const updatedUser = await res.user.comments.pull(req.params.commentId);
+            await res.comment.deleteOne();
             res.json({
                 user: updatedUser,
                 message: 'Deleted comment successfully'

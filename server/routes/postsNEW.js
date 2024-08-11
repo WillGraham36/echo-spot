@@ -106,10 +106,13 @@ router.post('/createNewPost/:userId', getUser, async (req, res) => {
  */
 router.delete('/deletePost/:postId/:userId', getPost, getUser, async (req, res) => {
     try {
-        await res.post.comments.deleteMany();
-        await res.user.posts.pull(req.params.postId);
+        res.post.comments = [];
+        const updatedUser = await res.user.posts.pull(req.params.postId);
         await res.post.deleteOne();
-        res.json({ message: 'Deleted subscriber successfully' });
+        res.json({
+            user: updatedUser,
+            message: 'Post has been deleted'
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

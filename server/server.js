@@ -5,9 +5,10 @@ import cors from 'cors';
 import postsRouter from './routes/posts.js';
 import commentsRouter from './routes/comments.js';
 import usersRouter from './routes/users.js';
-import feedRouter from './routes/feed.js';
 
-import TEST from './routes/postsNEW.js';
+import feedRouter from './routes/feed.js';
+import postsNEW from './routes/postsNEW.js';
+import commentsNEW from './routes/commentsNEW.js';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -25,4 +26,5 @@ app.use('/comments', commentsRouter);
 app.use('/users', usersRouter);
 app.use('/feed', feedRouter);
 
-app.use('/test', TEST);
+app.use('/postsNEW', postsNEW);
+app.use('/commentsNEW', commentsNEW);
