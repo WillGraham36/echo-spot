@@ -4,11 +4,8 @@ import cors from 'cors';
 
 import postsRouter from './routes/posts.js';
 import commentsRouter from './routes/comments.js';
-import usersRouter from './routes/users.js';
-
 import feedRouter from './routes/feed.js';
-import postsNEW from './routes/postsNEW.js';
-import commentsNEW from './routes/commentsNEW.js';
+import usersRouter from './routes/users.js';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -23,8 +20,5 @@ app.use(express.json());
 
 app.use('/posts', postsRouter);
 app.use('/comments', commentsRouter);
-app.use('/users', usersRouter);
 app.use('/feed', feedRouter);
-
-app.use('/postsNEW', postsNEW);
-app.use('/commentsNEW', commentsNEW);
+// app.use('/users', usersRouter);

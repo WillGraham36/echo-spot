@@ -1,135 +1,139 @@
 import express from 'express';
 const router = express.Router();
+
 import CommentModel from '../models/commentSchema.js';
 import PostModel from '../models/postSchema.js';
+import UserModel from '../models/userShema.js';
 
-// ################################### GET METHODS ################################### //
-
+// ################################### GET COMMENTS FOR POST ################################### //
 /**
- * @route GET /comments/
- * @description Gets all comments
+ * @route GET /comments/forPost/:postId
  */
-router.get('/', async (req, res) => {
+router.get('/forPost/:postId', getPost, async (req, res) => {
+    const post = res.post;
+    const commentArray = post.comments;
+    const comments = await CommentModel.find({ _id: { $in: commentArray } });
+    res.json(comments);
+});
+
+// ################################### VOTING ON COMMENT  ################################### //
+/**
+ * @route PATCH /comments/vote/:commentId/:userId
+ * @desc Vote on a comment
+ */
+router.patch('/vote/:commentId/:userId', getComment, getUser, async (req, res) => {
+    const { commentId } = req.params;
+    const { voteType } = req.body;
+
+    if (voteType !== 'UPVOTE' && voteType !== 'DOWNVOTE') {
+        return res.status(400).json({ message: 'Invalid vote type' });
+    };
+
+
+    const existingVote = res.user.votedComments.find(vote => vote.Id == commentId);
+    if (existingVote) {
+        if (existingVote.vote === voteType) {
+            // Remove vote if it's the same type and update upvotes
+            res.user.votedComments = res.user.votedComments.filter(vote => vote.Id != commentId);
+            res.comment.upvotes = voteType === 'UPVOTE' ? res.comment.upvotes - 1 : res.comment.upvotes + 1;
+        } else {
+            // Change vote type if it's different
+            res.user.votedComments = res.user.votedComments.map(vote => {
+                if (vote.Id == commentId) {
+                    vote.vote = voteType;
+                }
+                return vote;
+            });
+            res.comment.upvotes = voteType === 'UPVOTE' ? res.comment.upvotes + 2 : res.comment.upvotes - 2;
+        }
+    } else {
+        // Add vote if it doesn't exist
+        res.user.votedComments.push({
+            Id: commentId,
+            vote: voteType
+        });
+        res.comment.upvotes = voteType === 'UPVOTE' ? res.comment.upvotes + 1 : res.comment.upvotes - 1;
+    };
+
     try {
-        const comments = await CommentModel.find().limit(30);
-        res.json(comments);
+        const updatedUser = await res.user.save();
+        const updatedComment = await res.comment.save();
+        res.json({
+            user: updatedUser,
+            comment: updatedComment
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(400).json({ message: error.message });
     }
+
 });
 
 
+// ################################### CREATING NEW COMMENT ################################### //
 /**
- * @route GET /comments/byId/:id
- * @description Gets all the comments for a specific post given a post id
+ * @route POST /comments/createNewComment/:postId/:userId
+ * @desc Create a new comment
  */
-router.get('/byId/:id', async (req, res) => {
-    try {
-        const postId = req.params.id;
-        const comments = await CommentModel.find({
-            parentPostId: postId
-        })
-        res.json(comments);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-
-// ################################### POST METHODS ################################### //
-
-/**
- * @route POST /comments/
- * @description Adds a new comment
- */
-router.post('/', async (req, res) => {
+router.post('/createNewComment/:postId/:userId', getPost, getUser, async (req, res) => {
     const comment = new CommentModel({
-        parentPostId: req.body.parentPostId,
         childIds: req.body.childIds,
-        level: req.body.level,
         userNumber: req.body.userNumber,
-        userId: req.body.userId,
+        userId: req.params.userId,
+        date: req.body.date,
         commentContent: req.body.commentContent,
-        upvotes: req.body.upvotes,
-        usersWhoUpvoted: req.body.usersWhoUpvoted,
-        usersWhoDownvoted: req.body.usersWhoDownvoted
+        upvotes: req.body.upvotes
     });
 
     try {
         const newComment = await comment.save();
-        res.status(201).json(newComment); 
+        res.user.comments.push(newComment._id);
+        const updatedUser = await res.user.save();
+        res.status(201).json({
+            comment: newComment,
+            user: updatedUser
+        });
     } catch (error) {
         res.status(400).json({ message: error.message });
-    };
-    
-    try {
-        const post = await PostModel.findById(req.body.parentPostId);
-        if (post == null) {
-            return res.status(404).json({ message: 'Cannot find post' });
-        }
-        post.numComments += 1;
-        let newUserWhoCommented = {
-            userId: req.body.userId,
-            userNumber: post.highestUserNumber
-        };
-        post.usersWhoCommented.push(newUserWhoCommented);
-        const userIdExists = post.usersWhoCommented.find(user => user.userId === req.body.userId);
-        // if (!userIdExists) {
-        //     newUserWhoCommented.userNumber = 
-        // } else {
+    }
+});
 
-        // }
-        await post.save();
+// ################################### DELETE COMMENT ################################### //
+/**
+ * @route DELETE /comments/deleteComment/:postId/:userId
+ * @desc If the comment has children, does not delete the comment, but sets the content to "Deleted"
+ *      If the comment has no children, deletes the comment
+ */
+router.delete('/deleteComment/:commentId/:userId', getComment, getUser, async (req, res) => {
+    try {
+        const hasChildren = res.comment.childIds.length > 0;
+        if(hasChildren) {
+            // Set content to "Deleted"
+            res.comment.commentContent = "Deleted";
+            res.comment.userId = "Deleted";
+            res.comment.upvotes = 0;
+            const updatedUser = await res.user.posts.pull(req.params.postId); // Remove comment from user's comments anyway
+            res.json({
+                user: updatedUser,
+                message: 'Deleted comment successfully'
+            })
+        } else {
+            // Delete comment
+            const updatedUser = await res.user.comments.pull(req.params.commentId);
+            await res.comment.deleteOne();
+            res.json({
+                user: updatedUser,
+                message: 'Deleted comment successfully'
+            });
+        }
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-// ################################### PATCH METHODS ################################### //
-
-/**
- * @route PATCH /comments/byId/:id
- * @desc Update a comment by its id, only upvotes can be updated
- * @param addOrRemoveUpvote = "ADD" or "REMOVE" to specify if the user is adding or removing a vote
- */
-router.patch('/byId/:id', getComment, async (req, res) => {
-    const { addOrRemoveUpvote } = req.query;
-    if (addOrRemoveUpvote !== "ADD" && addOrRemoveUpvote !== "REMOVE") {
-        return res.status(400).json({ message: 'Invalid query parameter' });
-    }
-
-    if (req.body.upvotes != null) {
-        res.comment.upvotes = req.body.upvotes;
-    }
-    if (req.body.usersWhoUpvoted != null) {
-        if (addOrRemoveUpvote === "ADD") {
-            res.comment.usersWhoUpvoted.push(req.body.usersWhoUpvoted);
-            res.comment.usersWhoDownvoted = res.comment.usersWhoDownvoted.filter(userId => userId !== req.body.usersWhoUpvoted);
-        } else if (addOrRemoveUpvote === "REMOVE") {
-            res.comment.usersWhoUpvoted = res.comment.usersWhoUpvoted.filter(userId => userId !== req.body.usersWhoUpvoted);
-        }
-    }
-    if (req.body.usersWhoDownvoted != null) {
-        if (addOrRemoveUpvote === "ADD") {
-            res.comment.usersWhoDownvoted.push(req.body.usersWhoDownvoted);
-            res.comment.usersWhoUpvoted = res.comment.usersWhoUpvoted.filter(userId => userId !== req.body.usersWhoDownvoted);
-        } else if (addOrRemoveUpvote === "REMOVE") {
-            res.comment.usersWhoDownvoted = res.comment.usersWhoDownvoted.filter(userId => userId !== req.body.usersWhoDownvoted);
-        }
-    }
-
-    try {
-        const updatedComment = await res.comment.save();
-        res.json(updatedComment);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-});
 
 
 
 // ################################### MIDDLEWARE ################################### //
-
 /**
  * Middleware to get comment by id
  */
@@ -137,7 +141,7 @@ async function getComment(req, res, next) {
 
     let comment;
     try {
-        comment = await CommentModel.findById(req.params.id);
+        comment = await CommentModel.findById(req.params.commentId);
         if (comment == null) {
             return res.status(404).json({ message: 'Cannot find comment' });
         }
@@ -148,5 +152,43 @@ async function getComment(req, res, next) {
     res.comment = comment;
     next();
 }
+/**
+ * Middleware to get post by id
+ */
+async function getPost(req, res, next) {
+
+    let post;
+    try {
+        post = await PostModel.findById(req.params.postId);
+        if (post == null) {
+            return res.status(404).json({ message: 'Cannot find post' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+    res.post = post;
+    next();
+};
+/**
+ * Middleware to get user by their CLERK ID
+ */
+async function getUser(req, res, next) {
+
+    let user;
+    try {
+        user = await UserModel.findOne({ clerkId: req.params.userId });
+        if (user == null) {
+            return res.status(404).json({ message: 'Cannot find user' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+    res.user = user;
+    next();
+};
+
+
 
 export default router;
