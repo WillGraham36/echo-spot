@@ -32,28 +32,14 @@ const PostSchema = new mongoose.Schema({
     upvotes: {
         type: Number,
     },
-    usersWhoUpvoted: {
-        type: [String],
+    comments: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "comments" }],
+        default: []
     },
-    usersWhoDownvoted: {
-        type: [String],
-    },
-    numComments: {
-        type: Number,
-        default: 0
-    },
-    usersWhoCommented: {
-        userId: {
-            type: String
-        },
-        userNumber: {
-            type: Number
-        }
-    },
-    highestUserNumber: {
-        type: Number,
-        default: 1
-    }
+    // highestUserNumber: {
+    //     type: Number,
+    //     default: 1
+    // }
 });
 
 PostSchema.index({ location: "2dsphere" });

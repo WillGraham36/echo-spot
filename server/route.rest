@@ -8,7 +8,7 @@ GET http://localhost:8080/posts/byId/669c6aaa7d4f8a805cc6c6a2
 
 ###
 
-GET http://localhost:8080/posts/feed?lat=40.5798912&long=-80.0653312&maxDistance=10000000000&limit=10&offset=0
+GET http://localhost:8080/feed?lat=40.5798912&long=-80.0653312&maxDistance=10000000000&limit=10&offset=0
 
 ###
 
@@ -18,15 +18,6 @@ Content-Type: application/json
 {
     "upvotes": 12,
     "usersWhoUpvoted": "b"
-}
-
-###
-
-PATCH http://localhost:8080/posts/byId/669dbaf079d961fbc99a18e8/vote/user_2k2eA6vjD3pQGd0foD2HkqoPVLo
-Content-Type: application/json
-
-{
-    "voteType": "UPVOTE"
 }
 
 ###
@@ -135,4 +126,30 @@ Content-Type: application/json
 {
     "posts": "669c6aaa7d4f8a805cc6c6a2"
 
+}
+
+###
+
+PATCH http://localhost:8080/test/vote/669dbaf079d961fbc99a18e8/user_2k2eA6vjD3pQGd0foD2HkqoPVLo
+Content-Type: application/json
+
+{
+    "voteType": "UPVOTE"
+}
+
+###
+
+POST http://localhost:8080/test/createNewPost/user_2k2eA6vjD3pQGd0foD2HkqoPVLo
+Content-Type: application/json
+
+{
+    "location": {
+        "type": "Point",
+        "lat": 40, 
+        "long": 10
+    },
+    "category": "test category",
+    "title":    "test title",
+    "upvotes":  6,
+    "comments": ["66a4146dae2074e96daeca5f"]
 }
