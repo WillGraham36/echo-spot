@@ -5,6 +5,14 @@ import PostModel from '../models/postSchema.js';
 import UserModel from '../models/userShema.js';
 
 
+// ################################### GET POST BY ID ################################### //
+/**
+ * @route GET /posts/getOnePost/:postId
+ * @desc Get post by its id
+ */
+router.get('/getOnePost/:postId', getPost, (req, res) => {
+    res.json(res.post);
+});
 
 // ################################### VOTING ON POSTS  ################################### //
 /**
@@ -93,13 +101,14 @@ router.post('/createNewPost/:userId', getUser, async (req, res) => {
 
 // ################################### DELETE POST ################################### //
 /**
- * @route DELETE /posts/:postId
+ * @route DELETE /posts/:postId/:userId
  * @desc Delete a post by its id
  */
-router.delete('/deletePost/:postId', getPost, async (req, res) => {
+router.delete('/deletePost/:postId/:userId', getPost, getUser, async (req, res) => {
     try {
+        await res.post.comments.deleteMany();
+        await res.user.posts.pull(req.params.postId);
         await res.post.deleteOne();
-
         res.json({ message: 'Deleted subscriber successfully' });
     } catch (error) {
         res.status(500).json({ message: error.message });

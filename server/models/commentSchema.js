@@ -1,17 +1,10 @@
 import mongoose from "mongoose";
 
 const CommentSchema = new mongoose.Schema({
-    parentPostId: {
-        type: String,
-        required: true
-    },
+    // first children only
     childIds: {
         type: [String],
         default: []
-    },
-    level: {
-        type: Number,
-        default: 0
     },
     userNumber: {
         type: Number,
@@ -32,12 +25,6 @@ const CommentSchema = new mongoose.Schema({
     },
     upvotes: {
         type: Number,
-    },
-    usersWhoUpvoted: {
-        type: [String],
-    },
-    usersWhoDownvoted: {
-        type: [String],
     },
 })
 
