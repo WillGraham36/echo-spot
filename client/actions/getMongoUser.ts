@@ -4,7 +4,7 @@ import { API_URL } from "@/utils/constants";
 
 export default async function getMongoUser(userId: string) {
     try {
-        const response = await fetch(`${API_URL}/users/byId/${userId}`);
+        const response = await fetch(`${API_URL}/users/byId/${userId}`, { cache: "no-store" });
         const data = (await response.json());
         if(!response.ok) {
             throw new Error("Failed to fetch user");
