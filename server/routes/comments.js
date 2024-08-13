@@ -58,10 +58,7 @@ router.patch('/vote/:commentId/:userId', getComment, getUser, async (req, res) =
     try {
         const updatedUser = await res.user.save();
         const updatedComment = await res.comment.save();
-        res.json({
-            user: updatedUser,
-            comment: updatedComment
-        });
+        res.json(updatedComment);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

@@ -27,7 +27,6 @@ router.patch('/vote/:postId/:userId', getPost, getUser, async (req, res) => {
         return res.status(400).json({ message: 'Invalid vote type' });
     };
 
-
     const existingVote = res.user.votedPosts.find(vote => vote.Id == postId);
     if (existingVote) {
         if (existingVote.vote === voteType) {
@@ -56,10 +55,7 @@ router.patch('/vote/:postId/:userId', getPost, getUser, async (req, res) => {
     try {
         const updatedUser = await res.user.save();
         const updatedPost = await res.post.save();
-        res.json({
-            user: updatedUser,
-            post: updatedPost
-        });
+        res.json(updatedPost);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
