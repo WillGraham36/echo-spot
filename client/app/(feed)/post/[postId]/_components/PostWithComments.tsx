@@ -26,7 +26,7 @@ const PostWithComments = ({ postId, post, initialComments }: PostWithCommentsPro
                 return (
                     <Fragment key={`fragment-${comment._id}`}>
                         <CommentCard comment={comment} key={comment._id} />
-                        <Separator className="dark:bg-neutral-700 h-[1px]" key={`separator-${comment._id}`} />
+                        <Separator className="bg-white dark:bg-neutral-700 h-[2px]" key={`separator-${comment._id}`} />
                     </Fragment>
                 );
             })}
