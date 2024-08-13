@@ -3,7 +3,7 @@ import { API_URL } from "@/utils/constants";
 
 
 export const getComments = async (postId: string): Promise<CommentType[]> => {
-    const url = `${API_URL}/comments/byId/${postId}`;
+    const url = `${API_URL}/comments/forPost/${postId}`;
     try {
         const response = await fetch(url);
         if (!response.ok) {

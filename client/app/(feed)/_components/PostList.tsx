@@ -1,6 +1,5 @@
 "use client";
-import { Fragment, useEffect, useState } from "react"
-import useLocation from "@/hooks/useLocation"
+import { Fragment, useEffect, useState } from "react";
 import LocationRange from "./LocationRange";
 import { Spinner } from "@/components/ui/spinner";
 import { PostType } from "@/types/PostType";
@@ -9,12 +8,12 @@ import { getPosts } from "@/actions/getPosts";
 import { useInView } from "react-intersection-observer";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-
-const limit = 8;
-
+import { POSTS_PER_PAGE } from "@/utils/constants";
+import getLocation from "@/utils/getLocation";
 
 const PostList =  () => {
-
+    const limit = POSTS_PER_PAGE;
+    
     const [posts, setPosts] = useState<PostType[]>([]);
     const [viewRadius, setViewRadius] = useState<number>(20);
     const [offset, setOffset] = useState<number>(0);
@@ -30,7 +29,7 @@ const PostList =  () => {
      */
     useEffect(() => {
         const fetchPosts = async () => {
-            const location = await useLocation();
+            const location = await getLocation();
             setPostsStatus({ loading: true, error: false, noMorePosts: false });
             if (location) {
                 try {
@@ -51,7 +50,7 @@ const PostList =  () => {
     const loadMorePosts = async () => {
         if(postsStatus.noMorePosts) return;
 
-        const location = await useLocation();
+        const location = await getLocation();
         setOffset((prevOffset) => prevOffset + limit);
         if (location) {
             try {

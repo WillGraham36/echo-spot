@@ -19,7 +19,7 @@ export const getPosts = async ({
     limit
 }: getPostProps): Promise<PostType[]> => {
 
-    const url = `${API_URL}/posts/feed?lat=${location.lat}&long=${location.long}&maxDistance=${viewRadius * 1609}&limit=${limit}&offset=${offset}`
+    const url = `${API_URL}/feed?lat=${location.lat}&long=${location.long}&maxDistance=${viewRadius * 1609}&limit=${limit}&offset=${offset}`
     try {
         const response = await fetch(url);
         const data = (await response.json()) as PostType[];
@@ -34,7 +34,7 @@ export const getPosts = async ({
 
 
 export const getPost = async (postId: string): Promise<PostType> => {
-    const url = `${API_URL}/posts/byId/${postId}`;
+    const url = `${API_URL}/posts/getOnePost/${postId}`;
     try {
         const response = await fetch(url, {cache: "no-store"});
         const data = (await response.json()) as PostType;

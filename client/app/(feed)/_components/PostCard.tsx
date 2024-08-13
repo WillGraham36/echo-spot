@@ -19,7 +19,6 @@ import { cn } from "@/lib/utils";
 interface PostProps {
     post: PostType,
     isDedicatedPage?: boolean
-    comments?: number
 }
 
 const PostCard = ({
@@ -28,13 +27,10 @@ const PostCard = ({
         category,
         title,
         upvotes,
-        usersWhoUpvoted,
-        usersWhoDownvoted,
-        numComments,
+        comments,
         date
     },
     isDedicatedPage,
-    comments
 }: PostProps) => {
 
     upvotes = upvotes ? upvotes : 0;
@@ -89,8 +85,8 @@ const PostCard = ({
                 <div className="flex items-center gap-x-2">
                     <Button size={"postBtn"} variant={"ghostHover"}>
                         <MessageCircle size={26} />
-                        <p className="font-medium px-2">
-                            {comments ? comments : numComments}
+                        <p className="font-bold min-w-5 pt-1 text-center">
+                            {comments ? comments.length : 0}
                         </p>
                     </Button>
                     <Button size={"postBtn"} variant={"ghostHover"} onClick={handleButtonClick}>
@@ -103,9 +99,7 @@ const PostCard = ({
                     upvotes={numUpvotes}
                     setUpvotes={setNumUpvotes}
                     postId={_id}
-                    usersWhoUpvoted={usersWhoUpvoted}
-                    usersWhoDownvoted={usersWhoDownvoted}
-                    postType="posts"
+                    upvoteType="posts"
                 />
             </div>
         </div>

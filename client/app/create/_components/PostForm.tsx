@@ -17,18 +17,16 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AutosizeTextarea } from "@/components/ui/autosize-textarea";
 import { useUser } from "@clerk/nextjs";
-import useLocation from "@/hooks/useLocation";
 import { useReducer, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
 import { FormReducer, INITAL_STATE } from "../../../reducers/FormReducer";
 import { API_URL } from "@/utils/constants";
+import getLocation from "@/utils/getLocation";
 
 
 const FormSchema = z.object({
@@ -57,25 +55,23 @@ const PostForm = () => {
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     
         dispatch({ type: "CREATE_START" });
-        const location = await useLocation();
+        const location = await getLocation();
         if(location.lat === 1000 && location.long === 1000) {
             dispatch({ type: "CREATE_ERROR", payload: 'Could not get location, your location must be enabled to post' });
             return;
         }
 
         const postData = {
-            userId: user?.id,
             location: {
                 lat: location.lat,
                 long: location.long,
             },
             category: data.category,
             title: data.postContent,
-            upvotes: 1,
-            usersWhoUpvoted: [user?.id],
+            upvotes: 0,
         }
         try {
-            const response = await fetch(`${API_URL}/posts`, {
+            const response = await fetch(`${API_URL}/posts/createNewPost/${user?.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
