@@ -1,59 +1,62 @@
+import getMongoUser from '@/actions/getMongoUser';
 import { cn } from '@/lib/utils';
 import { API_URL } from '@/utils/constants';
 import { useUser } from '@clerk/nextjs';
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react'
-import { useRouter } from 'next/navigation';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 
 type likedStatus = "UPVOTED" | "DOWNVOTED" | "NONE";
-type changeUpvote = "ADD" | "REMOVE";
 
 interface UpvotesButtonsProps {
     upvotes: number,
-    setUpvotes: Dispatch<SetStateAction<number>>,
+    setUpvotes: React.Dispatch<SetStateAction<number>>,
     postId: string,
-    postType: "posts" | "comments",
-    usersWhoUpvoted: Array<string>,
-    usersWhoDownvoted: Array<string>,
+    upvoteType: "posts" | "comments",
 }
 
 const UpvotesButtons = ({ 
     upvotes, 
     setUpvotes, 
     postId, 
-    postType,
-    usersWhoUpvoted,
-    usersWhoDownvoted
+    upvoteType,
 }: UpvotesButtonsProps) => {
 
     const { user, isLoaded, isSignedIn } = useUser();
-    const router = useRouter();
     const [isUpvoted, setIsUpvoted] = useState<likedStatus>("NONE");
 
     useEffect(() => {
-        if(isLoaded && isSignedIn) {
-            const isLiked = usersWhoUpvoted.includes(user?.id as string) ? "UPVOTED" : usersWhoDownvoted.includes(user?.id as string) ? "DOWNVOTED" : "NONE";
-            setIsUpvoted(isLiked);
+        const checkIfUpvoted = async () => {
+            if (isLoaded && isSignedIn) {
+                const mongoUser = await getMongoUser(user?.id);
+                const userVotedOnPost = mongoUser.votedPosts.find((vote: any) => vote.Id === postId);
+                const userVotedOnComment = mongoUser.votedComments.find((vote: any) => vote.Id === postId);
+                if (userVotedOnPost) {
+                    setIsUpvoted(userVotedOnPost.vote === "UPVOTE" ? "UPVOTED" : "DOWNVOTED");
+                }
+                if (userVotedOnComment) {
+                    setIsUpvoted(userVotedOnComment.vote === "UPVOTE" ? "UPVOTED" : "DOWNVOTED");
+                }
+            }
         }
+        checkIfUpvoted();
     },[isLoaded]);
 
-    async function updateVotes(numUpvotes: number, change: changeUpvote, upOrDownvote: "UPVOTE" | "DOWNVOTE") {
-
+    async function updateVotes(voteType: "UPVOTE" | "DOWNVOTE") {
         try {
-            const response = await fetch(`${API_URL}/${postType}/byId/${postId}?addOrRemoveUpvote=${change}`, {
+            const response = await fetch(`${API_URL}/${upvoteType}/vote/${postId}/${user?.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ 
-                    upvotes: numUpvotes,
-                    usersWhoUpvoted: upOrDownvote === "UPVOTE" ? user?.id : null,
-                    usersWhoDownvoted: upOrDownvote === "DOWNVOTE" ? user?.id : null
+                    voteType: voteType
                 })
             });
             if(!response.ok) {
                 throw new Error("Failed to update votes");
             }
+            const data = await response.json();
+            return data.upvotes;
         } catch (error) {
             throw new Error("Failed to update votes");
         }
@@ -62,30 +65,19 @@ const UpvotesButtons = ({
     async function handleUpvote(e: React.MouseEvent) {
         e.preventDefault();
         if(!isSignedIn) {
-            router.push('/sign-in')
+            // router.push('/sign-in')
+            return;
         }
-        const initialUpvotes = upvotes;
-        let newUpvotes = upvotes;
-        let change: changeUpvote = "ADD";
-
         if(isUpvoted === "UPVOTED") {
             setIsUpvoted("NONE");
-            newUpvotes--;
-            change = "REMOVE";
         } else {
-            if (isUpvoted === "DOWNVOTED") {
-                newUpvotes++;
-            }
             setIsUpvoted("UPVOTED");
-            newUpvotes++;
         }
 
-        setUpvotes(newUpvotes);
-
         try {
-            await updateVotes(newUpvotes, change, "UPVOTE");
+            const newUpvotes = await updateVotes("UPVOTE");
+            setUpvotes(newUpvotes);
         } catch (error) {
-            setUpvotes(initialUpvotes);
             setIsUpvoted(isUpvoted === "UPVOTED" ? "UPVOTED" : "NONE");
         }
     }
@@ -93,30 +85,20 @@ const UpvotesButtons = ({
     async function handleDownvote(e: React.MouseEvent) {
         e.preventDefault();
         if (!isSignedIn) {
-            router.push('/sign-in')
+            // router.push('/sign-in')
+            return;
         }
-        const initialUpvotes = upvotes;
-        let newUpvotes = upvotes;
-        let change: changeUpvote = "ADD";
 
         if(isUpvoted === "DOWNVOTED") {
             setIsUpvoted("NONE");
-            newUpvotes++;
-            change = "REMOVE";
         } else {
-            if (isUpvoted === "UPVOTED") {
-                newUpvotes--;
-            }
             setIsUpvoted("DOWNVOTED");
-            newUpvotes--;
         }
-
-        setUpvotes(newUpvotes);
-
+        
         try {
-            await updateVotes(newUpvotes, change, "DOWNVOTE");
+            const newUpvotes = await updateVotes("DOWNVOTE");
+            setUpvotes(newUpvotes);
         } catch (error) {
-            setUpvotes(initialUpvotes);
             setIsUpvoted(isUpvoted === "DOWNVOTED" ? "DOWNVOTED" : "NONE");
         }
     }
