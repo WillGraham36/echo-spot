@@ -15,11 +15,11 @@ interface PostWithCommentsProps {
 
 const PostWithComments = ({ postId, post, initialComments }: PostWithCommentsProps) => {
 
-    const [numComments, setComments] = useState(post.numComments);
+    const [numComments, setComments] = useState(post.comments.length);
 
     return (
         <>
-            <PostCard post={post} isDedicatedPage={true} comments={numComments}/>
+            <PostCard post={post} isDedicatedPage={true} numComments={numComments}/>
             <CommentForm postId={postId} setNumComments={setComments}/>
             <Separator className="dark:bg-neutral-700 h-[1px] my-2" />
             {initialComments && initialComments.map((comment: CommentType) => {

@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 interface PostProps {
     post: PostType,
     isDedicatedPage?: boolean
+    numComments?: number
 }
 
 const PostCard = ({
@@ -31,6 +32,7 @@ const PostCard = ({
         date
     },
     isDedicatedPage,
+    numComments
 }: PostProps) => {
 
     upvotes = upvotes ? upvotes : 0;
@@ -86,7 +88,7 @@ const PostCard = ({
                     <Button size={"postBtn"} variant={"ghostHover"}>
                         <MessageCircle size={26} />
                         <p className="font-bold min-w-5 pt-1 text-center">
-                            {comments ? comments.length : 0}
+                            {numComments ? numComments : comments.length}
                         </p>
                     </Button>
                     <Button size={"postBtn"} variant={"ghostHover"} onClick={handleButtonClick}>

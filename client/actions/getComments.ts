@@ -1,3 +1,4 @@
+"use server";
 import { CommentType } from "@/types/CommentType";
 import { API_URL } from "@/utils/constants";
 
@@ -9,7 +10,9 @@ export const getComments = async (postId: string): Promise<CommentType[]> => {
         if (!response.ok) {
             throw new Error("Failed to fetch comments");
         }
-        return await response.json();
+        const data = await response.json();
+        console.log(data);
+        return data;
     } catch (error) {
         console.error(error);
         throw new Error("Failed to fetch comments");

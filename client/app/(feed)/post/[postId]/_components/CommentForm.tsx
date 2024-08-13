@@ -15,8 +15,8 @@ import { Spinner } from '@/components/ui/spinner';
 import { FormReducer, INITAL_STATE } from "@/reducers/FormReducer";
 import { Dispatch, SetStateAction, useReducer, useRef } from "react";
 import { useUser } from '@clerk/nextjs';
-import addComment from '@/actions/addComment';
 import { useFormStatus } from 'react-dom';
+import createComment from '@/actions/createComment';
 
 const FormSchema = z.object({
     commentContent: z
@@ -47,9 +47,9 @@ const CommentForm = ({ postId, setNumComments }: CommentFormProps) => {
     });
 
     const handleSubmit = async (data: z.infer<typeof FormSchema>) => {
-        const userId = user?.id;
+        const userId = user?.id as string;
         const content = data.commentContent;
-        await addComment({ content, postId, userId });
+        await createComment({ content, postId, userId });
         form.reset();
         ref.current?.reset();
         setNumComments((prev) => prev + 1);

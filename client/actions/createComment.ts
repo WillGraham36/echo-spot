@@ -3,23 +3,23 @@
 import { API_URL } from "@/utils/constants";
 import { revalidatePath } from "next/cache";
 
-interface addCommentParams {
+interface createCommentParams {
     content: string;
     postId: string;
-    userId?: string;
+    userId: string;
 }
-const addComment = async ({ content, postId, userId}: addCommentParams) => {
+const createComment = async ({ content, postId, userId}: createCommentParams) => {
 
     const commentData = {
-        parentPostId: postId,
-        userId: userId,
+        childIds: [],
+        userNumber: 0,
+        userId,
         commentContent: content,
-        upvotes: 1,
-        usersWhoUpvoted: [userId]
+        upvotes: 0
     };
     try {
         // dispatch({ type: "CREATE_START" });
-        const response = await fetch(`${API_URL}/comments`, {
+        const response = await fetch(`${API_URL}/comments/createNewComment/${postId}/${userId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,4 +39,4 @@ const addComment = async ({ content, postId, userId}: addCommentParams) => {
     }
 }
 
-export default addComment;
+export default createComment;

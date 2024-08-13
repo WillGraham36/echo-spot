@@ -156,11 +156,11 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/postsNEW/getOnePost/66b9272931f89fc736ebf1e7
+GET http://localhost:8080/posts/getOnePost/66b93b558882518b4eeb3522
 
 ###
 
-GET http://localhost:8080/commentsNEW/forPost/66b928be331406c3c88150d3
+GET http://localhost:8080/comments/forPost/66b93b558882518b4eeb3522
 
 ###
 

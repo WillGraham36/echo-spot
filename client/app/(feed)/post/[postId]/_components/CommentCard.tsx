@@ -58,9 +58,7 @@ const CommentCard = ({
                         upvotes={numUpvotes}
                         setUpvotes={setNumUpvotes}
                         postId={comment._id}
-                        usersWhoUpvoted={comment.usersWhoUpvoted}
-                        usersWhoDownvoted={comment.usersWhoDownvoted}
-                        postType="comments"
+                        upvoteType="comments"
                     />
                 </div>
             </div>

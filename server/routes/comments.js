@@ -85,9 +85,11 @@ router.post('/createNewComment/:postId/:userId', getPost, getUser, async (req, r
         const newComment = await comment.save();
         res.user.comments.push(newComment._id);
         const updatedUser = await res.user.save();
+        res.post.comments.push(newComment._id);
+        const updatedPost = await res.post.save();
         res.status(201).json({
             comment: newComment,
-            user: updatedUser
+            post: updatedPost
         });
     } catch (error) {
         res.status(400).json({ message: error.message });
