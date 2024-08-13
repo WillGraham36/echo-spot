@@ -1,13 +1,12 @@
-import { GeoLocation } from '@/types'
-
+import Location from "@/types/location";
 
 /**
  * 
- * @returns {Promise<GeoLocation>} - Returns a promise that resolves to the user's location
+ * @returns {Promise<Location>} - Returns a promise that resolves to the user's location
  * 
- * @returns GeoLocation: {1000, 1000} --- Returns {1000, 1000} if the user's location could not be found
+ * @returns Location: {1000, 1000} --- Returns {1000, 1000} if the user's location could not be found
  */
-const useLocation = async (): Promise<GeoLocation> => {
+const getLocation = async (): Promise<Location> => {
 
     //ensures that the code runs on the client and never server
     if (typeof window === 'undefined') {
@@ -17,7 +16,7 @@ const useLocation = async (): Promise<GeoLocation> => {
         }
     }
 
-    const locationPromise = () => new Promise<{ location: GeoLocation }>((resolve, reject) => {
+    const locationPromise = () => new Promise<{ location: Location }>((resolve, reject) => {
         navigator.geolocation.getCurrentPosition((position) => {
             resolve({
                 location: {
@@ -39,4 +38,4 @@ const useLocation = async (): Promise<GeoLocation> => {
     return (await locationPromise()).location;
 }
 
-export default useLocation
+export default getLocation;
