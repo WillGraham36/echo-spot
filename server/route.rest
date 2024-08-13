@@ -185,4 +185,4 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:8080/commentsNEW/deleteComment/66b929de6edacbfcc0822057/user_2k2eA6vjD3pQGd0foD2HkqoPVLo
+DELETE http://localhost:8080/posts/deleteAllPosts

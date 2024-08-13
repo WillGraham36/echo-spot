@@ -21,4 +21,4 @@ app.use(express.json());
 app.use('/posts', postsRouter);
 app.use('/comments', commentsRouter);
 app.use('/feed', feedRouter);
-// app.use('/users', usersRouter);
+app.use('/users', usersRouter);
