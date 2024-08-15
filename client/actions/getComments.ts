@@ -11,7 +11,6 @@ export const getComments = async (postId: string): Promise<CommentType[]> => {
             throw new Error("Failed to fetch comments");
         }
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.error(error);

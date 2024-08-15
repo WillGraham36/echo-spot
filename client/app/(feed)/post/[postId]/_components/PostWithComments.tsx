@@ -16,7 +16,7 @@ interface PostWithCommentsProps {
 const PostWithComments = ({ postId, post, initialComments }: PostWithCommentsProps) => {
 
     const [numComments, setComments] = useState(post.comments.length);
-
+    
     return (
         <>
             <PostCard post={post} isDedicatedPage={true} numComments={numComments}/>

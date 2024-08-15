@@ -11,8 +11,8 @@ import UserModel from '../models/userShema.js';
  */
 router.get('/forPost/:postId', getPost, async (req, res) => {
     const post = res.post;
-    const commentArray = post.comments;
-    const comments = await CommentModel.find({ _id: { $in: commentArray } });
+    const commentIds = post.comments.map(comment => comment.commentId);
+    const comments = await CommentModel.find({ _id: { $in: commentIds } });
     res.json(comments);
 });
 
@@ -72,20 +72,38 @@ router.patch('/vote/:commentId/:userId', getComment, getUser, async (req, res) =
  * @desc Create a new comment
  */
 router.post('/createNewComment/:postId/:userId', getPost, getUser, async (req, res) => {
-    const comment = new CommentModel({
-        childIds: req.body.childIds,
-        userNumber: req.body.userNumber,
-        userId: req.params.userId,
-        date: req.body.date,
-        commentContent: req.body.commentContent,
-        upvotes: req.body.upvotes
-    });
-
     try {
+
+        let userNumber;
+        // Check if user has already commented on this post
+        const hasCommented = res.post.comments.find(comment => comment.userId == req.params.userId);
+        const isOriginalPoster = res.post.userId == req.params.userId;
+        if(isOriginalPoster) {
+            userNumber = 0;
+        } else if(hasCommented) {
+            // Get the user number of the comment
+            userNumber = hasCommented.userNumber;
+        } else {
+            userNumber = res.post.highestUserNumber + 1;
+            res.post.highestUserNumber = userNumber;
+        }
+
+        const comment = new CommentModel({
+            childIds: req.body.childIds,
+            userNumber: userNumber,
+            userId: req.params.userId,
+            date: req.body.date,
+            commentContent: req.body.commentContent,
+            upvotes: req.body.upvotes
+        });
+
         const newComment = await comment.save();
         res.user.comments.push(newComment._id);
         const updatedUser = await res.user.save();
-        res.post.comments.push(newComment._id);
+        res.post.comments.push({
+            userId: req.params.userId,
+            commentId: comment._id
+        });
         const updatedPost = await res.post.save();
         res.status(201).json({
             comment: newComment,

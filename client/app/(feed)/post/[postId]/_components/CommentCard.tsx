@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import UpvotesButtons from "@/app/(feed)/_components/Upvotes"
 import { useState } from "react";
-import { Separator } from "@/components/ui/separator";
 
 interface CommentCardProps {
     comment: CommentType
@@ -27,7 +26,7 @@ const CommentCard = ({
     return (
         <div className="w-full py-1 my-2 flex gap-x-2">
             <div>
-                <User size={22} className="rounded-full mt-[5px]"/>
+                <User size={22} className="rounded-full mt-[5px] dark:bg-primary"/>
             </div>
             <div className="w-full flex-col pr-2">
                 <div className="flex justify-between">
