@@ -7,6 +7,7 @@ import {
 
 const inter = Inter({ subsets: ["latin"] });
 import { cn } from '@/lib/utils';
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
     title: "EchoSpot",
@@ -32,6 +33,7 @@ export default function RootLayout({
                     {children}
                 </ThemeProvider>
             </ClerkProvider>
+            <Toaster/>
 	    </body>
 	</html>
     );

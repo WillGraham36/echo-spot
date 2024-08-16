@@ -15,6 +15,8 @@ import { useState } from "react"
 import UpvotesButtons from "./Upvotes"
 import { PostType } from "@/types/PostType"
 import { cn } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast"
+
 
 interface PostProps {
     post: PostType,
@@ -37,9 +39,20 @@ const PostCard = ({
 
     upvotes = upvotes ? upvotes : 0;
     const [numUpvotes, setNumUpvotes] = useState(upvotes);
+    const { toast } = useToast();
 
     const handleButtonClick = (e: React.MouseEvent) => {
         e.preventDefault();
+    }
+    const handleShare = (e: React.MouseEvent) => {
+        e.preventDefault();
+        const postUrl = `${window.location.origin}/post/${_id}`;
+        navigator.clipboard.writeText(postUrl);
+        toast({
+            description: "Post successfully copied to clipboard",
+            duration: 3000,
+            className: "bg-[#1F1F1F] text-white",
+        })
     }
 
     return (
@@ -91,7 +104,7 @@ const PostCard = ({
                             {numComments ? numComments : comments.length}
                         </p>
                     </Button>
-                    <Button size={"postBtn"} variant={"ghostHover"} onClick={handleButtonClick}>
+                    <Button size={"postBtn"} variant={"ghostHover"} onClick={handleShare}>
                         <Forward size={26} />
                     </Button>
 
