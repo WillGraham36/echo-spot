@@ -31,7 +31,9 @@ const CommentCard = ({
             <div className="w-full flex-col pr-2">
                 <div className="flex justify-between">
                     <span className="inline-flex items-center gap-x-2">
-                        <h1 className="font-medium">#{comment.userNumber}</h1>
+                        <h1 className="font-medium">
+                            {comment.userNumber === 0 ? "OP": `#${comment.userNumber}`}
+                        </h1>
                         <h2 className="text-muted-foreground text-sm">
                             {CalculteTimeDiff({ compToDate: new Date(comment.date) })}
                         </h2>
