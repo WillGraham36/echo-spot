@@ -31,10 +31,10 @@ const PostWithComments = ({ postId, post, initialComments }: PostWithCommentsPro
             return (
                 <Fragment key={`fragment-${comment._id}`}>
                     <CommentCard comment={comment} key={comment._id} setNumComments={setComments} postId={postId} level={level} />
-                    <Separator className="bg-white dark:bg-neutral-700 h-[2px]" key={`separator-${comment._id}`} />
                     {comment.childIds && comment.childIds.map(childId => {
                         return renderComments(initialComments.filter(comment => comment._id === childId), level + 1);
                     })}
+                    {level === 0 && <Separator className="bg-white dark:bg-neutral-700 h-[2px]" key={`separator-${comment._id}`} />}
                 </Fragment>
             );
         });
@@ -44,16 +44,8 @@ const PostWithComments = ({ postId, post, initialComments }: PostWithCommentsPro
         <>
             <PostCard post={post} isDedicatedPage={true} numComments={numComments}/>
             <CommentForm postId={postId} setNumComments={setComments}/>
-            <Separator className="dark:bg-neutral-700 h-[1px] my-2" />
+            <Separator className="bg-white dark:bg-neutral-700 h-[1px] my-2" />
             {renderComments(topLevelComments, 0)}
-            {/* {initialComments && initialComments.map((comment: CommentType) => {
-                return (
-                    <Fragment key={`fragment-${comment._id}`}>
-                        <CommentCard comment={comment} key={comment._id} setNumComments={setComments} postId={postId} />
-                        <Separator className="bg-white dark:bg-neutral-700 h-[2px]" key={`separator-${comment._id}`} />
-                    </Fragment>
-                ); 
-            })} */}
         </>
     )
 }

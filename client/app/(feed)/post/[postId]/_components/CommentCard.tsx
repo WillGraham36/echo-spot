@@ -85,7 +85,7 @@ const CommentCard = ({
                         upvoteType="comments"
                     />
                 </div>
-                {replyIsOpen && <CommentForm postId={postId} setNumComments={setNumComments} parentCommentId={comment._id} />}
+                {replyIsOpen && <CommentForm postId={postId} setNumComments={setNumComments} parentCommentId={comment._id} setReplyIsOpen={setReplyIsOpen} />}
             </div>
         </div>
     )

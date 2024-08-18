@@ -31,10 +31,11 @@ const FormSchema = z.object({
 
 interface CommentFormProps {
     postId: string,
-    setNumComments: React.Dispatch<React.SetStateAction<number>>
+    setNumComments: React.Dispatch<React.SetStateAction<number>>,
+    setReplyIsOpen?: React.Dispatch<React.SetStateAction<boolean>>,
     parentCommentId?: string,
 }
-const CommentForm = ({ postId, setNumComments, parentCommentId }: CommentFormProps) => {
+const CommentForm = ({ postId, setNumComments, parentCommentId, setReplyIsOpen }: CommentFormProps) => {
     
     const { user } = useUser();
     const [state, dispatch] = useReducer(FormReducer, INITAL_STATE);
@@ -54,6 +55,7 @@ const CommentForm = ({ postId, setNumComments, parentCommentId }: CommentFormPro
         form.reset();
         ref.current?.reset();
         setNumComments((prev) => prev + 1);
+        setReplyIsOpen && setReplyIsOpen(false);
     }
     
     return (
