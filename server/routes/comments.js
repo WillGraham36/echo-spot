@@ -70,8 +70,10 @@ router.patch('/vote/:commentId/:userId', getComment, getUser, async (req, res) =
 /**
  * @route POST /comments/createNewComment/:postId/:userId
  * @desc Create a new comment
+ * @body {String} parentCommentId: Optional, if the comment is a reply to another comment
  */
-router.post('/createNewComment/:postId/:userId', getPost, getUser, async (req, res) => {
+router.post('/createNewComment/:postId/:userId/', getPost, getUser, async (req, res) => {
+
     try {
         let userNumber;
         // Check if user has already commented on this post
@@ -88,7 +90,6 @@ router.post('/createNewComment/:postId/:userId', getPost, getUser, async (req, r
         }
 
         const comment = new CommentModel({
-            parentCommentId: req.body.parentCommentId,
             userNumber: userNumber,
             userId: req.params.userId,
             date: req.body.date,
@@ -104,6 +105,18 @@ router.post('/createNewComment/:postId/:userId', getPost, getUser, async (req, r
             commentId: comment._id
         });
         const updatedPost = await res.post.save();
+
+        // If the comment is a reply to another comment, add the comment to the parent comment's children
+        const parentCommentId = req.body.parentCommentId;
+        if (parentCommentId) {
+
+            const parentComment = await CommentModel.findById(parentCommentId);
+            if (parentComment == null) {
+                return res.status(404).json({ message: 'Cannot find comment' });
+            }
+            parentComment.childIds.push(newComment._id);
+            await parentComment.save();
+        }
         res.status(201).json({
             comment: newComment,
             post: updatedPost

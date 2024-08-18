@@ -1,6 +1,6 @@
 export type CommentType = {
     _id: string,
-    childIds: Array<string>,
+    childIds?: [string],
     userNumber: number,
     userId: string,
     date: Date,

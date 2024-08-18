@@ -19,12 +19,14 @@ interface CommentCardProps {
     comment: CommentType,
     setNumComments: React.Dispatch<React.SetStateAction<number>>
     postId: string,
+    level: number,
 }
 
 const CommentCard = ({
     comment,
     setNumComments,
     postId,
+    level,
 }: CommentCardProps) => {
 
     const [numUpvotes, setNumUpvotes] = useState(comment.upvotes);
@@ -34,8 +36,11 @@ const CommentCard = ({
         setReplyIsOpen(!replyIsOpen);
     }
 
+    // Calculate padding left based on the level
+    const paddingLeft = `${level * 80}px`;
+
     return (
-        <div className="w-full py-1 my-2 flex gap-x-2">
+        <div className="w-full py-1 my-2 flex gap-x-2" style={{ paddingLeft }}>
             <div>
                 <User size={22} className="rounded-full mt-[5px] dark:bg-primary"/>
             </div>

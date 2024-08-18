@@ -12,7 +12,7 @@ interface createCommentParams {
 const createComment = async ({ content, postId, userId, parentCommentId }: createCommentParams) => {
 
     let commentData = {
-        parentCommentId: parentCommentId,
+        parentCommentId,
         userId,
         commentContent: content,
         upvotes: 0,
@@ -26,7 +26,6 @@ const createComment = async ({ content, postId, userId, parentCommentId }: creat
             },
             body: JSON.stringify(commentData)
         });
-
         if (!response.ok) {
             // dispatch({ type: "CREATE_ERROR", payload: 'Failed to submit post' });
             throw new Error('Failed to submit post');
