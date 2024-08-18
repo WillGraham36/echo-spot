@@ -13,7 +13,7 @@ const PostPage = async ({ params }: { params: { postId: string } }) => {
 
     return (
         <div className="w-full flex flex-col items-center gap-y-4 pt-8">
-            <div className="w-full md:w-[70%] md:bg-neutral-100 md:dark:bg-neutral-800 md:rounded-xl md:p-4 px-4 pb-3 border-b md:border-y-0 
+            <div className="w-full md:w-[60%] md:bg-neutral-100 md:dark:bg-neutral-800 md:rounded-xl md:p-4 px-4 pb-3 border-b md:border-y-0 
             border-y-muted-foreground pt-1 flex">
                     <Link href={"/"} className="h-0" passHref>
                         <Button

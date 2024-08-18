@@ -112,13 +112,13 @@ const PostList =  () => {
                 {posts.map((post: PostType) => {
                         return (
                             <Fragment key={`Fragment-${post._id}`}>
-                                <Link href={`/post/${post._id}`} key={`Link-${post._id}`} className="w-full md:w-[70%] hover:bg-neutral-100 dark:bg-[#1F1F1F] dark:hover:bg-neutral-800 md:rounded-xl px-2 pb-1">
+                                <Link href={`/post/${post._id}`} key={`Link-${post._id}`} className="w-full md:w-[60%] hover:bg-neutral-100 dark:bg-[#1F1F1F] dark:hover:bg-neutral-800 md:rounded-xl px-2 pb-1">
                                     <PostCard
                                         post={post}
                                         key={post._id}
                                     />
                                 </Link>
-                                <Separator className="w-full md:w-[70%] my-0" key={`Separator-${post._id}`}/>
+                                <Separator className="w-full md:w-[60%] my-0" key={`Separator-${post._id}`}/>
                             </Fragment>
                         )
                     })}

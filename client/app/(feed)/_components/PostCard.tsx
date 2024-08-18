@@ -56,15 +56,15 @@ const PostCard = ({
     }
 
     return (
-        <div className="">
+        <div className="pl-2">
             <div className="flex justify-between items-center py-3">
                 <span className="inline-flex items-center gap-x-2">
                     <Image
                         src="/logo.png"
                         alt="EchoSpot Logo"
-                        width={35}
-                        height={35}
-                        className="hidden md:block dark:bg-primary rounded-xl"
+                        width={30}
+                        height={30}
+                        className="hidden md:block dark:bg-primary rounded-xl p-[2px]"
                     />
                     <h3 className="font-bold">
                         {category}
@@ -91,38 +91,34 @@ const PostCard = ({
             </div>
 
 
-            <div className={cn("text-start pt-2", isDedicatedPage ? "md:pl-[3px]" : "md:pl-12")}>
-                <h1>
-                    {title}
-                </h1>
-            </div>
+            <h1 className={cn("text-start", isDedicatedPage ? "md:pl-[3px]" : "")}>
+                {title}
+            </h1>
 
-            <div className={cn("flex justify-between pt-3",isDedicatedPage ? "md:pl-1" : "md:pl-12")}>
-                <div className="flex items-center gap-x-2">
-                    <UpvotesButtons
-                        upvotes={numUpvotes}
-                        setUpvotes={setNumUpvotes}
-                        postId={_id}
-                        upvoteType="posts"
-                    />
-                    <div
-                        className='flex justify-center rounded-3xl p-[5px] px-3 cursor-pointer 
-                            bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700'
-                        role='button'
-                    >
-                        <MessageCircle size={23} strokeWidth='1px' />
-                        <p className="font-bold min-w-5 text-center">
-                            {numComments ? numComments : comments.length}
-                        </p>
-                    </div>
-                    <div
-                        className='flex justify-center rounded-3xl p-[5px] px-2 cursor-pointer 
-                            bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700'
-                        role='button'
-                        onClick={handleShare}
-                    >
-                        <Forward size={23} strokeWidth='1px' />
-                    </div>
+            <div className={cn("flex items-center gap-x-2 pt-4",isDedicatedPage ? "md:pl-1" : "")}>
+                <UpvotesButtons
+                    upvotes={numUpvotes}
+                    setUpvotes={setNumUpvotes}
+                    postId={_id}
+                    upvoteType="posts"
+                />
+                <div
+                    className='flex justify-center rounded-3xl p-[5px] px-3 cursor-pointer 
+                        bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700'
+                    role='button'
+                >
+                    <MessageCircle size={23} strokeWidth='1px' />
+                    <p className="font-bold min-w-5 text-center">
+                        {numComments ? numComments : comments.length}
+                    </p>
+                </div>
+                <div
+                    className='flex justify-center rounded-3xl p-[5px] px-2 cursor-pointer 
+                        bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700'
+                    role='button'
+                    onClick={handleShare}
+                >
+                    <Forward size={23} strokeWidth='1px' />
                 </div>
             </div>
         </div>
