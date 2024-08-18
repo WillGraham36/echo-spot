@@ -70,7 +70,7 @@ const CommentForm = ({ postId, setNumComments, parentCommentId, setReplyIsOpen }
                     control={form.control}
                     name='commentContent'
                     render={({ field }) => (
-                        <FormItem className="py-4">
+                        <FormItem className="py-2">
                             <FormControl>
                                 <>
                                     <AutosizeTextarea
@@ -80,14 +80,15 @@ const CommentForm = ({ postId, setNumComments, parentCommentId, setReplyIsOpen }
                                         className='w-full dark:bg-[#1f1f1f]'
                                         {...field}
                                     />
-                                    <FormMessage className="text-primary absolute pt-5" />
+                                    <FormMessage className="text-primary absolute pl-1" />
                                 </>
                             </FormControl>
                         </FormItem>
                     )}
                 />
                 <span className='flex justify-end items-center'>
-                    <Button type="submit" variant={"ghostHover"} className='px-2 mt-1' aria-disabled={pending}>
+                    <Button size={"sm"} className='flex justify-center rounded-3xl px-3 cursor-pointer 
+                        bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700'>
                         {pending ?
                             <Spinner className="text-white p-1" />
                             :
@@ -96,7 +97,7 @@ const CommentForm = ({ postId, setNumComments, parentCommentId, setReplyIsOpen }
                     </Button>
                 </span>
                 {state.error &&
-                    <FormMessage className="text-primary font-medium pt-6">
+                    <FormMessage className="text-primary font-medium">
                         {state.error}
                     </FormMessage>}
             </form>

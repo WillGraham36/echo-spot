@@ -91,11 +91,11 @@ const PostCard = ({
             </div>
 
 
-            <h1 className={cn("text-start", isDedicatedPage ? "md:pl-[3px]" : "")}>
+            <h1 className={cn("text-start", isDedicatedPage && "pl-[2px]")}>
                 {title}
             </h1>
 
-            <div className={cn("flex items-center gap-x-2 pt-4",isDedicatedPage ? "md:pl-1" : "")}>
+            <div className="flex items-center gap-x-2 pt-4">
                 <UpvotesButtons
                     upvotes={numUpvotes}
                     setUpvotes={setNumUpvotes}
