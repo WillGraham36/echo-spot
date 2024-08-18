@@ -105,7 +105,7 @@ const UpvotesButtons = ({
 
     return (
         <span className='inline-flex items-center gap-x-1 rounded-3xl 
-            bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-700 dark:hover:bg-neutral-600'
+            bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700'
         >
             <div 
                 className='rounded-full transition-colors p-1 cursor-pointer hover:text-primary hover:bg-neutral-200 dark:hover:bg-neutral-500'

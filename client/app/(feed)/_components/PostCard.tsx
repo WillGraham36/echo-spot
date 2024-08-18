@@ -107,7 +107,7 @@ const PostCard = ({
                     />
                     <div
                         className='flex justify-center rounded-3xl p-[5px] px-3 cursor-pointer 
-                            bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-700 dark:hover:bg-neutral-600'
+                            bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700'
                         role='button'
                     >
                         <MessageCircle size={23} strokeWidth='1px' />
@@ -117,7 +117,7 @@ const PostCard = ({
                     </div>
                     <div
                         className='flex justify-center rounded-3xl p-[5px] px-2 cursor-pointer 
-                            bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-700 dark:hover:bg-neutral-600'
+                            bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700'
                         role='button'
                         onClick={handleShare}
                     >
