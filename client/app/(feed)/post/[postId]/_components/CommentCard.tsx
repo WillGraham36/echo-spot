@@ -1,7 +1,7 @@
 "use client";
 import { CommentType } from "@/types/CommentType"
 import CalculteTimeDiff from "@/utils/CalculteTimeDiff"
-import { Ellipsis, User } from "lucide-react"
+import { CornerDownRight, Ellipsis, User } from "lucide-react"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,16 +12,27 @@ import {
 } from "@/components/ui/dropdown-menu"
 import UpvotesButtons from "@/app/(feed)/_components/Upvotes"
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import CommentForm from "./CommentForm";
 
 interface CommentCardProps {
-    comment: CommentType
+    comment: CommentType,
+    setNumComments: React.Dispatch<React.SetStateAction<number>>
+    postId: string,
 }
 
 const CommentCard = ({
-    comment
+    comment,
+    setNumComments,
+    postId,
 }: CommentCardProps) => {
 
     const [numUpvotes, setNumUpvotes] = useState(comment.upvotes);
+    const [replyIsOpen, setReplyIsOpen] = useState(false);
+
+    const handleReplying = () => {
+        setReplyIsOpen(!replyIsOpen);
+    }
 
     return (
         <div className="w-full py-1 my-2 flex gap-x-2">
@@ -54,8 +65,14 @@ const CommentCard = ({
                     </DropdownMenu>
                 </div>
                 <h1 className="pt-1">{comment.commentContent}</h1>
-                <div className="flex items-center justify-end">
-                    {/* TODO: Be able to reply to user comments, for now im not bothering */}
+                <div className="flex items-center justify-between">
+                    <Button
+                        variant={"ghostHover"}
+                        className="ml-2 px-1 h-8 py-0 rounded-md"
+                        onClick={handleReplying}
+                    >
+                        <CornerDownRight size={22} />
+                    </Button>
                     <UpvotesButtons
                         upvotes={numUpvotes}
                         setUpvotes={setNumUpvotes}
@@ -63,6 +80,7 @@ const CommentCard = ({
                         upvoteType="comments"
                     />
                 </div>
+                {replyIsOpen && <CommentForm postId={postId} setNumComments={setNumComments} parentCommentId={comment._id} />}
             </div>
         </div>
     )

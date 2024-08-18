@@ -7,15 +7,15 @@ interface createCommentParams {
     content: string;
     postId: string;
     userId: string;
+    parentCommentId?: string;
 }
-const createComment = async ({ content, postId, userId}: createCommentParams) => {
+const createComment = async ({ content, postId, userId, parentCommentId }: createCommentParams) => {
 
-    const commentData = {
-        childIds: [],
-        userNumber: 0,
+    let commentData = {
+        parentCommentId: parentCommentId,
         userId,
         commentContent: content,
-        upvotes: 0
+        upvotes: 0,
     };
     try {
         // dispatch({ type: "CREATE_START" });
@@ -31,7 +31,6 @@ const createComment = async ({ content, postId, userId}: createCommentParams) =>
             // dispatch({ type: "CREATE_ERROR", payload: 'Failed to submit post' });
             throw new Error('Failed to submit post');
         }
-
         // dispatch({ type: "CREATE_SUCCESS" });
         revalidatePath(`/post/${postId}`);
     } catch (error) {

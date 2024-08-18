@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 const CommentSchema = new mongoose.Schema({
     // first children only
-    childIds: {
-        type: [String],
-        default: []
+    parentCommentId: {
+        type: String,
+        default: null
     },
     userNumber: {
         type: Number,

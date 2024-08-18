@@ -73,7 +73,6 @@ router.patch('/vote/:commentId/:userId', getComment, getUser, async (req, res) =
  */
 router.post('/createNewComment/:postId/:userId', getPost, getUser, async (req, res) => {
     try {
-
         let userNumber;
         // Check if user has already commented on this post
         const hasCommented = res.post.comments.find(comment => comment.userId == req.params.userId);
@@ -89,7 +88,7 @@ router.post('/createNewComment/:postId/:userId', getPost, getUser, async (req, r
         }
 
         const comment = new CommentModel({
-            childIds: req.body.childIds,
+            parentCommentId: req.body.parentCommentId,
             userNumber: userNumber,
             userId: req.params.userId,
             date: req.body.date,
