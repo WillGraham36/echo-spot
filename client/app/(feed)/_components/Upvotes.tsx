@@ -104,26 +104,28 @@ const UpvotesButtons = ({
     }
 
     return (
-        <span className='inline-flex items-center gap-x-2'>
+        <span className='inline-flex items-center gap-x-1 rounded-3xl 
+            bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-700 dark:hover:bg-neutral-600'
+        >
             <div 
-                className='hover:text-primary rounded-full transition-colors p-1 cursor-pointer'
+                className='rounded-full transition-colors p-1 cursor-pointer hover:text-primary hover:bg-neutral-200 dark:hover:bg-neutral-500'
                 role='button'
                 onClick={handleUpvote}
             >
                 <ArrowBigUp
-                    size={30}
+                    size={25}
                     strokeWidth='1px'
                     className={cn(isUpvoted === "UPVOTED" && 'fill-primary text-primary')}
                 />
             </div>
-            <p className='font-bold w-5 text-center'>{upvotes}</p>
+            <p className='font-bold min-w-5 text-center'>{upvotes}</p>
             <div
-                className='hover:text-primary rounded-full transition-colors p-1 cursor-pointer'
+                className='rounded-full transition-colors p-1 cursor-pointer hover:text-primary hover:bg-neutral-200 dark:hover:bg-neutral-500'
                 role='button'
                 onClick={handleDownvote}
             >
                 <ArrowBigDown
-                    size={30}
+                    size={25}
                     strokeWidth='1px'
                     className={cn(isUpvoted === "DOWNVOTED" && 'fill-primary text-primary')}
                 />
