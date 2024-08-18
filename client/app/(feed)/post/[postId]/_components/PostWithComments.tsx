@@ -1,11 +1,11 @@
 "use client";
 import { CommentType } from "@/types/CommentType"
 import CommentCard from "./CommentCard";
-import { Separator } from "@radix-ui/react-dropdown-menu";
 import CommentForm from "./CommentForm";
 import { PostType } from "@/types/PostType";
 import PostCard from "@/app/(feed)/_components/PostCard";
 import { Fragment, useState } from "react";
+import { Separator } from "@/components/ui/separator";
 
 interface PostWithCommentsProps {
     postId: string,
@@ -26,16 +26,16 @@ const PostWithComments = ({ postId, post, initialComments }: PostWithCommentsPro
     });
     const topLevelComments = initialComments.filter(comment => !childIds.has(comment._id));
 
-    const renderComments = (comments: CommentType[], level: number) => {
+    const renderComments = (comments: CommentType[], level: number, parentNumber?: number) => {
         return comments.map((comment: CommentType) => {
             return (
-                <Fragment key={`fragment-${comment._id}`}>
-                    <CommentCard comment={comment} key={comment._id} setNumComments={setComments} postId={postId} level={level} />
+                <div key={`fragment-${comment._id}`} className="relative">
+                    <CommentCard comment={comment} key={comment._id} setNumComments={setComments} postId={postId} level={level} parentNumber={parentNumber} />
                     {comment.childIds && comment.childIds.map(childId => {
-                        return renderComments(initialComments.filter(comment => comment._id === childId), level + 1);
+                        return renderComments(initialComments.filter(comment => comment._id === childId), level + 1, comment.userNumber);
                     })}
-                    {level === 0 && <Separator className="bg-white dark:bg-neutral-700 h-[2px]" key={`separator-${comment._id}`} />}
-                </Fragment>
+                    {level === 0 && <Separator className="bg-white dark:bg-neutral-700 " key={`separator-${comment._id}`} />}
+                </div>
             );
         });
     }
