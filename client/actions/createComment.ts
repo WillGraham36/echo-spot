@@ -18,7 +18,6 @@ const createComment = async ({ content, postId, userId, parentCommentId }: creat
         upvotes: 0,
     };
     try {
-        // dispatch({ type: "CREATE_START" });
         const response = await fetch(`${API_URL}/comments/createNewComment/${postId}/${userId}`, {
             method: 'POST',
             headers: {
@@ -27,13 +26,20 @@ const createComment = async ({ content, postId, userId, parentCommentId }: creat
             body: JSON.stringify(commentData)
         });
         if (!response.ok) {
-            // dispatch({ type: "CREATE_ERROR", payload: 'Failed to submit post' });
-            throw new Error('Failed to submit post');
+            return ({
+                type: 'CREATE_ERROR',
+                payload: 'Failed to submit comment'
+            })
         }
-        // dispatch({ type: "CREATE_SUCCESS" });
         revalidatePath(`/post/${postId}`);
+        return ({
+            type: 'CREATE_SUCCESS'
+        });
     } catch (error) {
-        // dispatch({ type: "CREATE_ERROR", payload: 'Failed to submit post' });
+        return ({
+            type: 'CREATE_ERROR',
+            payload: 'Failed to submit post'
+        });
     }
 }
 

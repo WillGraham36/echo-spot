@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Spinner } from '@/components/ui/spinner';
 import { FormReducer, INITAL_STATE } from "@/reducers/FormReducer";
 import { useReducer, useRef } from "react";
-import { useUser } from '@clerk/nextjs';
+import { SignedIn, SignedOut, useUser } from '@clerk/nextjs';
 import { useFormStatus } from 'react-dom';
 import createComment from '@/actions/createComment';
 
@@ -39,7 +39,6 @@ const CommentForm = ({ postId, setNumComments, parentCommentId, setReplyIsOpen }
     
     const { user } = useUser();
     const [state, dispatch] = useReducer(FormReducer, INITAL_STATE);
-    const { pending } = useFormStatus();
     const ref = useRef<HTMLFormElement>(null);
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -49,59 +48,75 @@ const CommentForm = ({ postId, setNumComments, parentCommentId, setReplyIsOpen }
     });
 
     const handleSubmit = async (data: z.infer<typeof FormSchema>) => {
+        dispatch({ type: "CREATE_START" });
         const userId = user?.id as string;
         const content = data.commentContent;
-        await createComment({ content, postId, userId, parentCommentId });
-        form.reset();
-        ref.current?.reset();
-        setNumComments((prev) => prev + 1);
-        setReplyIsOpen && setReplyIsOpen(false);
+        
+        const createCommentStatus = await createComment({ content, postId, userId, parentCommentId });
+        const { type, payload } = createCommentStatus;
+        if (type === "CREATE_SUCCESS") {
+            dispatch({ type: "CREATE_SUCCESS" });
+            form.reset();
+            ref.current?.reset();
+            setNumComments((prev) => prev + 1);
+            setReplyIsOpen && setReplyIsOpen(false);
+            return;
+        }
+        if (type === "CREATE_ERROR") {
+            dispatch({ type: "CREATE_ERROR", payload: payload });
+            return;
+        }
     }
     
     return (
-        
-        <Form {...form}>
-            <form
-                className='pl-2'
-                ref={ref}
-                onSubmit={form.handleSubmit(handleSubmit)}
-            >
-                <FormField
-                    control={form.control}
-                    name='commentContent'
-                    render={({ field }) => (
-                        <FormItem className="py-2">
-                            <FormControl>
-                                <>
-                                    <AutosizeTextarea
-                                        placeholder="Add a comment..."
-                                        maxHeight={200}
-                                        minHeight={50}
-                                        className='w-full dark:bg-[#1f1f1f]'
-                                        {...field}
-                                    />
-                                    <FormMessage className="text-primary absolute pl-1" />
-                                </>
-                            </FormControl>
-                        </FormItem>
-                    )}
-                />
-                <span className='flex justify-end items-center'>
-                    <Button size={"sm"} className='flex justify-center rounded-3xl px-3 cursor-pointer 
+        <>
+            <SignedOut/> {/* If user is signed out, no form will display */}
+
+            <SignedIn>
+                <Form {...form}>
+                    <form
+                        className='pl-2'
+                        ref={ref}
+                        onSubmit={form.handleSubmit(handleSubmit)}
+                    >
+                        <FormField
+                            control={form.control}
+                            name='commentContent'
+                            render={({ field }) => (
+                                <FormItem className="py-2">
+                                    <FormControl>
+                                        <>
+                                            <AutosizeTextarea
+                                                placeholder="Add a comment..."
+                                                maxHeight={200}
+                                                minHeight={50}
+                                                className='w-full dark:bg-[#1f1f1f]'
+                                                {...field}
+                                            />
+                                            <FormMessage className="text-primary absolute pl-1" />
+                                        </>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <span className='flex justify-end items-center'>
+                            <Button size={"sm"} className='flex justify-center rounded-3xl px-3 cursor-pointer 
                         bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700'>
-                        {pending ?
-                            <Spinner className="text-white p-1" />
-                            :
-                            <h1>Add Comment</h1>
-                        }
-                    </Button>
-                </span>
-                {state.error &&
-                    <FormMessage className="text-primary font-medium">
-                        {state.error}
-                    </FormMessage>}
-            </form>
-        </Form>
+                                {state.loading ?
+                                    <Spinner className="text-white p-1" />
+                                    :
+                                    <h1>Add Comment</h1>
+                                }
+                            </Button>
+                        </span>
+                        {state.error &&
+                            <FormMessage className="text-primary font-medium">
+                                {state.error}
+                            </FormMessage>}
+                    </form>
+                </Form>
+            </SignedIn>
+        </>
     )
 }
 
