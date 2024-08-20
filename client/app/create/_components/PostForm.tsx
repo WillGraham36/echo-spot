@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -21,12 +20,13 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AutosizeTextarea } from "@/components/ui/autosize-textarea";
 import { useUser } from "@clerk/nextjs";
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
 import { FormReducer, INITAL_STATE } from "../../../reducers/FormReducer";
-import { API_URL } from "@/utils/constants";
 import getLocation from "@/utils/getLocation";
+import { createPostData } from "@/types/createTypes";
+import createPost from "@/actions/createPost";
 
 
 const FormSchema = z.object({
@@ -60,8 +60,7 @@ const PostForm = () => {
             dispatch({ type: "CREATE_ERROR", payload: 'Could not get location, your location must be enabled to post' });
             return;
         }
-
-        const postData = {
+        const postData: createPostData = {
             location: {
                 lat: location.lat,
                 long: location.long,
@@ -70,26 +69,19 @@ const PostForm = () => {
             title: data.postContent,
             upvotes: 0,
         }
-        try {
-            const response = await fetch(`${API_URL}/posts/createNewPost/${user?.id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(postData)
-            });
 
-            if(!response.ok) {
-                dispatch({ type: "CREATE_ERROR", payload: 'Failed to submit post' });
-                throw new Error('Failed to submit post');
-            }
-
+        const createPostStatus = await createPost({postData, userId: user?.id as string});
+        const { type, payload } = createPostStatus;
+        if(type === "CREATE_SUCCESS") {
+            router.push('/'); // Redirect to feed
             dispatch({ type: "CREATE_SUCCESS" });
-            router.push('/'); // Redirect to home page
-
-        } catch (error) {
-            dispatch({ type: "CREATE_ERROR", payload: 'Failed to submit post' });
+            return;
         }
+        if(type === "CREATE_ERROR") {
+            dispatch({ type: "CREATE_ERROR", payload: payload });
+            return;
+        }
+        
     }
 
     return (

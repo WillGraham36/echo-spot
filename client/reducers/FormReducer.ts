@@ -5,17 +5,17 @@ export const INITAL_STATE = {
     loading: false,
 };
 
-interface Actions {
+type FormActions = {
     type: "CREATE_START" | "CREATE_SUCCESS" | "CREATE_ERROR";
     payload?: any;
 }
-interface State {
+type State = {
     error: string;
     loading: boolean;
 }
 
 
-export const FormReducer = (state: State, action: Actions) => {
+export const FormReducer = (state: State, action: FormActions) => {
     switch (action.type) {
         case "CREATE_START":
             return {
