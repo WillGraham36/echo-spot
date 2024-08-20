@@ -36,10 +36,12 @@ const UpvotesButtons = ({
                 if (userVotedOnComment) {
                     setIsUpvoted(userVotedOnComment.vote === "UPVOTE" ? "UPVOTED" : "DOWNVOTED");
                 }
+            } else if(isLoaded && !isSignedIn) {
+                setIsUpvoted("NONE");
             }
         }
         checkIfUpvoted();
-    },[isLoaded]);
+    },[isLoaded, isSignedIn]);
 
     async function updateVotes(voteType: "UPVOTE" | "DOWNVOTE") {
         try {
