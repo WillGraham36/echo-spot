@@ -15,6 +15,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import CommentForm from "./CommentForm";
 import { Separator } from "@/components/ui/separator";
+import PostOptions from "@/app/_components/PostOptions";
 
 interface CommentCardProps {
     comment: CommentType,
@@ -66,21 +67,7 @@ const CommentCard = ({
                             &middot; {CalculteTimeDiff({ compToDate: new Date(comment.date) })}
                         </p>
                     </span>
-                    <DropdownMenu modal={false}>
-                        <DropdownMenuTrigger className="rounded-full p-1
-                        dark:hover:bg-neutral-700 hover:bg-neutral-300">
-                            <Ellipsis size={24} />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuLabel>Options</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-
-                            <DropdownMenuItem>
-                                {/* TODO: Add block user feature */}
-                                Block User
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <PostOptions comment={comment} />
                 </div>
                 <h1 className="py-0.5">{comment.commentContent}</h1>
                 <div className="flex items-center gap-x-1">

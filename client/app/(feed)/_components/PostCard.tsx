@@ -1,21 +1,13 @@
 "use client";
 import Image from "next/image"
-import { Ellipsis, Forward, MessageCircle } from "lucide-react"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
+import { Forward, MessageCircle } from "lucide-react"
 import CalculteTimeDiff from "@/utils/CalculteTimeDiff"
 import { useState } from "react"
 import UpvotesButtons from "./Upvotes"
 import { PostType } from "@/types/PostType"
 import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast"
+import PostOptions from "@/app/_components/PostOptions";
 
 
 interface PostProps {
@@ -25,28 +17,19 @@ interface PostProps {
 }
 
 const PostCard = ({
-    post: {
-        _id,
-        category,
-        title,
-        upvotes,
-        comments,
-        date
-    },
+    post,
     isDedicatedPage,
     numComments
 }: PostProps) => {
 
-    upvotes = upvotes ? upvotes : 0;
-    const [numUpvotes, setNumUpvotes] = useState(upvotes);
+    post.upvotes = post.upvotes ? post.upvotes : 0;
+    const [numUpvotes, setNumUpvotes] = useState(post.upvotes);
     const { toast } = useToast();
 
-    const handleButtonClick = (e: React.MouseEvent) => {
-        e.preventDefault();
-    }
+
     const handleShare = (e: React.MouseEvent) => {
         e.preventDefault();
-        const postUrl = `${window.location.origin}/post/${_id}`;
+        const postUrl = `${window.location.origin}/post/${post._id}`;
         navigator.clipboard.writeText(postUrl);
         toast({
             description: "Post successfully copied to clipboard",
@@ -67,39 +50,25 @@ const PostCard = ({
                         className="hidden md:block dark:bg-primary rounded-xl p-[2px]"
                     />
                     <h3 className="font-bold">
-                        {category}
+                        {post.category}
                     </h3>
                     <h2 className="text-muted-foreground text-sm">
-                        {CalculteTimeDiff({ compToDate: new Date(date) })}
+                        {CalculteTimeDiff({ compToDate: new Date(post.date) })}
                     </h2>
                 </span>
-                <DropdownMenu modal={false}>
-                    <DropdownMenuTrigger onClick={handleButtonClick} className="rounded-full p-1
-                        dark:hover:bg-neutral-700 hover:bg-neutral-300">
-                        <Ellipsis size={24} />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuLabel>Options</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-
-                        <DropdownMenuItem>
-                            {/* TODO: Add block user feature */}
-                            Block User
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <PostOptions post={post} />
             </div>
 
 
             <h1 className={cn("text-start", isDedicatedPage && "pl-[2px]")}>
-                {title}
+                {post.title}
             </h1>
 
             <div className="flex items-center gap-x-2 pt-4">
                 <UpvotesButtons
                     upvotes={numUpvotes}
                     setUpvotes={setNumUpvotes}
-                    postId={_id}
+                    postId={post._id}
                     upvoteType="posts"
                 />
                 <div
@@ -109,7 +78,7 @@ const PostCard = ({
                 >
                     <MessageCircle size={23} strokeWidth='1px' />
                     <p className="font-bold min-w-5 text-center">
-                        {numComments ? numComments : comments.length}
+                        {numComments ? numComments : post.comments.length}
                     </p>
                 </div>
                 <div
