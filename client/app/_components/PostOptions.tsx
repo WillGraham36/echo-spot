@@ -12,6 +12,7 @@ import { PostType } from "@/types/PostType";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import { useUser } from "@clerk/nextjs"
 import { Ellipsis } from "lucide-react"
+import deletePostOrComment from "@/actions/deletePostOrComment";
 
 type PostOptionsProps =
     | { post: PostType; comment?: never }
@@ -25,12 +26,18 @@ const PostOptions = ({ post, comment }: PostOptionsProps) => {
 
     const handleButtonClick = (e: React.MouseEvent) => { e.preventDefault(); }
 
-    const blockUser = () => {
-        
+    const blockUser = (e: React.MouseEvent) => {
+        e.preventDefault();  
     }
 
-    const deletePost = () => {
+    const deletePost = (e: React.MouseEvent) => {
+        e.preventDefault();
 
+        deletePostOrComment({
+            postType: post ? "post" : "comment",
+            postId: (post?._id || comment?._id) as string,
+            userId: (post?.userId || comment?.userId) as string,
+        })
     }
     return (
         <>
@@ -49,7 +56,7 @@ const PostOptions = ({ post, comment }: PostOptionsProps) => {
                         {user?.id === posterId ? (
                             <>
                                 <DropdownMenuItem onClick={deletePost}>
-                                    Delete Post
+                                    {post ? "Delete Post" : "Delete Comment"}
                                 </DropdownMenuItem>
                             </>
                         ): (
