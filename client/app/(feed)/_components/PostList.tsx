@@ -15,7 +15,7 @@ const PostList =  () => {
     const limit = POSTS_PER_PAGE;
     
     const [posts, setPosts] = useState<PostType[]>([]);
-    const [viewRadius, setViewRadius] = useState<number>(20);
+    const [viewRadius, setViewRadius] = useState<number>(25);
     const [offset, setOffset] = useState<number>(0);
     const [postsStatus, setPostsStatus] = useState({
         loading: true,
@@ -34,8 +34,8 @@ const PostList =  () => {
             if (location) {
                 try {
                     const data = await getPosts({ viewRadius, offset, location, limit });
-                    setPosts([...posts, ...data]);
-                    setPostsStatus({ loading: false, error: false, noMorePosts: data.length === 0});
+                    setPosts(data);
+                    setPostsStatus({ loading: false, error: false, noMorePosts: data.length < limit });
                 } catch (error) {
                     setPostsStatus({ loading: false, error: true, noMorePosts: false });
                 }
@@ -84,12 +84,17 @@ const PostList =  () => {
     /**
      * Show message when there are no posts to display
      */
-    if(postsStatus.noMorePosts && offset === 0) {
+    if(posts.length === 0 && !postsStatus.loading && offset === 0) {
         return (
-            <div className="text-2xl dark:text-white w-full md:w-[70%] bg-neutral-100 dark:bg-neutral-800 rounded-xl border-y-muted-foreground p-5 mt-20">
-                <h1>Looks like there's no echos near you...</h1>
-                <h1 className="pt-2">Try increasing your view radius or create one yourself!</h1>
-            </div>
+            <>
+                <div className="absolute top-24">
+                    <LocationRange viewRadius={viewRadius} setViewRadius={setViewRadius} />
+                </div>
+                <div className="text-2xl dark:text-white w-full md:w-[70%] bg-neutral-100 dark:bg-neutral-800 rounded-xl border-y-muted-foreground p-5 mt-20">
+                    <h1>Looks like there's no echos near you...</h1>
+                    <h1 className="pt-2">Try increasing your view radius or create one yourself!</h1>
+                </div>
+            </>
         )
     }
     if(postsStatus.loading) {

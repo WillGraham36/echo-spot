@@ -35,6 +35,7 @@ const LocationRange = ({ viewRadius, setViewRadius }: LocationRangeProps) => {
                     <SelectItem value="25">25 miles</SelectItem>
                     <SelectItem value="50">50 miles</SelectItem>
                     <SelectItem value="100">100 miles</SelectItem>
+                    <SelectItem value="9999999999">Infinite</SelectItem>
                 </SelectContent>
             </Select>
         </div>

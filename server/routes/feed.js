@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
     if (isValidCoordinates(lat, long) || !maxDistance || !limit || offset < 0) {
         return res.status(400).json({ message: 'Missing parameters' });
     }
-
+    console.log(lat, long, maxDistance, limit, offset);
     try {
         const posts = await PostModel.find({
             location: {
@@ -31,8 +31,8 @@ router.get('/', async (req, res) => {
                 }
             }
         })
-            .limit(limit)
-            .skip(offset);
+        .limit(limit)
+        .skip(offset);
 
         res.json(posts);
     } catch (error) {

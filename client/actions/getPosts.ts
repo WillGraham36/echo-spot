@@ -18,7 +18,6 @@ export const getPosts = async ({
     location,
     limit
 }: getPostProps): Promise<PostType[]> => {
-
     const url = `${API_URL}/feed?lat=${location.lat}&long=${location.long}&maxDistance=${viewRadius * 1609}&limit=${limit}&offset=${offset}`
     try {
         const response = await fetch(url);
