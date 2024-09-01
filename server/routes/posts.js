@@ -102,6 +102,12 @@ router.post('/createNewPost/:userId', getUser, async (req, res) => {
  */
 router.delete('/deletePost/:postId/:userId', getPost, getUser, async (req, res) => {
     try {
+        // Delete all comments in parallel
+        const deleteCommentsPromises = res.post.comments.map(comment =>
+            CommentModel.deleteOne({ _id: comment._id })
+        );
+        await Promise.all(deleteCommentsPromises);
+
         res.post.comments = [];
         const updatedUser = await res.user.posts.pull(req.params.postId);
         await res.post.deleteOne();

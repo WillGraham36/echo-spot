@@ -140,9 +140,9 @@ router.delete('/deleteComment/:commentId/:userId', getComment, getUser, async (r
             res.comment.commentContent = "Deleted";
             res.comment.userId = "Deleted";
             res.comment.upvotes = 0;
+
             const updatedUser = await res.user.posts.pull(req.params.postId); // Remove comment from user's comments anyway
             res.json({
-                user: updatedUser,
                 message: 'Deleted comment successfully'
             })
         } else {
@@ -150,7 +150,6 @@ router.delete('/deleteComment/:commentId/:userId', getComment, getUser, async (r
             const updatedUser = await res.user.comments.pull(req.params.commentId);
             await res.comment.deleteOne();
             res.json({
-                user: updatedUser,
                 message: 'Deleted comment successfully'
             });
         }
