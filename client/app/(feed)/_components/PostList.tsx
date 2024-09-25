@@ -103,7 +103,7 @@ const PostList =  () => {
                     <LocationRange viewRadius={viewRadius} setViewRadius={setViewRadius} />
                 </div>
                 <div className="text-2xl dark:text-white w-full md:w-[70%] bg-neutral-100 dark:bg-neutral-800 rounded-xl border-y-muted-foreground p-5 mt-20">
-                    <h1>Looks like there's no echos near you...</h1>
+                    <h1>Looks like there&apos;s no echos near you...</h1>
                     <h1 className="pt-2">Try increasing your view radius or create one yourself!</h1>
                 </div>
             </>
