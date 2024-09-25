@@ -137,6 +137,23 @@ router.put('/byId/:id/votes', getUser, async (req, res) => {
     }
 });
 
+/**
+ * @route PUT /users/blockUser/:id
+ * @description Blocks a specific user
+ */
+router.put('/blockUser/:id', getUser, async (req, res) => {
+
+    const userToBlock = req.body.blockedUser;
+    res.user.blockedUsers.push(userToBlock);
+
+    try {
+        const updatedUser = await res.user.save();
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
 // ################################### DELETE METHODS ################################### //
 
 /**

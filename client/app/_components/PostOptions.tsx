@@ -14,6 +14,7 @@ import { useUser } from "@clerk/nextjs"
 import { Ellipsis } from "lucide-react"
 import deletePostOrComment from "@/actions/deletePostOrComment";
 import { redirect, usePathname, useRouter } from "next/navigation";
+import blockUser from "@/actions/blockUser";
 type PostOptionsProps =
     | { post: PostType; comment?: never }
     | { post?: never; comment: CommentType };
@@ -28,8 +29,9 @@ const PostOptions = ({ post, comment }: PostOptionsProps) => {
 
     const handleButtonClick = (e: React.MouseEvent) => { e.preventDefault(); }
 
-    const blockUser = (e: React.MouseEvent) => {
-        e.preventDefault();  
+    const doBlockUser = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        const blockingUser = await blockUser({ userId: user?.id as string, blockedUserId: posterId as string });
     }
 
     const deletePost = async (e: React.MouseEvent) => {
@@ -73,7 +75,7 @@ const PostOptions = ({ post, comment }: PostOptionsProps) => {
                             </>
                         ): (
                             <>
-                                <DropdownMenuItem onClick={blockUser}>
+                                <DropdownMenuItem onClick={doBlockUser}>
                                     Block User
                                 </DropdownMenuItem>
                             </>

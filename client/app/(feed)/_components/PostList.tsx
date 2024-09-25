@@ -10,6 +10,8 @@ import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { POSTS_PER_PAGE } from "@/utils/constants";
 import getLocation from "@/utils/getLocation";
+import getMongoUser from "@/actions/getMongoUser";
+import { useUser } from "@clerk/nextjs";
 
 const PostList =  () => {
     const limit = POSTS_PER_PAGE;
@@ -23,6 +25,12 @@ const PostList =  () => {
         noMorePosts: false
     });
     const [scrollTrigger, isInView] = useInView();
+    const { user } = useUser();
+    useEffect(() => {
+        if(user) {
+            const mongoUser = getMongoUser(user?.id as string);
+        }
+    }, [user]);
     
     /**
      * Fetch posts on initial render as well as when the view radius changes
@@ -70,6 +78,10 @@ const PostList =  () => {
             loadMorePosts();
         }
     }, [isInView, !postsStatus.noMorePosts]);
+
+    const filterPosts = (posts: PostType[]) => {
+
+    }
 
     if(postsStatus.error) {
         return (

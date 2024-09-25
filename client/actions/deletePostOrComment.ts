@@ -2,7 +2,6 @@
 
 import { API_URL } from "@/utils/constants";
 import { revalidatePath } from "next/cache";
-import { usePathname } from "next/navigation";
 
 type deletePostOrCommentProps = {
     postType: "post" | "comment",
