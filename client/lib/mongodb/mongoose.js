@@ -9,7 +9,7 @@ export const connectToDatabase = async () => {
     }
 
     try {
-        await mongoose.connect(process.env.MONGOOSE_STRING, {
+        await mongoose.connect(process.env.MONGODB_URI, {
             dbName: "yikyak-clone",
             autoIndex: true,
         });
