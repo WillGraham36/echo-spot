@@ -1,5 +1,16 @@
 import mongoose from "mongoose";
-import { stringify } from "querystring";
+
+const VotedSchema = new mongoose.Schema({
+    Id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    vote: {
+        type: String,
+        enum: ["UPVOTE", "DOWNVOTE"],
+        required: true
+    }
+});
 
 const UserSchema = new mongoose.Schema({
     clerkId: {
