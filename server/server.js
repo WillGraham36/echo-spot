@@ -11,12 +11,16 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 connectToDB();
 const corsOptions = {
-    origin: 'https://echo-spot.vercel.app/',
+    origin: 'https://echo-spot.vercel.app',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
+
+app.options('*', cors(corsOptions));
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
