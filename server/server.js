@@ -10,7 +10,13 @@ import usersRouter from './routes/users.js';
 const app = express();
 const PORT = process.env.PORT || 8080;
 connectToDB();
-app.use(cors());
+const corsOptions = {
+    origin: 'https://echo-spot.vercel.app/',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
