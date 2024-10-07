@@ -18,10 +18,10 @@ router.get('/forPost/:postId', getPost, async (req, res) => {
 
 // ################################### VOTING ON COMMENT  ################################### //
 /**
- * @route PATCH /comments/vote/:commentId/:userId
+ * @route POST /comments/vote/:commentId/:userId
  * @desc Vote on a comment
  */
-router.patch('/vote/:commentId/:userId', getComment, getUser, async (req, res) => {
+router.post('/vote/:commentId/:userId', getComment, getUser, async (req, res) => {
     const { commentId } = req.params;
     const { voteType } = req.body;
 

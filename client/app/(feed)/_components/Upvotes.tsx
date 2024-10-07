@@ -46,7 +46,7 @@ const UpvotesButtons = ({
     async function updateVotes(voteType: "UPVOTE" | "DOWNVOTE") {
         try {
             const response = await fetch(`${API_URL}/${upvoteType}/vote/${postId}/${user?.id}`, {
-                method: 'PATCH',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
