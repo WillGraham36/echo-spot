@@ -11,7 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 connectToDB();
 const corsOptions = {
-    origin: 'https://echo-spot.vercel.app/',
+    origin: 'https://echo-spot.vercel.app',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     optionsSuccessStatus: 200
