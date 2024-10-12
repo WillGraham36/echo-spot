@@ -17,6 +17,11 @@ import CommentForm from "./CommentForm";
 import { Separator } from "@/components/ui/separator";
 import PostOptions from "@/app/_components/PostOptions";
 
+const generateColor = (num: number) => {
+    const colors = ["#e11d48", "#FF6347", "#FF4500", "#FF69B4", "#FF1493", "#FF00FF", "#FF00FF", "#FFB6C1", "#FFC3A0"];
+    return colors[num % colors.length];
+}
+
 interface CommentCardProps {
     comment: CommentType,
     setNumComments: React.Dispatch<React.SetStateAction<number>>
@@ -46,7 +51,7 @@ const CommentCard = ({
     return (
         <div className="w-full py-1 my-2 flex gap-x-2" style={{ paddingLeft }}>
             <div className="flex justify-center">
-                <User size={22} className="rounded-full mt-[5px] dark:bg-primary z-20"/>
+                <User size={22} className="rounded-full p-[1px] mt-[5px] z-20" style={{backgroundColor: generateColor(comment.userNumber)}}/>
                 {comment.childIds && comment.childIds.length > 0 && 
                     <Separator orientation="vertical" className="absolute top-5 h-[calc(100%-30px)] bg-white dark:bg-neutral-700" />
                 }
