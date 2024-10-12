@@ -66,42 +66,52 @@ const UpvotesButtons = ({
 
     async function handleUpvote(e: React.MouseEvent) {
         e.preventDefault();
-        if(!isSignedIn) {
-            // router.push('/sign-in')
-            return;
-        }
+        if(!isSignedIn) { return; }
+
+        const previousUpvotes = upvotes;
+        const previousVoteStatus = isUpvoted;
         if(isUpvoted === "UPVOTED") {
+            setUpvotes(upvotes - 1);
             setIsUpvoted("NONE");
+        } else if(isUpvoted === "DOWNVOTED") {
+            setUpvotes(upvotes + 2);
+            setIsUpvoted("UPVOTED");
         } else {
+            setUpvotes(upvotes + 1);
             setIsUpvoted("UPVOTED");
         }
 
+
         try {
-            const newUpvotes = await updateVotes("UPVOTE");
-            setUpvotes(newUpvotes);
+            await updateVotes("UPVOTE");
         } catch (error) {
-            setIsUpvoted(isUpvoted === "UPVOTED" ? "UPVOTED" : "NONE");
+            setUpvotes(previousUpvotes);
+            setIsUpvoted(previousVoteStatus);
         }
     }
 
     async function handleDownvote(e: React.MouseEvent) {
         e.preventDefault();
-        if (!isSignedIn) {
-            // router.push('/sign-in')
-            return;
-        }
+        if (!isSignedIn) { return; }
 
+        const previousUpvotes = upvotes;
+        const previousVoteStatus = isUpvoted;
         if(isUpvoted === "DOWNVOTED") {
+            setUpvotes(upvotes + 1);
             setIsUpvoted("NONE");
+        } else if(isUpvoted === "UPVOTED") {
+            setUpvotes(upvotes - 2);
+            setIsUpvoted("DOWNVOTED");
         } else {
+            setUpvotes(upvotes - 1);
             setIsUpvoted("DOWNVOTED");
         }
         
         try {
-            const newUpvotes = await updateVotes("DOWNVOTE");
-            setUpvotes(newUpvotes);
+            await updateVotes("DOWNVOTE");
         } catch (error) {
-            setIsUpvoted(isUpvoted === "DOWNVOTED" ? "DOWNVOTED" : "NONE");
+            setUpvotes(previousUpvotes);
+            setIsUpvoted(previousVoteStatus);
         }
     }
 
