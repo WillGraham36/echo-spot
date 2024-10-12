@@ -100,10 +100,15 @@ const PostForm = () => {
                                     </SelectTrigger>
                                 </FormControl>
                                     <SelectContent>
-                                        {/* TODO: Change categories and values */}
-                                        <SelectItem value="general">General</SelectItem>
-                                        <SelectItem value="a">blah blah blah</SelectItem>
-                                        <SelectItem value="b">yappin</SelectItem>
+                                    <SelectItem value="general">General</SelectItem>
+                                    <SelectItem value="sports">Sports</SelectItem>
+                                    <SelectItem value="politics">Politics</SelectItem>
+                                    <SelectItem value="humor">Humor</SelectItem>
+                                    <SelectItem value="technology">Technology</SelectItem>
+                                    <SelectItem value="confessions">Confessions</SelectItem>
+                                    <SelectItem value="relationships">Relationships</SelectItem>
+                                    <SelectItem value="work">Work</SelectItem>
+                                    <SelectItem value="school">School</SelectItem>
                                     </SelectContent>
                             </Select>
                             <FormMessage className="text-primary"/>
