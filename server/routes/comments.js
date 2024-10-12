@@ -83,7 +83,16 @@ router.post('/createNewComment/:postId/:userId/', getPost, getUser, async (req, 
             userNumber = 0;
         } else if(hasCommented) {
             // Get the user number of the comment
-            userNumber = hasCommented.userNumber;
+            let prevUserComment;
+            try {
+                prevUserComment = await CommentModel.findById(hasCommented.commentId);
+                if (prevUserComment == null) {
+                    return res.status(404).json({ message: 'Cannot find comment' });
+                }
+            } catch (error) {
+                res.status(500).json({ message: error.message });
+            }
+            userNumber = prevUserComment.userNumber;
         } else {
             userNumber = res.post.highestUserNumber + 1;
             res.post.highestUserNumber = userNumber;
