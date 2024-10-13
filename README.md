@@ -29,6 +29,24 @@ Echo Spot is a social media app aimed at college students which allows you to sh
 * <img src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge" alt="Express.js" align="center">
 * <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" align="center">
 
+## Image Gallery
 
+<div align="center">
+    <h3>Light View</h3>
+    <img src="client/public/main-feed-light.png" alt="Light View of Main Feed">
+    <h3>General Post</h3>
+    <img src="client/public/post-1-dark.png" alt="A post">
+    <h3>Creating a Post</h3>
+    <img src="client/public/create-post-dark.png" alt="Creating a post">
+    <h3>Mobile View</h3>
+    <img src="client/public/mobile-feed.png" alt="mobile view" height="500">
+</div>
+
+<!-- CONTACT -->
+## Contact
+
+Will Graham - [LinkedIn](https://www.linkedin.com/in/will-graham-4623022a8/) - willgraham367@gmail.com
+
+Project Link: [https://github.com/WillGraham36/echo-spot](https://github.com/WillGraham36/echo-spot)
 
 [main-screenshot]: client/public/main-feed-dark.png
