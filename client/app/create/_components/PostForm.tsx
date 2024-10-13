@@ -19,7 +19,7 @@ import {
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AutosizeTextarea } from "@/components/ui/autosize-textarea";
-import { useUser } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import { useReducer } from "react";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
@@ -51,6 +51,7 @@ const PostForm = () => {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     });
+    const { getToken } = useAuth();
 
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     
@@ -70,7 +71,8 @@ const PostForm = () => {
             upvotes: 0,
         }
 
-        const createPostStatus = await createPost({postData, userId: user?.id as string});
+        const token = await getToken();
+        const createPostStatus = await createPost({postData, userId: user?.id as string, token});
         const { type, payload } = createPostStatus;
         if(type === "CREATE_SUCCESS") {
             router.push('/'); // Redirect to feed

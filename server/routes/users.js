@@ -1,5 +1,6 @@
 import express from 'express';
 const router = express.Router();
+import { ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node';
 
 import UserModel from '../models/userShema.js';
 
@@ -46,7 +47,7 @@ router.get('/byId/:id', getUser, (req, res) => {
  * @route PUT /users/byId/:id/posts
  * @description Associates a post with a user, block a user, or saves a post
  */
-router.put('/byId/:id/posts', getUser, async (req, res) => {
+router.put('/byId/:id/posts', ClerkExpressRequireAuth(), getUser, async (req, res) => {
 
     if(req.body.posts) {
         res.user.posts.push(req.body.posts);
@@ -71,7 +72,7 @@ router.put('/byId/:id/posts', getUser, async (req, res) => {
  * @route PUT /users/byId/:id/comments
  * @description Associates a comment with a user
  */
-router.put('/byId/:id/comments', getUser, async (req, res) => {
+router.put('/byId/:id/comments', ClerkExpressRequireAuth(), getUser, async (req, res) => {
 
     if (req.body.comments) {
         res.user.comments.push(req.body.comments);
@@ -89,7 +90,7 @@ router.put('/byId/:id/comments', getUser, async (req, res) => {
  * @route PUT /users/byId/:id/votes
  * @description Votes on a post or comment
  */
-router.put('/byId/:id/votes', getUser, async (req, res) => {
+router.put('/byId/:id/votes', ClerkExpressRequireAuth(), getUser, async (req, res) => {
 
     if (req.body.votedPosts) {
         const { Id, vote } = req.body.votedPosts;
@@ -141,7 +142,7 @@ router.put('/byId/:id/votes', getUser, async (req, res) => {
  * @route PUT /users/blockUser/:id
  * @description Blocks a specific user
  */
-router.put('/blockUser/:id', getUser, async (req, res) => {
+router.put('/blockUser/:id', ClerkExpressRequireAuth(), getUser, async (req, res) => {
 
     const userToBlock = req.body.blockedUser;
     res.user.blockedUsers.push(userToBlock);
@@ -160,7 +161,7 @@ router.put('/blockUser/:id', getUser, async (req, res) => {
  * @route DELETE /users/byId/:id/posts
  * @description Deletes a post from a user, unblocks a user, or unsaves a post
  */
-router.delete('/byId/:id/posts', getUser, async (req, res) => {
+router.delete('/byId/:id/posts', ClerkExpressRequireAuth(), getUser, async (req, res) => {
 
     if (req.body.posts) {
         res.user.posts.pull(req.body.posts);
@@ -185,7 +186,7 @@ router.delete('/byId/:id/posts', getUser, async (req, res) => {
  * @route DELETE /users/byId/:id/comments
  * @description Deletes a comment from a user
  */
-router.delete('/byId/:id/comments', getUser, async (req, res) => {
+router.delete('/byId/:id/comments', ClerkExpressRequireAuth(), getUser, async (req, res) => {
     console.log(req.body.comments);
     if (req.body.comments) {
         res.user.comments.pull(req.body.comments);

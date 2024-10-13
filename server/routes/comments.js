@@ -4,6 +4,7 @@ const router = express.Router();
 import CommentModel from '../models/commentSchema.js';
 import PostModel from '../models/postSchema.js';
 import UserModel from '../models/userShema.js';
+import { ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node';
 
 // ################################### GET COMMENTS FOR POST ################################### //
 /**
@@ -21,7 +22,7 @@ router.get('/forPost/:postId', getPost, async (req, res) => {
  * @route POST /comments/vote/:commentId/:userId
  * @desc Vote on a comment
  */
-router.post('/vote/:commentId/:userId', getComment, getUser, async (req, res) => {
+router.post('/vote/:commentId/:userId', ClerkExpressRequireAuth(), getComment, getUser, async (req, res) => {
     const { commentId } = req.params;
     const { voteType } = req.body;
 
@@ -72,7 +73,7 @@ router.post('/vote/:commentId/:userId', getComment, getUser, async (req, res) =>
  * @desc Create a new comment
  * @body {String} parentCommentId: Optional, if the comment is a reply to another comment
  */
-router.post('/createNewComment/:postId/:userId/', getPost, getUser, async (req, res) => {
+router.post('/createNewComment/:postId/:userId/', ClerkExpressRequireAuth(), getPost, getUser, async (req, res) => {
 
     try {
         let userNumber;
@@ -141,7 +142,7 @@ router.post('/createNewComment/:postId/:userId/', getPost, getUser, async (req, 
  * @desc If the comment has children, does not delete the comment, but sets the content to "Deleted"
  *      If the comment has no children, deletes the comment
  */
-router.delete('/deleteComment/:commentId/:userId', getComment, getUser, async (req, res) => {
+router.delete('/deleteComment/:commentId/:userId', ClerkExpressRequireAuth(), getComment, getUser, async (req, res) => {
     try {
         const hasChildren = res.comment.childIds.length > 0;
         if(hasChildren) {

@@ -8,9 +8,9 @@ interface createCommentParams {
     postId: string;
     userId: string;
     parentCommentId?: string;
+    token: string | null;
 }
-const createComment = async ({ content, postId, userId, parentCommentId }: createCommentParams) => {
-
+const createComment = async ({ content, postId, userId, parentCommentId, token}: createCommentParams) => {
     let commentData = {
         parentCommentId,
         userId,
@@ -21,6 +21,7 @@ const createComment = async ({ content, postId, userId, parentCommentId }: creat
         const response = await fetch(`${API_URL}/comments/createNewComment/${postId}/${userId}`, {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(commentData)

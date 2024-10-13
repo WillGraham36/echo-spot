@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Spinner } from '@/components/ui/spinner';
 import { FormReducer, INITAL_STATE } from "@/reducers/FormReducer";
 import { useReducer, useRef } from "react";
-import { SignedIn, SignedOut, useUser } from '@clerk/nextjs';
+import { SignedIn, SignedOut, useAuth, useUser } from '@clerk/nextjs';
 import { useFormStatus } from 'react-dom';
 import createComment from '@/actions/createComment';
 
@@ -36,7 +36,6 @@ interface CommentFormProps {
     parentCommentId?: string,
 }
 const CommentForm = ({ postId, setNumComments, parentCommentId, setReplyIsOpen }: CommentFormProps) => {
-    
     const { user } = useUser();
     const [state, dispatch] = useReducer(FormReducer, INITAL_STATE);
     const ref = useRef<HTMLFormElement>(null);
@@ -46,13 +45,15 @@ const CommentForm = ({ postId, setNumComments, parentCommentId, setReplyIsOpen }
             commentContent: "",
         }
     });
+    const { getToken } = useAuth();
 
     const handleSubmit = async (data: z.infer<typeof FormSchema>) => {
         dispatch({ type: "CREATE_START" });
         const userId = user?.id as string;
         const content = data.commentContent;
-        
-        const createCommentStatus = await createComment({ content, postId, userId, parentCommentId });
+
+        const token = await getToken();
+        const createCommentStatus = await createComment({ content, postId, userId, parentCommentId, token });
         const { type, payload } = createCommentStatus;
         if (type === "CREATE_SUCCESS") {
             dispatch({ type: "CREATE_SUCCESS" });

@@ -1,20 +1,20 @@
 "use server";
-
 import { API_URL } from "@/utils/constants";
-import exp from "constants";
 
 type blockUserProps = {
     userId: string,
     blockedUserId: string,
+    token: string | null,
 };
 
-const blockUser = async ({ userId, blockedUserId }: blockUserProps) => {
+const blockUser = async ({ userId, blockedUserId, token }: blockUserProps) => {
     const url = `${API_URL}/users/blockUser/${userId}`;
 
     try {
         const response = await fetch(url, {
             method: "POST",
             headers: {
+                'Authorization': `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ blockedUserId }),

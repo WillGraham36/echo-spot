@@ -1,5 +1,6 @@
 import express from 'express';
 const router = express.Router();
+import { ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node';
 
 import PostModel from '../models/postSchema.js';
 import UserModel from '../models/userShema.js';
@@ -19,7 +20,7 @@ router.get('/getOnePost/:postId', getPost, (req, res) => {
  * @route POST /posts/vote/:postId/:userId
  * @desc Vote on a post
  */
-router.post('/vote/:postId/:userId', getPost, getUser, async (req, res) => {
+router.post('/vote/:postId/:userId', ClerkExpressRequireAuth(), getPost, getUser, async (req, res) => {
     const { postId } = req.params;
     const { voteType } = req.body;
 
@@ -67,7 +68,7 @@ router.post('/vote/:postId/:userId', getPost, getUser, async (req, res) => {
  * @route POST /posts/createNewPost/:userId
  * @desc Create a new post
  */
-router.post('/createNewPost/:userId', getUser, async (req, res) => {
+router.post('/createNewPost/:userId', ClerkExpressRequireAuth(), getUser, async (req, res) => {
     const post = new PostModel({
         userId: req.params.userId,
         location: {
@@ -100,7 +101,7 @@ router.post('/createNewPost/:userId', getUser, async (req, res) => {
  * @route DELETE /posts/:postId/:userId
  * @desc Delete a post by its id
  */
-router.delete('/deletePost/:postId/:userId', getPost, getUser, async (req, res) => {
+router.delete('/deletePost/:postId/:userId', ClerkExpressRequireAuth(), getPost, getUser, async (req, res) => {
     try {
         // Delete all comments in parallel
         const deleteCommentsPromises = res.post.comments.map(comment =>

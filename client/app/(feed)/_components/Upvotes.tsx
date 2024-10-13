@@ -1,7 +1,7 @@
 import getMongoUser from '@/actions/getMongoUser';
 import { cn } from '@/lib/utils';
 import { API_URL } from '@/utils/constants';
-import { useUser } from '@clerk/nextjs';
+import { useAuth, useUser } from '@clerk/nextjs';
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react'
 import { SetStateAction, useEffect, useState } from 'react';
 
@@ -21,6 +21,7 @@ const UpvotesButtons = ({
     upvoteType,
 }: UpvotesButtonsProps) => {
 
+    const { getToken } = useAuth();
     const { user, isLoaded, isSignedIn } = useUser();
     const [isUpvoted, setIsUpvoted] = useState<likedStatus>("NONE");
 
@@ -44,10 +45,12 @@ const UpvotesButtons = ({
     },[isLoaded, isSignedIn]);
 
     async function updateVotes(voteType: "UPVOTE" | "DOWNVOTE") {
+        const token = await getToken();
         try {
             const response = await fetch(`${API_URL}/${upvoteType}/vote/${postId}/${user?.id}`, {
                 method: 'POST',
                 headers: {
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ 

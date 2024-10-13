@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { CommentType } from "@/types/CommentType";
 import { PostType } from "@/types/PostType";
-import { SignedIn, SignedOut } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-react";
 import { useUser } from "@clerk/nextjs"
 import { Ellipsis } from "lucide-react"
 import deletePostOrComment from "@/actions/deletePostOrComment";
@@ -24,6 +24,7 @@ const PostOptions = ({ post, comment }: PostOptionsProps) => {
     const posterId = post?.userId || comment?.userId;
 
     const { user } = useUser();
+    const { getToken } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
 
@@ -31,16 +32,19 @@ const PostOptions = ({ post, comment }: PostOptionsProps) => {
 
     const doBlockUser = async (e: React.MouseEvent) => {
         e.preventDefault();
-        const blockingUser = await blockUser({ userId: user?.id as string, blockedUserId: posterId as string });
+        const token = await getToken();
+        const blockingUser = await blockUser({ userId: user?.id as string, blockedUserId: posterId as string, token });
     }
 
     const deletePost = async (e: React.MouseEvent) => {
         e.preventDefault();
+        const token = await getToken();
         const postType = post ? "post" : "comment";
         await deletePostOrComment({
             postType,
             postId: (post?._id || comment?._id) as string,
             userId: (post?.userId || comment?.userId) as string,
+            token,
         });
         if (postType !== "comment") {
             if (pathname === "/") {
