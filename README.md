@@ -9,27 +9,57 @@
   </p>
 </div>
 
-## About Echo Spot
+## ℹ️ About Echo Spot
 
-Echo Spot is a social media app aimed at college students which allows you to share your thoughts with those around you anonymously
+Echo Spot is a social media app aimed at college students that allows you to share your thoughts anonymously with those around you.
 
 [![Echo Spot Main Screenshot][main-screenshot]](https://echo-spot.vercel.app)
 
-## Built With
+
+
+## ✨ Features
+- Create and share posts anonymously  
+- Location-based feed tailored to your college  
+- Comment and interact with other students  
+- Dark/Light mode support  
+- Fully responsive for mobile & desktop  
+
+
+
+## 🛠️ Tech Stack
 
 ### Frontend
-* <img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" align="center">
-* <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" align="center">
-* <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" align="center">
-* <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="Typescript" align="center">
-* <img src="https://img.shields.io/badge/Clerk-1b54bf?style=for-the-badge" alt="Clerk" align="center">
+* ![Next.js][Next.js]
+* ![React][React.js]
+* ![TailWindCSS][TailWind]
+* ![TypeScript][TypeScript]
+* ![Clerk][Clerk]
 
 ### Backend
-* <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="Mongo DB" align="center">
-* <img src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge" alt="Express.js" align="center">
-* <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" align="center">
+* ![MongoDB][MongoDB]
+* ![Express.js][Express]
+* ![Node.js][Node]
 
-## Image Gallery
+
+
+## ⭐ Why I Built This Project
+
+As a college student, I noticed students often want to share thoughts, jokes, or advice without attaching their identity.  
+I built Echo Spot to explore how anonymity can foster open discussions while still providing a fun, engaging social feed.  
+
+
+
+## 📖 What I Learned
+
+This project taught me:
+- How to design and scale a **full-stack social media app**  
+- Building secure **authentication flows** with Clerk  
+- Using **MongoDB** to manage posts, comments, and users  
+- Deploying a production-ready app with a responsive UI  
+
+
+
+## 🎞️ Image Gallery
 
 <div align="center">
     <h3>Light View</h3>
@@ -39,14 +69,25 @@ Echo Spot is a social media app aimed at college students which allows you to sh
     <h3>Creating a Post</h3>
     <img src="client/public/create-post-dark.png" alt="Creating a post">
     <h3>Mobile View</h3>
-    <img src="client/public/mobile-feed.png" alt="mobile view" height="500">
+    <img src="client/public/mobile-feed.png" alt="Mobile Feed" height="500">
 </div>
 
-<!-- CONTACT -->
-## Contact
 
-Will Graham - [LinkedIn](https://www.linkedin.com/in/will-graham-4623022a8/) - willgraham367@gmail.com
+
+## 📞 Contact
+
+Will Graham - [LinkedIn](https://www.linkedin.com/in/will-graham-4623022a8/) - willgraham367@gmail.com  
 
 Project Link: [https://github.com/WillGraham36/echo-spot](https://github.com/WillGraham36/echo-spot)
 
+
+
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[TailWind]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
+[TypeScript]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
+[Clerk]: https://img.shields.io/badge/Clerk-1b54bf?style=for-the-badge
+[MongoDB]: https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white
+[Express]: https://img.shields.io/badge/Express.js-404D59?style=for-the-badge
+[Node]: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white
 [main-screenshot]: client/public/main-feed-dark.png
